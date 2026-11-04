@@ -1,24 +1,84 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Construction, ExternalLink, RefreshCw } from 'lucide-react';
 import type { KonfigurasiSitus } from '../../../../types';
-import { db } from '../../../../services/pocketbase';
+import { db, KOLEKSI_OPERASIONAL_SITUS } from '../../../../services/pocketbase';
+import { selaraskanKontenOperasional } from '../../../../utils/website';
 import PublicWebsite, { adalahKonfigurasiSitus, muatSnapshot } from './PublicWebsite';
 
-type Status = 'memuat' | 'tayang' | 'belum' | 'tahan';
+export type StatusTayangPublik = 'tayang' | 'belum' | 'tahan';
+type Status = 'memuat' | StatusTayangPublik;
 
 const ADALAH_PRATINJAU = new URLSearchParams(window.location.search).get('pratinjau') === '1';
 
-/** Rangkai sumber konten tayang: snapshot server → snapshot statis → penyimpanan lokal. */
-export async function tentukanKontenTayang(): Promise<{ konfigurasi: KonfigurasiSitus | null; status: Status }> {
-  const dariServer = await muatSnapshot('/api/website/published');
-  if (dariServer) return { konfigurasi: dariServer, status: dariServer.isPublished ? 'tayang' : 'tahan' };
+function capWaktuSnapshot(cfg: KonfigurasiSitus): number {
+  return Math.max(cfg.lastPublishedAt ?? 0, cfg.lastModifiedAt ?? 0);
+}
 
-  const dariSnapshotStatis = await muatSnapshot('/website-published.json');
-  if (dariSnapshotStatis) return { konfigurasi: dariSnapshotStatis, status: dariSnapshotStatis.isPublished ? 'tayang' : 'tahan' };
+/**
+ * Pasang pendengar real-time terhadap perubahan status stok gudang, izin edar, recall,
+ * serta skema/kontrak harga dari basis data operasional (lintas modul, lintas tab, & PocketBase SSE).
+ */
+export function pasangPendengarOperasionalPublik(onSegarkan: (pemicu: string) => void): () => void {
+  const lepasKoleksi = db.subscribeKoleksi(KOLEKSI_OPERASIONAL_SITUS, (kunciKoleksi) => {
+    onSegarkan(kunciKoleksi);
+  });
 
+  const padaFokus = () => onSegarkan('window_focus');
+  const padaVisibilitas = () => {
+    if (document.visibilityState === 'visible') {
+      onSegarkan('visibility_visible');
+    }
+  };
+
+  window.addEventListener('focus', padaFokus);
+  document.addEventListener('visibilitychange', padaVisibilitas);
+
+  return () => {
+    lepasKoleksi();
+    window.removeEventListener('focus', padaFokus);
+    document.removeEventListener('visibilitychange', padaVisibilitas);
+  };
+}
+
+/** Hook penyelarasan real-time agar konfigurasi situs selalu mencerminkan stok & harga operasional terbaru. */
+export function useKonfigurasiOperasionalSinkron(dasar: KonfigurasiSitus | null): KonfigurasiSitus | null {
+  const [versiOperasional, setVersiOperasional] = useState(0);
+
+  useEffect(() => {
+    return pasangPendengarOperasionalPublik(() => {
+      setVersiOperasional((v) => v + 1);
+    });
+  }, []);
+
+  return useMemo(() => {
+    void versiOperasional;
+    if (!dasar) return null;
+    return selaraskanKontenOperasional(dasar, db.getSumberOperasionalWebsite());
+  }, [dasar, versiOperasional]);
+}
+
+/** Rangkai sumber konten tayang: pilih snapshot paling mutakhir lalu selaraskan dengan stok & harga terkini. */
+export async function tentukanKontenTayang(): Promise<{
+  konfigurasi: KonfigurasiSitus | null;
+  status: StatusTayangPublik;
+}> {
+  const dariServer = (await muatSnapshot('/api/website/published')) ?? (await muatSnapshot('/website-published.json'));
   const lokal = db.getWebsiteTerbit();
-  if (!lokal) return { konfigurasi: null, status: 'belum' };
-  return { konfigurasi: lokal, status: lokal.isPublished ? 'tayang' : 'tahan' };
+
+  const terpilih =
+    dariServer && lokal
+      ? capWaktuSnapshot(lokal) >= capWaktuSnapshot(dariServer)
+        ? lokal
+        : dariServer
+      : dariServer ?? lokal;
+
+  if (!terpilih) return { konfigurasi: null, status: 'belum' };
+
+  const terselaraskan = selaraskanKontenOperasional(terpilih, db.getSumberOperasionalWebsite());
+  return {
+    konfigurasi: terselaraskan,
+    status: terselaraskan.isPublished ? 'tayang' : 'tahan'
+  };
 }
 
 export default function PublicWebsiteApp() {
@@ -27,6 +87,9 @@ export default function PublicWebsiteApp() {
     status: 'memuat'
   });
   const [drafPratinjau, setDrafPratinjau] = useState<KonfigurasiSitus | null>(null);
+
+  const konfigurasiTayangSinkron = useKonfigurasiOperasionalSinkron(isi.konfigurasi);
+  const drafPratinjauSinkron = useKonfigurasiOperasionalSinkron(drafPratinjau);
 
   /** Pratinjau dashboard: draf dikirim dari jendela induk lewat postMessage, tanpa menyentuh konten tayang. */
   useEffect(() => {
@@ -45,22 +108,23 @@ export default function PublicWebsiteApp() {
   useEffect(() => {
     if (ADALAH_PRATINJAU) return;
     let batal = false;
-    tentukanKontenTayang().then((hasil) => {
-      if (!batal) setIsi(hasil);
-    });
-    const berhenti = db.subscribe('website_published', () => {
+    const muatKonten = () => {
       tentukanKontenTayang().then((hasil) => {
         if (!batal) setIsi(hasil);
       });
-    });
+    };
+
+    muatKonten();
+    const berhentiTerbit = db.subscribe('website_published', muatKonten);
+
     return () => {
       batal = true;
-      berhenti();
+      berhentiTerbit();
     };
   }, []);
 
   if (ADALAH_PRATINJAU) {
-    if (!drafPratinjau) {
+    if (!drafPratinjauSinkron) {
       return (
         <div className="min-h-screen bg-slate-50 flex items-center justify-center">
           <div className="flex items-center gap-2 text-sm font-semibold text-slate-500">
@@ -70,7 +134,7 @@ export default function PublicWebsiteApp() {
         </div>
       );
     }
-    return <PublicWebsite konfigurasi={drafPratinjau} pratinjau />;
+    return <PublicWebsite konfigurasi={drafPratinjauSinkron} pratinjau />;
   }
 
   if (isi.status === 'memuat') {
@@ -84,10 +148,10 @@ export default function PublicWebsiteApp() {
     );
   }
 
-  if (isi.status === 'tayang' && isi.konfigurasi) {
+  if (isi.status === 'tayang' && konfigurasiTayangSinkron) {
     return (
       <PublicWebsite
-        konfigurasi={isi.konfigurasi}
+        konfigurasi={konfigurasiTayangSinkron}
         padaMasuk={() => {
           window.location.href = '/?masuk=1';
         }}

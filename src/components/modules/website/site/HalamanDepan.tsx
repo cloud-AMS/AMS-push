@@ -8,24 +8,34 @@ import type { KonfigurasiSitus } from '../../../../types';
 import { db } from '../../../../services/pocketbase';
 import { cobaMasuk, type SesiLogin } from '../../../../utils/autentikasi';
 import PublicWebsite from './PublicWebsite';
-import { tentukanKontenTayang } from './PublicWebsiteApp';
+import { tentukanKontenTayang, useKonfigurasiOperasionalSinkron } from './PublicWebsiteApp';
 
 type StatusMuat = 'memuat' | 'selesai';
 
 export default function HalamanDepan({ onMasuk }: { onMasuk: (sesi: SesiLogin) => void }) {
-  const [konfigurasi, setKonfigurasi] = useState<KonfigurasiSitus | null>(null);
+  const [konfigurasiDasar, setKonfigurasiDasar] = useState<KonfigurasiSitus | null>(null);
+  const [statusTayang, setStatusTayang] = useState<'tayang' | 'belum' | 'tahan'>('belum');
   const [status, setStatus] = useState<StatusMuat>('memuat');
   const [formTerbuka, setFormTerbuka] = useState(() => new URLSearchParams(window.location.search).get('masuk') === '1');
 
+  const konfigurasi = useKonfigurasiOperasionalSinkron(konfigurasiDasar);
+
   useEffect(() => {
     let batal = false;
-    tentukanKontenTayang().then(({ konfigurasi: isi }) => {
-      if (batal) return;
-      setKonfigurasi(isi);
-      setStatus('selesai');
-    });
+    const muat = () => {
+      tentukanKontenTayang().then(({ konfigurasi: isi, status: st }) => {
+        if (batal) return;
+        setKonfigurasiDasar(isi);
+        setStatusTayang(st);
+        setStatus('selesai');
+      });
+    };
+
+    muat();
+    const berhentiTerbit = db.subscribe('website_published', muat);
     return () => {
       batal = true;
+      berhentiTerbit();
     };
   }, []);
 
@@ -43,7 +53,7 @@ export default function HalamanDepan({ onMasuk }: { onMasuk: (sesi: SesiLogin) =
   }
 
   /* Tanpa konten terbit (mis. publikasi ditahan) gerbang tetap harus bisa dibuka. */
-  if (!konfigurasi) {
+  if (!konfigurasi || statusTayang !== 'tayang') {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
         <div className="w-full max-w-md">

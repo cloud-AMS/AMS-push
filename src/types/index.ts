@@ -1351,6 +1351,7 @@ export interface ProdukWebsite extends ItemWebsite {
   nama: string;
   tipeModel: string;
   kategori: string;
+  kategoriRegulasi?: string;
   kelasRisiko: string;
   nomorIzinEdar: string;
   statusIzinEdar: string;
@@ -1362,7 +1363,11 @@ export interface ProdukWebsite extends ItemWebsite {
   tautanVideo?: string;
   stokTersedia?: number;
   satuan?: string;
+  zonaSuhu?: string;
+  hargaTayang?: string;
+  imageUrl?: string;
   badge?: string;
+  tanyaJawabTeknis?: { pertanyaan: string; jawaban: string }[];
 }
 
 /** Tahap perjalanan laboratorium/klien yang dilayani perusahaan. */

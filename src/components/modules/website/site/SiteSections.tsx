@@ -11,28 +11,45 @@ import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import {
   ArrowRight,
   BadgeCheck,
+  Building2,
   CalendarDays,
+  Check,
+  CheckCircle2,
   ChevronDown,
   CircleHelp,
-  ClipboardList,
-  FileText,
-  Handshake,
+  Copy,
   Mail,
   MapPin,
+  Minus,
   Phone,
+  Plus,
   Quote,
+  Send,
   ShieldCheck,
-  Building2,
-  Sparkles
+  Sparkles,
+  Trash2
 } from 'lucide-react';
-import { HalamanWebsite, KonfigurasiSitus, TautanWebsite } from '../../../../types';
-import { hrefTautan, selesaikanGambar } from '../../../../utils/website';
+import { HalamanWebsite, KonfigurasiSitus, ProdukWebsite, ProspekAlkes, TautanWebsite, TipeFasyankes } from '../../../../types';
+import { db } from '../../../../services/pocketbase';
+import { cocokKategoriProduk, hrefTautan, selesaikanGambar } from '../../../../utils/website';
+import { SeksiProdukPublik, type ItemRfqPublik } from './PublicCatalogSection';
+
+export type { ItemRfqPublik };
 
 export interface PropsSeksi {
   cfg: KonfigurasiSitus;
   ke: (halaman: HalamanWebsite, kategoriKey?: string) => void;
   /** jumlah kartu produk maksimal (dibatasi di beranda, penuh di halaman Produk) */
   batasProduk?: number;
+  kategoriAktif?: string;
+  kataKunciAwal?: string;
+  onPilihKategori?: (kategori?: string) => void;
+  daftarRfq?: ItemRfqPublik[];
+  onTambahRfq?: (produk: ProdukWebsite, jumlah?: number) => void;
+  onUbahJumlahRfq?: (produkId: string, jumlah: number) => void;
+  onHapusRfq?: (produkId: string) => void;
+  onKosongkanRfq?: () => void;
+  onAjukanPenawaranLangsung?: (produk: ProdukWebsite, jumlah?: number) => void;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -265,31 +282,43 @@ export function SeksiKepercayaan({ cfg }: { cfg: KonfigurasiSitus }) {
 
 export function SeksiSolusi({ cfg, ke }: PropsSeksi) {
   const daftar = cfg.solusi.item.filter((s) => s.isActive);
+  const produkAktif = useMemo(() => cfg.produk.item.filter((p) => p.isActive), [cfg.produk.item]);
   if (!cfg.solusi.isActive || daftar.length === 0) return null;
   return (
     <section className="bg-slate-50 border-b border-slate-200">
       <div className={`${WADAH} py-12`}>
         <KepalaSeksiTampil kepala={cfg.solusi.kepala} cfg={cfg} ke={ke} />
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-7">
-          {daftar.map((s) => (
-            <button
-              key={s.id}
-              type="button"
-              onClick={() => ke('produk', s.kategoriKey)}
-              className="text-left bg-white border border-slate-200 rounded-2xl p-5 hover:border-teal-300 hover:shadow-sm transition-all cursor-pointer"
-            >
-              <div className="flex items-center justify-between">
-                <Sparkles className="w-5 h-5 text-teal-600" />
-                {typeof s.jumlahProduk === 'number' && (
-                  <span className="text-2xs font-bold text-slate-500 bg-slate-100 border border-slate-200 rounded-full px-2 py-0.5">
-                    {s.jumlahProduk} produk
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-7">
+          {daftar.map((s) => {
+            const kunciFilter = s.kategoriKey || s.judul;
+            const hitunganProduk =
+              typeof s.jumlahProduk === 'number'
+                ? s.jumlahProduk
+                : produkAktif.filter((p) => cocokKategoriProduk(p, kunciFilter)).length;
+            return (
+              <button
+                key={s.id}
+                type="button"
+                onClick={() => ke('produk', kunciFilter)}
+                className="group text-left bg-white border border-slate-200 rounded-2xl p-5 hover:border-teal-300 hover:shadow-sm transition-all cursor-pointer flex flex-col"
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <Sparkles className="w-5 h-5 text-teal-600 shrink-0" />
+                  <span className="text-2xs font-semibold tabular-nums text-slate-500">
+                    {hitunganProduk} produk
                   </span>
-                )}
-              </div>
-              <h3 className="text-base font-bold text-slate-900 mt-3">{s.judul}</h3>
-              <p className="text-xs text-slate-600 mt-2 leading-relaxed">{s.deskripsi}</p>
-            </button>
-          ))}
+                </div>
+                <h3 className="text-base font-bold text-slate-900 group-hover:text-teal-700 transition-colors mt-3">
+                  {s.judul}
+                </h3>
+                <p className="text-xs text-slate-600 mt-2 leading-relaxed flex-1">{s.deskripsi}</p>
+                <span className="mt-4 pt-3 border-t border-slate-100 inline-flex items-center gap-1.5 text-xs font-semibold text-teal-700">
+                  Telusuri grup ini
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -336,125 +365,8 @@ export function SeksiStatistik({ cfg }: { cfg: KonfigurasiSitus }) {
   );
 }
 
-export function SeksiProduk({ cfg, ke, batasProduk }: PropsSeksi) {
-  const semua = cfg.produk.item.filter((p) => p.isActive);
-  const [kategori, setKategori] = useState<string | 'Semua'>('Semua');
-  const daftar = useMemo(
-    () => (batasProduk ? semua.slice(0, batasProduk) : semua),
-    [semua, batasProduk]
-  );
-  const kategoriList = Array.from(new Set(semua.map((p) => p.kategori)));
-
-  if (!cfg.produk.isActive || semua.length === 0) return null;
-  return (
-    <section className="bg-slate-50 border-b border-slate-200">
-      <div className={`${WADAH} py-12`}>
-        <KepalaSeksiTampil kepala={cfg.produk.kepala} cfg={cfg} ke={ke} />
-        <div className="flex flex-wrap gap-2 mt-6">
-          <button
-            type="button"
-            onClick={() => setKategori('Semua')}
-            className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors cursor-pointer ${
-              kategori === 'Semua' ? 'bg-slate-700 text-white border-slate-700' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-100'
-            }`}
-          >
-            Semua Kategori
-          </button>
-          {kategoriList.map((k) => (
-            <button
-              key={k}
-              type="button"
-              onClick={() => setKategori(k)}
-              className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors cursor-pointer ${
-                kategori === k ? 'bg-slate-700 text-white border-slate-700' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-100'
-              }`}
-            >
-              {k}
-            </button>
-          ))}
-        </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
-          {daftar
-            .filter((p) => kategori === 'Semua' || p.kategori === kategori)
-            .map((p) => (
-              <article key={p.id} className="bg-white border border-slate-200 rounded-2xl p-5 flex flex-col">
-                <div className="flex items-start justify-between gap-2">
-                  <span className="text-2xs font-bold uppercase tracking-wider text-teal-700">{p.kategori}</span>
-                  <span className="text-2xs font-bold text-slate-600 bg-slate-100 border border-slate-200 rounded-full px-2 py-0.5">
-                    {p.kelasRisiko}
-                  </span>
-                </div>
-                <h3 className="text-base font-bold text-slate-900 mt-2 leading-snug">{p.nama}</h3>
-                <p className="text-xs text-slate-500 mt-0.5">{p.tipeModel}</p>
-                <p className="text-xs text-slate-600 mt-3 leading-relaxed">{p.spesifikasi}</p>
-                {p.poinJual.length > 0 && (
-                  <ul className="mt-3 space-y-1">
-                    {p.poinJual.map(( poin) => (
-                      <li key={poin} className="text-xs text-slate-600 flex gap-1.5">
-                        <span className="text-teal-600 font-bold">•</span>
-                        {poin}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                <dl className="mt-4 text-2xs text-slate-500 space-y-1 border-t border-slate-100 pt-3">
-                  <div className="flex justify-between gap-2">
-                    <dt>Nomor Izin Edar</dt>
-                    <dd className="font-mono text-slate-700">{p.nomorIzinEdar}</dd>
-                  </div>
-                  <div className="flex justify-between gap-2">
-                    <dt>Status Izin</dt>
-                    <dd className={p.statusIzinEdar === 'Aktif' ? 'text-emerald-700 font-bold' : 'text-amber-700 font-bold'}>
-                      {p.statusIzinEdar}
-                    </dd>
-                  </div>
-                  <div className="flex justify-between gap-2">
-                    <dt>Produsen</dt>
-                    <dd className="text-right text-slate-700">{p.produsen} · {p.negaraAsal}</dd>
-                  </div>
-                  {typeof p.stokTersedia === 'number' && (
-                    <div className="flex justify-between gap-2">
-                      <dt>Stok Gudang</dt>
-                      <dd className="text-slate-700 font-bold">
-                        {p.stokTersedia} {p.satuan || 'unit'}
-                      </dd>
-                    </div>
-                  )}
-                </dl>
-                <div className="flex flex-wrap gap-2 mt-4">
-                  {p.tautanBrosur && (
-                    <a
-                      href={p.tautanBrosur}
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-teal-700 hover:text-teal-800"
-                    >
-                      <FileText className="w-3.5 h-3.5" />
-                      Brosur
-                    </a>
-                  )}
-                  {p.tautanVideo && (
-                    <a
-                      href={p.tautanVideo}
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900"
-                    >
-                      <ClipboardList className="w-3.5 h-3.5" />
-                      Video Demo
-                    </a>
-                  )}
-                  <button
-                    type="button"
-                    onClick={() => ke('kontak')}
-                    className="ml-auto inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 hover:text-slate-900"
-                  >
-                    <Handshake className="w-3.5 h-3.5" />
-                    Ajukan Penawaran
-                  </button>
-                </div>
-              </article>
-            ))}
-        </div>
-      </div>
-    </section>
-  );
+export function SeksiProduk(props: PropsSeksi) {
+  return <SeksiProdukPublik {...props} />;
 }
 
 export function SeksiMerek({ cfg, ke }: PropsSeksi) {
@@ -809,26 +721,173 @@ export function SeksiKantor({ cfg }: { cfg: KonfigurasiSitus }) {
   );
 }
 
-export function SeksiKontak({ cfg }: { cfg: KonfigurasiSitus }) {
+const OPSI_TIPE_INSTANSI: TipeFasyankes[] = [
+  'RS Pemerintah',
+  'RS Swasta',
+  'Klinik',
+  'Laboratorium',
+  'Dinas Kesehatan',
+  'Apotek'
+];
+
+const OPSI_JALUR_PENGADAAN = [
+  'Permintaan Penawaran Reguler (RFQ)',
+  'e-Katalog LKPP / E-Purchasing',
+  'Tender LPSE',
+  'Kontrak Payung / KSO'
+] as const;
+
+export function SeksiKontak({
+  cfg,
+  ke,
+  daftarRfq = [],
+  onUbahJumlahRfq,
+  onHapusRfq,
+  onKosongkanRfq
+}: PropsSeksi) {
   const kontak = cfg.kontak;
+  const [namaInstansi, setNamaInstansi] = useState('');
+  const [tipeInstansi, setTipeInstansi] = useState<TipeFasyankes>('RS Swasta');
+  const [namaPemohon, setNamaPemohon] = useState('');
+  const [kontakPemohon, setKontakPemohon] = useState('');
+  const [jalurPengadaan, setJalurPengadaan] = useState<string>(OPSI_JALUR_PENGADAAN[0]);
   const [subjek, setSubjek] = useState('');
   const [pesan, setPesan] = useState('');
-  const surel = encodeURIComponent(`${subjek || 'Permintaan informasi alat kesehatan'}\n\n${pesan}`);
+  const [galatForm, setGalatForm] = useState('');
+  const [nomorTercatat, setNomorTercatat] = useState<string | null>(null);
+  const [tersalin, setTersalin] = useState(false);
+
+  const subjekOtomatis = useMemo(() => {
+    if (subjek.trim()) return subjek.trim();
+    if (daftarRfq.length === 1) {
+      return `RFQ Alat Kesehatan — ${daftarRfq[0].nama} (${daftarRfq[0].jumlah} ${daftarRfq[0].satuan})`;
+    }
+    if (daftarRfq.length > 1) {
+      return `RFQ Alat Kesehatan — ${daftarRfq.length} Item Produk`;
+    }
+    return 'Permintaan Penawaran Alat Kesehatan (RFQ)';
+  }, [subjek, daftarRfq]);
+
+  const isiRfqTerformat = useMemo(() => {
+    const baris: string[] = [
+      `Yth. Tim Komersial & PJT ${cfg.identitas.nama},`,
+      '',
+      `Instansi / Fasyankes : ${namaInstansi.trim() || '-'} (${tipeInstansi})`,
+      `Pemohon              : ${namaPemohon.trim() || '-'}`,
+      `Kontak Balasan       : ${kontakPemohon.trim() || '-'}`,
+      `Mekanisme Pengadaan  : ${jalurPengadaan}`
+    ];
+
+    if (daftarRfq.length > 0) {
+      baris.push('', 'Daftar Alat Kesehatan yang Diminta:');
+      daftarRfq.forEach((item, idx) => {
+        const infoNie = item.nomorIzinEdar && item.nomorIzinEdar !== '-' ? ` | NIE: ${item.nomorIzinEdar}` : '';
+        baris.push(
+          `${idx + 1}. ${item.nama} (${item.tipeModel}) — ${item.jumlah} ${item.satuan} | Merek: ${item.produsen}${infoNie}`
+        );
+      });
+    }
+
+    if (pesan.trim()) {
+      baris.push('', 'Catatan Kebutuhan Tambahan:', pesan.trim());
+    }
+
+    return baris.join('\n');
+  }, [cfg.identitas.nama, namaInstansi, tipeInstansi, namaPemohon, kontakPemohon, jalurPengadaan, daftarRfq, pesan]);
+
+  const tautanMailto = `mailto:${kontak.email}?subject=${encodeURIComponent(subjekOtomatis)}&body=${encodeURIComponent(isiRfqTerformat)}`;
+  const nomorWa = (kontak.whatsapp || '').replace(/[^0-9]/g, '');
+  const tautanWaRfq = nomorWa
+    ? `https://wa.me/${nomorWa}?text=${encodeURIComponent(`${subjekOtomatis}\n\n${isiRfqTerformat}`)}`
+    : hrefTautan({ tipe: 'whatsapp', nilai: kontak.whatsapp }, kontak);
+
+  const catatPermintaanKeSistem = () => {
+    setGalatForm('');
+    if (!namaInstansi.trim()) {
+      setGalatForm('Mohon isi nama instansi, rumah sakit, klinik, atau perusahaan pemohon.');
+      return;
+    }
+    if (!kontakPemohon.trim()) {
+      setGalatForm('Mohon isi surel resmi atau nomor telepon/WhatsApp yang dapat dihubungi.');
+      return;
+    }
+    if (daftarRfq.length === 0 && !pesan.trim()) {
+      setGalatForm('Pilih minimal satu produk dari katalog atau tuliskan rincian kebutuhan alat kesehatan Anda.');
+      return;
+    }
+
+    const sekarang = new Date();
+    const tglIso = sekarang.toISOString().split('T')[0];
+    const tindakLanjut = new Date(sekarang.getTime() + 2 * 86400000).toISOString().split('T')[0];
+    const kodeRfq = `WEB-RFQ-${sekarang.getFullYear()}${String(sekarang.getMonth() + 1).padStart(2, '0')}-${String(
+      Math.floor(100 + Math.random() * 900)
+    )}`;
+
+    const ringkasanProduk =
+      daftarRfq.length > 0
+        ? daftarRfq.map((i) => `${i.nama} (${i.jumlah} ${i.satuan})`).join(', ')
+        : subjekOtomatis;
+
+    const prospekBaru: ProspekAlkes = {
+      id: `PRSP-${Date.now()}`,
+      nomorProspek: kodeRfq,
+      namaProspek: namaInstansi.trim(),
+      tipeFasyankes: tipeInstansi,
+      sumberLead: 'Situs Web',
+      tahap: 'Penawaran Resmi',
+      produkDiminati: ringkasanProduk,
+      nilaiEstimasi: 0,
+      probabilitasPersen: 50,
+      medRep: 'Tim Komersial Pusat',
+      rayonDistribusi: 'Nasional (Situs Publik)',
+      tanggalDibuat: tglIso,
+      tanggalTindakLanjut: tindakLanjut,
+      catatan: `Pemohon: ${namaPemohon.trim() || '-'} (${kontakPemohon.trim()}) | Jalur: ${jalurPengadaan}${
+        pesan.trim() ? ` | Catatan: ${pesan.trim()}` : ''
+      }`
+    };
+
+    db.addProspek(prospekBaru);
+    setNomorTercatat(kodeRfq);
+  };
+
+  const salinRingkasan = async () => {
+    try {
+      await navigator.clipboard.writeText(`${subjekOtomatis}\n\n${isiRfqTerformat}`);
+      setTersalin(true);
+      window.setTimeout(() => setTersalin(false), 2500);
+    } catch {
+      setTersalin(false);
+    }
+  };
+
+  const kelasBidang =
+    'w-full px-3 py-2 border border-slate-300 rounded-xl text-xs text-slate-900 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none bg-white';
 
   return (
-    <section className="bg-slate-50 border-b border-slate-200">
-      <div className={`${WADAH} py-12 grid lg:grid-cols-[0.9fr_1.1fr] gap-8`}>
+    <section className="bg-slate-50 border-b border-slate-200" id="formulir-rfq-publik">
+      <div className={`${WADAH} py-12 grid lg:grid-cols-[0.88fr_1.12fr] gap-8 items-start`}>
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-teal-700">HUBUNGI KAMI</p>
           <h2 className="text-2xl font-bold text-slate-900 mt-1">Mari Bahas Kebutuhan Instansi Anda</h2>
+          <p className="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+            Tim komersial bersama Penanggung Jawab Teknis (PJT) siap menyiapkan penawaran resmi, kelengkapan nomor izin edar Kemenkes RI, serta dukungan pengadaan e-Katalog LKPP maupun LPSE.
+          </p>
           <div className="mt-6 space-y-3">
             <BarisKontak ikon={<Phone className="w-4 h-4" />} label="Telepon Kantor" nilai={kontak.telepon} />
             <BarisKontak ikon={<Mail className="w-4 h-4" />} label="Surel Resmi" nilai={kontak.email} />
             {kontak.whatsapp && <BarisKontak ikon={<Phone className="w-4 h-4" />} label="WhatsApp" nilai={kontak.whatsapp} />}
-            {kontak.jamOperasional && <BarisKontak ikon={<CalendarDays className="w-4 h-4" />} label="Jam Operasional" nilai={kontak.jamOperasional} />}
+            {kontak.jamOperasional && (
+              <BarisKontak ikon={<CalendarDays className="w-4 h-4" />} label="Jam Operasional" nilai={kontak.jamOperasional} />
+            )}
             <BarisKontak ikon={<MapPin className="w-4 h-4" />} label="Alamat" nilai={kontak.alamatKantor} />
             {kontak.tautanPeta && (
-              <a href={kontak.tautanPeta} className="text-xs font-semibold text-teal-700 hover:text-teal-800 inline-block">
+              <a
+                href={kontak.tautanPeta}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-semibold text-teal-700 hover:text-teal-800 inline-block"
+              >
                 Buka lokasi di peta
               </a>
             )}
@@ -836,56 +895,267 @@ export function SeksiKontak({ cfg }: { cfg: KonfigurasiSitus }) {
         </div>
 
         <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6">
-          <h3 className="text-base font-bold text-slate-900">Kirim Permintaan Penawaran</h3>
-          <p className="text-xs text-slate-500 mt-1">
-            Isian ini membuka aplikasi surel dengan rincian yang tersimpan sebagai jejak permintaan; penawaran resmi tetap
-            diverifikasi Penanggung Jawab Teknis.
-          </p>
-          <div className="mt-4 space-y-3">
+          <div className="flex flex-wrap items-start justify-between gap-2">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1" htmlFor="web-subjek">
-                Subjek
-              </label>
-              <input
-                id="web-subjek"
-                value={subjek}
-                onChange={(e) => setSubjek(e.target.value)}
-                placeholder="Contoh: Kebutuhan patient monitor ICU"
-                className="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-teal-500"
-              />
+              <h3 className="text-base font-bold text-slate-900">Formulir Permintaan Penawaran (RFQ)</h3>
+              <p className="text-xs text-slate-500 mt-1">
+                Catat permintaan ke antrean tim penjualan atau teruskan langsung melalui surel resmi maupun WhatsApp.
+              </p>
             </div>
+            <button
+              type="button"
+              onClick={() => ke('produk')}
+              className="whitespace-nowrap px-3 py-1.5 rounded-full border border-slate-300 bg-slate-50 hover:bg-slate-100 text-2xs font-semibold text-slate-700 cursor-pointer"
+            >
+              + Pilih Produk dari Katalog
+            </button>
+          </div>
+
+          {/* Daftar Alat Kesehatan Terpilih */}
+          {daftarRfq.length > 0 && (
+            <div className="mt-4 bg-slate-50 border border-slate-200 rounded-xl p-3.5">
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-xs font-bold text-slate-800">
+                  Alat Kesehatan Dipilih ({daftarRfq.length} item)
+                </p>
+                {onKosongkanRfq && (
+                  <button
+                    type="button"
+                    onClick={onKosongkanRfq}
+                    className="text-2xs font-semibold text-slate-500 hover:text-rose-600 cursor-pointer"
+                  >
+                    Kosongkan daftar
+                  </button>
+                )}
+              </div>
+              <div className="mt-2.5 space-y-2">
+                {daftarRfq.map((item) => (
+                  <div
+                    key={item.produkId}
+                    className="bg-white border border-slate-200 rounded-xl px-3 py-2 flex flex-wrap items-center justify-between gap-2 text-xs"
+                  >
+                    <div className="min-w-0 flex-1">
+                      <p className="font-semibold text-slate-900 truncate">{item.nama}</p>
+                      <p className="text-2xs text-slate-500 font-mono truncate">
+                        {item.tipeModel} · {item.produsen}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      {onUbahJumlahRfq ? (
+                        <div className="inline-flex items-center rounded-lg border border-slate-300 bg-slate-50">
+                          <button
+                            type="button"
+                            onClick={() => onUbahJumlahRfq(item.produkId, Math.max(1, item.jumlah - 1))}
+                            aria-label="Kurangi jumlah"
+                            className="p-1 text-slate-600 hover:text-slate-900 cursor-pointer"
+                          >
+                            <Minus className="w-3 h-3" />
+                          </button>
+                          <span className="px-2 text-xs font-bold tabular-nums text-slate-800">
+                            {item.jumlah} {item.satuan}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => onUbahJumlahRfq(item.produkId, item.jumlah + 1)}
+                            aria-label="Tambah jumlah"
+                            className="p-1 text-slate-600 hover:text-slate-900 cursor-pointer"
+                          >
+                            <Plus className="w-3 h-3" />
+                          </button>
+                        </div>
+                      ) : (
+                        <span className="text-xs font-bold tabular-nums text-slate-800">
+                          {item.jumlah} {item.satuan}
+                        </span>
+                      )}
+                      {onHapusRfq && (
+                        <button
+                          type="button"
+                          onClick={() => onHapusRfq(item.produkId)}
+                          aria-label={`Hapus ${item.nama}`}
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 cursor-pointer"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {nomorTercatat && (
+            <div className="mt-4 bg-emerald-50 border border-emerald-200 rounded-xl p-3.5 flex items-start gap-2.5">
+              <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0 mt-0.5" />
+              <div className="text-xs text-emerald-950">
+                <p className="font-bold">
+                  Permintaan penawaran tercatat dengan nomor referensi{' '}
+                  <span className="font-mono">{nomorTercatat}</span>
+                </p>
+                <p className="text-emerald-800 mt-0.5 leading-relaxed">
+                  Data kebutuhan Anda telah masuk ke antrean prospek komersial untuk diverifikasi PJT. Anda juga dapat langsung meneruskan salinan ke surel atau WhatsApp tim penjualan di bawah.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {galatForm && (
+            <p className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-3.5 py-2.5 text-xs text-amber-900">
+              {galatForm}
+            </p>
+          )}
+
+          <div className="mt-4 space-y-3">
+            <div className="grid sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1" htmlFor="web-instansi">
+                  Nama Instansi / Fasyankes
+                </label>
+                <input
+                  id="web-instansi"
+                  value={namaInstansi}
+                  onChange={(e) => {
+                    setNamaInstansi(e.target.value);
+                    setGalatForm('');
+                  }}
+                  placeholder="Contoh: RSUD Pasar Minggu / Klinik Utama"
+                  className={kelasBidang}
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1" htmlFor="web-tipe-instansi">
+                  Jenis Instansi
+                </label>
+                <select
+                  id="web-tipe-instansi"
+                  value={tipeInstansi}
+                  onChange={(e) => setTipeInstansi(e.target.value as TipeFasyankes)}
+                  className={kelasBidang}
+                >
+                  {OPSI_TIPE_INSTANSI.map((opsi) => (
+                    <option key={opsi} value={opsi}>
+                      {opsi}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="grid sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1" htmlFor="web-pemohon">
+                  Nama & Jabatan Pemohon
+                </label>
+                <input
+                  id="web-pemohon"
+                  value={namaPemohon}
+                  onChange={(e) => setNamaPemohon(e.target.value)}
+                  placeholder="Contoh: apt. Rina, S.Farm (Instalasi Farmasi)"
+                  className={kelasBidang}
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1" htmlFor="web-kontak-pemohon">
+                  Surel atau No. Telepon / WhatsApp
+                </label>
+                <input
+                  id="web-kontak-pemohon"
+                  value={kontakPemohon}
+                  onChange={(e) => {
+                    setKontakPemohon(e.target.value);
+                    setGalatForm('');
+                  }}
+                  placeholder="pengadaan@rs-instansi.go.id / 0812..."
+                  className={kelasBidang}
+                />
+              </div>
+            </div>
+
+            <div className="grid sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1" htmlFor="web-jalur">
+                  Jalur Pengadaan
+                </label>
+                <select
+                  id="web-jalur"
+                  value={jalurPengadaan}
+                  onChange={(e) => setJalurPengadaan(e.target.value)}
+                  className={kelasBidang}
+                >
+                  {OPSI_JALUR_PENGADAAN.map((opsi) => (
+                    <option key={opsi} value={opsi}>
+                      {opsi}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1" htmlFor="web-subjek">
+                  Subjek Penawaran
+                </label>
+                <input
+                  id="web-subjek"
+                  value={subjek}
+                  onChange={(e) => setSubjek(e.target.value)}
+                  placeholder={subjekOtomatis}
+                  className={kelasBidang}
+                />
+              </div>
+            </div>
+
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1" htmlFor="web-pesan">
-                Rincian kebutuhan
+                Spesifikasi Tambahan / Jadwal Pengiriman
               </label>
               <textarea
                 id="web-pesan"
                 value={pesan}
-                onChange={(e) => setPesan(e.target.value)}
-                rows={5}
-                placeholder="Nama instansi, jenis alat, jumlah unit, dan target pemasangan."
-                className="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-teal-500"
+                onChange={(e) => {
+                  setPesan(e.target.value);
+                  setGalatForm('');
+                }}
+                rows={4}
+                placeholder="Tuliskan kebutuhan aksesori, jadwal instalasi/uji fungsi, syarat TKDN, atau provinsi pengiriman."
+                className={kelasBidang}
               />
             </div>
-            <div className="flex flex-wrap gap-3">
-              <a
-                href={`mailto:${kontak.email}?subject=${surel}`}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold transition-colors"
+
+            <div className="flex flex-wrap items-center gap-2.5 pt-1">
+              <button
+                type="button"
+                onClick={catatPermintaanKeSistem}
+                className="inline-flex items-center gap-2 whitespace-nowrap px-4 py-2.5 rounded-full bg-teal-600 hover:bg-teal-700 text-white text-xs sm:text-sm font-semibold transition-colors cursor-pointer"
               >
-                <Mail className="w-4 h-4" />
-                Kirim lewat Surel
+                <Send className="w-4 h-4" />
+                Kirim Permintaan Penawaran
+              </button>
+              <a
+                href={tautanMailto}
+                className="inline-flex items-center gap-2 whitespace-nowrap px-3.5 py-2.5 rounded-full border border-slate-300 bg-white hover:bg-slate-100 text-slate-800 text-xs font-semibold transition-colors"
+              >
+                <Mail className="w-3.5 h-3.5" />
+                Buka di Surel
               </a>
               {kontak.whatsapp && (
                 <a
-                  href={hrefTautan({ tipe: 'whatsapp', nilai: kontak.whatsapp }, kontak)}
+                  href={tautanWaRfq}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-slate-300 bg-white hover:bg-slate-100 text-slate-800 text-sm font-semibold transition-colors"
+                  className="inline-flex items-center gap-2 whitespace-nowrap px-3.5 py-2.5 rounded-full border border-slate-300 bg-white hover:bg-slate-100 text-slate-800 text-xs font-semibold transition-colors"
                 >
-                  <Phone className="w-4 h-4" />
-                  Chat WhatsApp
+                  <Phone className="w-3.5 h-3.5" />
+                  WhatsApp Tim Sales
                 </a>
               )}
+              <button
+                type="button"
+                onClick={salinRingkasan}
+                className="inline-flex items-center gap-1.5 whitespace-nowrap px-3 py-2 rounded-full text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
+              >
+                {tersalin ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                {tersalin ? 'Tersalin' : 'Salin Teks RFQ'}
+              </button>
             </div>
           </div>
         </div>
@@ -964,7 +1234,7 @@ export function TampilkanSeksi({
   propsSeksi
 }: {
   kunci: KunciSeksi;
-  propsSeksi: { cfg: KonfigurasiSitus; ke: (h: HalamanWebsite, k?: string) => void; batasProduk?: number };
+  propsSeksi: PropsSeksi;
 }) {
   switch (kunci) {
     case 'hero':

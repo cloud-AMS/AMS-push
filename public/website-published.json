@@ -1,7 +1,7 @@
 {
   "isPublished": true,
-  "lastModifiedAt": 1793788088222,
-  "lastModifiedBy": "apt. Dewi Kartika - PJT Alkes",
+  "lastModifiedAt": 1793800909600,
+  "lastModifiedBy": "Belum pernah disimpan",
   "identitas": {
     "nama": "PT Anugrah Mitra Selaras",
     "tagline": "REMEDI — Every Life Matters",
@@ -34,6 +34,12 @@
           "id": "menu-produk-kategori",
           "judul": "Berdasarkan Grup Katalog",
           "tautan": [
+            {
+              "id": "menu-kategori-semua",
+              "isActive": true,
+              "label": "Semua Katalog Produk",
+              "halaman": "produk"
+            },
             {
               "id": "menu-kategori-disposable",
               "isActive": true,
@@ -174,12 +180,12 @@
     },
     "item": [
       {
-        "id": "slide-rujuk-produk-1",
-        "sumberId": "rujuk-produk-1",
+        "id": "slide-NIE-001",
+        "sumberId": "NIE-001",
         "isActive": true,
-        "eyebrow": "Disposable",
-        "judul": "3M Orthoptic Eye Patch",
-        "subjudul": "Disposable — Patient Care — Orthoptic Eye Patch. Harga tayang pada katalog daring REMEDI saat konten ini disalin: Rp 62.493.",
+        "eyebrow": "General",
+        "judul": "Patient Monitor Multi-Parameter (ECG, SpO2, NIBP, Temp)",
+        "subjudul": "Monitor 12,1 inci, ECG 3/5 lead, SpO2, NIBP, suhu ganda, baterai 4 jam, cocok untuk ICU/NICU.",
         "teksCta": "Lihat Detail",
         "tautan": {
           "tipe": "halaman",
@@ -187,12 +193,12 @@
         }
       },
       {
-        "id": "slide-rujuk-produk-2",
-        "sumberId": "rujuk-produk-2",
+        "id": "slide-NIE-002",
+        "sumberId": "NIE-002",
         "isActive": true,
-        "eyebrow": "Disposable",
-        "judul": "3M Plaster Hypoallergenic",
-        "subjudul": "Disposable — Patient Care — Plaster Hypoallergenic. Harga tayang pada katalog daring REMEDI saat konten ini disalin: Rp 248.640.",
+        "eyebrow": "General",
+        "judul": "Syringe Pump Presisi Tinggi",
+        "subjudul": "Laju infus 0,01-1500 ml/jam, akurasi ±5%, alarm oklusi, baterai 6 jam, multi-suntikan 5-60 ml.",
         "teksCta": "Lihat Detail",
         "tautan": {
           "tipe": "halaman",
@@ -200,12 +206,12 @@
         }
       },
       {
-        "id": "slide-rujuk-produk-3",
-        "sumberId": "rujuk-produk-3",
+        "id": "slide-NIE-003",
+        "sumberId": "NIE-003",
         "isActive": true,
-        "eyebrow": "Protective Equipment",
-        "judul": "Remedi Masker Medis (Face Mask Medical)",
-        "subjudul": "Protective Equipment — Face Mask (medical). Harga mengikuti daftar harga (Price List) resmi perusahaan.",
+        "eyebrow": "Laboratory",
+        "judul": "Reagen Rapid Test Dengue NS1 & IgG/IgM Combo",
+        "subjudul": "Deteksi NS1 + IgG/IgM sekaligus, 15-20 menit, sensitivitas NS1 92,4% pada hari 0-5 demam.",
         "teksCta": "Lihat Detail",
         "tautan": {
           "tipe": "halaman",
@@ -397,8 +403,8 @@
     "isActive": true,
     "kepala": {
       "eyebrow": "KATALOG PRODUK",
-      "judul": "Lini Produk yang Dipasarkan REMEDI",
-      "subjudul": "Nomor izin edar dan kelas risiko setiap unit tercatat pada register Regulatory Affairs & Penanggung Jawab Teknis internal, sehingga tidak ditayangkan di halaman ini. Harga yang tercantum adalah harga tayang katalog daring saat konten disalin.",
+      "judul": "Katalog Alat Kesehatan & Bahan Medis Habis Pakai",
+      "subjudul": "Telusuri unit elektromedik, instrumen bedah, diagnostik laboratorium, rantai dingin vaksin, serta bahan medis habis pakai berdasarkan grup katalog, merek prinsipal, status izin edar Kemenkes RI, dan ketersediaan stok gudang CDAKB.",
       "teksTautan": "Semua Produk",
       "tautan": {
         "tipe": "halaman",
@@ -406,6 +412,213 @@
       }
     },
     "item": [
+      {
+        "id": "produk-NIE-001",
+        "sumberId": "NIE-001",
+        "isActive": true,
+        "nama": "Patient Monitor Multi-Parameter (ECG, SpO2, NIBP, Temp)",
+        "tipeModel": "AMS-V12 Pro",
+        "kategori": "General",
+        "kategoriRegulasi": "Elektromedik Non Radiasi",
+        "kelasRisiko": "Kelas C",
+        "nomorIzinEdar": "KEMENKES RI AKL 20501819203",
+        "statusIzinEdar": "Aktif",
+        "produsen": "Shenzhen Mindray Bio-Medical Co., Ltd.",
+        "negaraAsal": "Tiongkok",
+        "hargaTayang": "Rp 58.500.000 (Harga Institusi)",
+        "zonaSuhu": "Ruang Sejuk AC (15°C - 25°C)",
+        "spesifikasi": "Monitor 12,1 inci, ECG 3/5 lead, SpO2, NIBP, suhu ganda, baterai 4 jam, cocok untuk ICU/NICU.",
+        "poinJual": [
+          "Layar 12,1 inci anti-glare",
+          "Baterai tahan 4 jam untuk transfer pasien",
+          "Rekam tren 72 jam untuk tinjauan perawat"
+        ],
+        "tautanBrosur": "/brosur/ams-v12-pro.pdf",
+        "tautanVideo": "/video/ams-v12-pro-instalasi.mp4",
+        "tanyaJawabTeknis": [
+          {
+            "pertanyaan": "Apakah kompatibel dengan HL7 untuk integrasi CIS RS?",
+            "jawaban": "Ya, modul HL7 opsional dengan firmware 2.3 ke atas."
+          },
+          {
+            "pertanyaan": "Berapa interval kalibrasi rekomendasi?",
+            "jawaban": "12 bulan sesuai SOP-KAL-02, oleh teknisi elektromedik tersertifikasi."
+          }
+        ],
+        "stokTersedia": 28,
+        "satuan": "Unit",
+        "badge": "Izin Edar Aktif"
+      },
+      {
+        "id": "produk-NIE-002",
+        "sumberId": "NIE-002",
+        "isActive": true,
+        "nama": "Syringe Pump Presisi Tinggi",
+        "tipeModel": "AMS-SP500",
+        "kategori": "General",
+        "kategoriRegulasi": "Elektromedik Non Radiasi",
+        "kelasRisiko": "Kelas B",
+        "nomorIzinEdar": "KEMENKES RI AKD 20501910234",
+        "statusIzinEdar": "Aktif",
+        "produsen": "PT Anugrah Mitra Selaras",
+        "negaraAsal": "Indonesia",
+        "hargaTayang": "Rp 33.000.000 (Harga Distributor)",
+        "zonaSuhu": "Ruang Sejuk AC (15°C - 25°C)",
+        "spesifikasi": "Laju infus 0,01-1500 ml/jam, akurasi ±5%, alarm oklusi, baterai 6 jam, multi-suntikan 5-60 ml.",
+        "poinJual": [
+          "Akurasi rendah-volume untuk neonatus",
+          "Stacking hingga 4 kanal",
+          "Riwayat alarm dapat diekspor untuk audit"
+        ],
+        "tautanBrosur": "/brosur/ams-sp500.pdf",
+        "tautanVideo": "/video/ams-sp500-operasi.mp4",
+        "tanyaJawabTeknis": [
+          {
+            "pertanyaan": "Mendukung suntikan merk lain?",
+            "jawaban": "Ya, ada 42 profil suntikan terekam dan dapat ditambah lewat menu kalibrasi."
+          },
+          {
+            "pertanyaan": "Bagaimana prosedur uji akurasi lapangan?",
+            "jawaban": "Metode gravimetri dengan timbangan analitik, sesuai SOP-KAL-04."
+          }
+        ],
+        "stokTersedia": 51,
+        "satuan": "Unit",
+        "badge": "Izin Edar Aktif"
+      },
+      {
+        "id": "produk-NIE-003",
+        "sumberId": "NIE-003",
+        "isActive": true,
+        "nama": "Reagen Rapid Test Dengue NS1 & IgG/IgM Combo",
+        "tipeModel": "Cassette 25 Test/Kit",
+        "kategori": "Laboratory",
+        "kategoriRegulasi": "Diagnostik In Vitro",
+        "kelasRisiko": "Kelas C",
+        "nomorIzinEdar": "KEMENKES RI AKL 20303810450",
+        "statusIzinEdar": "Aktif",
+        "produsen": "SD Biosensor Inc.",
+        "negaraAsal": "Korea Selatan",
+        "hargaTayang": "Rp 1.725.000 (Harga Institusi)",
+        "zonaSuhu": "Cold Chain (2°C - 8°C)",
+        "spesifikasi": "Deteksi NS1 + IgG/IgM sekaligus, 15-20 menit, sensitivitas NS1 92,4% pada hari 0-5 demam.",
+        "poinJual": [
+          "Rantai dingin 2-8°C terdokumentasi",
+          "Volume 200 kit per box untuk efisiensi tender",
+          "Bisa sampel darah vena, EDTA, maupun fingertip"
+        ],
+        "tautanBrosur": "/brosur/dengue-combo.pdf",
+        "tautanVideo": "/video/dengue-combo-prosedur.mp4",
+        "tanyaJawabTeknis": [
+          {
+            "pertanyaan": "Bagaimana handling bila cold chain putus?",
+            "jawaban": "Bets dikarantina, dinilai dengan SOP-COLD-01, dan tidak boleh dijual bila paparan > 8°C di atas 4 jam."
+          },
+          {
+            "pertanyaan": "Sisa masa kedaluwarsa minimum untuk tender?",
+            "jawaban": "Umumnya 12 bulan; tender RSUD Zainoel Abidin (TDR-006) mensyaratkan minimal 12 bulan."
+          }
+        ],
+        "stokTersedia": 300,
+        "satuan": "Kit (25 Test)",
+        "badge": "Izin Edar Aktif"
+      },
+      {
+        "id": "produk-NIE-004",
+        "sumberId": "NIE-004",
+        "isActive": true,
+        "nama": "Benang Bedah Polyglactin 910 Braided Absorbable",
+        "tipeModel": "Suture 3-0 with Needle 26mm",
+        "kategori": "Disposable",
+        "kategoriRegulasi": "Non Elektromedik Steril",
+        "kelasRisiko": "Kelas C",
+        "nomorIzinEdar": "KEMENKES RI AKD 21603910442",
+        "statusIzinEdar": "Perpanjangan",
+        "produsen": "PT Anugrah Mitra Selaras",
+        "negaraAsal": "Indonesia",
+        "hargaTayang": "Sesuai Kontrak / e-Katalog LKPP",
+        "zonaSuhu": "Suhu Kamar (< 30°C)",
+        "spesifikasi": "Benang jahit absorben anyaman, ukuran 2-0 sampai 4-0, kekuatan tarik tersisa 60% pada hari 21.",
+        "poinJual": [
+          "Sterilisasi gamma 25 kGy terdokumentasi",
+          "Kemasan unit RS mengurangi sisa pemborongan"
+        ],
+        "tautanBrosur": "/brosur/polyglactin-910.pdf",
+        "tautanVideo": "/video/polyglactin-teknik-jahit.mp4",
+        "tanyaJawabTeknis": [
+          {
+            "pertanyaan": "Status izin edar saat ini?",
+            "jawaban": "Perpanjangan sedang berjalan — masa berlaku register habis 5 November 2026, distribusi diblokir sampai PJT melepas penahanan."
+          },
+          {
+            "pertanyaan": "Suhu penyimpanan?",
+            "jawaban": "Ruang sejuk 15-25°C, jauh dari sinar matahari langsung."
+          }
+        ],
+        "satuan": "Box (36 Pcs)",
+        "badge": "Izin Edar Perpanjangan"
+      },
+      {
+        "id": "produk-NIE-005",
+        "sumberId": "NIE-005",
+        "isActive": true,
+        "nama": "Mesin USG Color Doppler 4D Portabel",
+        "tipeModel": "SonoEcho 90",
+        "kategori": "General",
+        "kategoriRegulasi": "Elektromedik Non Radiasi",
+        "kelasRisiko": "Kelas B",
+        "nomorIzinEdar": "KEMENKES RI AKL 21501710988",
+        "statusIzinEdar": "Aktif",
+        "produsen": "General Electric Healthcare Inc.",
+        "negaraAsal": "Amerika Serikat",
+        "hargaTayang": "Sesuai Kontrak / e-Katalog LKPP",
+        "zonaSuhu": "Ruang Sejuk AC (15°C - 25°C)",
+        "spesifikasi": "4D live, doppler warna & energi, 4 transduser (convex, linear, cardiac, endo), baterai 3 jam.",
+        "poinJual": [
+          "Bobot 9 kg untuk rujukan lapangan",
+          "DICOM push ke RIS/PACS RS",
+          "Garansi resmi 12 bulan + kalibrasi pertama gratis"
+        ],
+        "tautanBrosur": "/brosur/sonoecho-90.pdf",
+        "tautanVideo": "/video/sonoecho-90-doppler.mp4",
+        "tanyaJawabTeknis": [
+          {
+            "pertanyaan": "Apakah unit demo bisa dipinjam?",
+            "jawaban": "Ya, maksimal 14 hari dengan berita acara serah terima dan deposit sesuai kebijakan Dirkom."
+          },
+          {
+            "pertanyaan": "Berapa biaya kalibrasi tahunan?",
+            "jawaban": "Termasuk kontrak servis; di luar kontrak Rp 4,5 juta per unit per tahun."
+          }
+        ],
+        "stokTersedia": 8,
+        "satuan": "Unit",
+        "badge": "Izin Edar Aktif"
+      },
+      {
+        "id": "produk-NIE-006",
+        "sumberId": "NIE-006",
+        "isActive": true,
+        "nama": "Mesin X-Ray Portabel Digital",
+        "tipeModel": "MobileRay 30",
+        "kategori": "X-Ray System",
+        "kategoriRegulasi": "Elektromedik Radiasi",
+        "kelasRisiko": "Kelas C",
+        "nomorIzinEdar": "KEMENKES RI AKL 21402610771",
+        "statusIzinEdar": "Aktif",
+        "produsen": "Shenzhen Mindray Bio-Medical Co., Ltd.",
+        "negaraAsal": "Tiongkok",
+        "hargaTayang": "Sesuai Kontrak / e-Katalog LKPP",
+        "zonaSuhu": "Ruang Sejuk AC (15°C - 25°C)",
+        "spesifikasi": "Izin pemanfaatan sumber radiasi pendamping sertifikat BAPETEN; unit disimpan di lorong B03 terkunci dan wajib uji fungsi berkala.",
+        "poinJual": [
+          "Kategori regulasi: Elektromedik Radiasi",
+          "Izin pemanfaatan sumber radiasi pendamping sertifikat BAPETEN; unit disimpan di lorong B03 terkunci dan wajib uji fungsi berkala."
+        ],
+        "stokTersedia": 3,
+        "satuan": "Unit",
+        "badge": "Izin Edar Aktif"
+      },
       {
         "id": "rujuk-produk-1",
         "sumberId": "rujuk-produk-1",
@@ -418,10 +631,14 @@
         "statusIzinEdar": "Verifikasi Register RA",
         "produsen": "3M",
         "negaraAsal": "Prinsipal REMEDI",
+        "hargaTayang": "Rp 62.493",
+        "zonaSuhu": "Suhu Kamar (< 30°C)",
         "spesifikasi": "Disposable — Patient Care — Orthoptic Eye Patch. Harga tayang pada katalog daring REMEDI saat konten ini disalin: Rp 62.493.",
         "poinJual": [
-          "Grup katalog: Disposable"
+          "Grup katalog: Disposable",
+          "Merek / prinsipal: 3M"
         ],
+        "tautanBrosur": "https://drive.google.com/file/d/1w2ATfJkJczNrtZn5Ajk4jpl9NGINB7fT/view?usp=drive_link",
         "badge": "Katalog REMEDI"
       },
       {
@@ -436,10 +653,14 @@
         "statusIzinEdar": "Verifikasi Register RA",
         "produsen": "3M",
         "negaraAsal": "Prinsipal REMEDI",
+        "hargaTayang": "Rp 248.640",
+        "zonaSuhu": "Suhu Kamar (< 30°C)",
         "spesifikasi": "Disposable — Patient Care — Plaster Hypoallergenic. Harga tayang pada katalog daring REMEDI saat konten ini disalin: Rp 248.640.",
         "poinJual": [
-          "Grup katalog: Disposable"
+          "Grup katalog: Disposable",
+          "Merek / prinsipal: 3M"
         ],
+        "tautanBrosur": "https://drive.google.com/file/d/1w2ATfJkJczNrtZn5Ajk4jpl9NGINB7fT/view?usp=drive_link",
         "badge": "Katalog REMEDI"
       },
       {
@@ -453,11 +674,16 @@
         "nomorIzinEdar": "-",
         "statusIzinEdar": "Verifikasi Register RA",
         "produsen": "Remedi",
-        "negaraAsal": "Prinsipal REMEDI",
+        "negaraAsal": "Indonesia",
+        "hargaTayang": "Sesuai Price List Resmi",
+        "zonaSuhu": "Suhu Kamar (< 30°C)",
+        "imageUrl": "/site/remedi-mask.jpg",
         "spesifikasi": "Protective Equipment — Face Mask (medical). Harga mengikuti daftar harga (Price List) resmi perusahaan.",
         "poinJual": [
-          "Grup katalog: Protective Equipment"
+          "Grup katalog: Protective Equipment",
+          "Merek / prinsipal: Remedi"
         ],
+        "tautanBrosur": "https://drive.google.com/file/d/1w2ATfJkJczNrtZn5Ajk4jpl9NGINB7fT/view?usp=drive_link",
         "badge": "Katalog REMEDI"
       },
       {
@@ -471,11 +697,16 @@
         "nomorIzinEdar": "-",
         "statusIzinEdar": "Verifikasi Register RA",
         "produsen": "Remedi",
-        "negaraAsal": "Prinsipal REMEDI",
+        "negaraAsal": "Indonesia",
+        "hargaTayang": "Sesuai Price List Resmi",
+        "zonaSuhu": "Ruang Kering Instrumen Bedah",
+        "imageUrl": "/site/iris-scissor.jpg",
         "spesifikasi": "Instrument — @Itemize — Scissors. Harga mengikuti daftar harga (Price List) resmi perusahaan.",
         "poinJual": [
-          "Grup katalog: Instrument"
+          "Grup katalog: Instrument",
+          "Merek / prinsipal: Remedi"
         ],
+        "tautanBrosur": "https://drive.google.com/file/d/1w2ATfJkJczNrtZn5Ajk4jpl9NGINB7fT/view?usp=drive_link",
         "badge": "Katalog REMEDI"
       },
       {
@@ -490,10 +721,14 @@
         "statusIzinEdar": "Verifikasi Register RA",
         "produsen": "Avner",
         "negaraAsal": "Prinsipal REMEDI",
+        "hargaTayang": "Rp 99.900",
+        "zonaSuhu": "Suhu Kamar (< 30°C)",
         "spesifikasi": "Vaccine Cooler & Syringe — AutoDisable Syringe. Harga tayang pada katalog daring REMEDI saat konten ini disalin: Rp 99.900.",
         "poinJual": [
-          "Grup katalog: Vaccine Cooler & Syringe"
+          "Grup katalog: Vaccine Cooler & Syringe",
+          "Merek / prinsipal: Avner"
         ],
+        "tautanBrosur": "https://drive.google.com/file/d/1w2ATfJkJczNrtZn5Ajk4jpl9NGINB7fT/view?usp=drive_link",
         "badge": "Katalog REMEDI"
       },
       {
@@ -508,10 +743,15 @@
         "statusIzinEdar": "Verifikasi Register RA",
         "produsen": "Avner",
         "negaraAsal": "Prinsipal REMEDI",
+        "hargaTayang": "Sesuai Price List Resmi",
+        "zonaSuhu": "Ruang Sejuk AC (15°C - 25°C)",
+        "imageUrl": "/site/avner-810.jpg",
         "spesifikasi": "Laboratory — Chemistry Analyzer. Harga mengikuti daftar harga (Price List) resmi perusahaan.",
         "poinJual": [
-          "Grup katalog: Laboratory"
+          "Grup katalog: Laboratory",
+          "Merek / prinsipal: Avner"
         ],
+        "tautanBrosur": "https://drive.google.com/file/d/1w2ATfJkJczNrtZn5Ajk4jpl9NGINB7fT/view?usp=drive_link",
         "badge": "Katalog REMEDI"
       },
       {
@@ -526,10 +766,14 @@
         "statusIzinEdar": "Verifikasi Register RA",
         "produsen": "Avner",
         "negaraAsal": "Prinsipal REMEDI",
+        "hargaTayang": "Sesuai Price List Resmi",
+        "zonaSuhu": "Ruang Sejuk AC (15°C - 25°C)",
         "spesifikasi": "Laboratory — Hematology Analyzer. Harga mengikuti daftar harga (Price List) resmi perusahaan.",
         "poinJual": [
-          "Grup katalog: Laboratory"
+          "Grup katalog: Laboratory",
+          "Merek / prinsipal: Avner"
         ],
+        "tautanBrosur": "https://drive.google.com/file/d/1w2ATfJkJczNrtZn5Ajk4jpl9NGINB7fT/view?usp=drive_link",
         "badge": "Katalog REMEDI"
       },
       {
@@ -544,10 +788,14 @@
         "statusIzinEdar": "Verifikasi Register RA",
         "produsen": "Avner",
         "negaraAsal": "Prinsipal REMEDI",
+        "hargaTayang": "Sesuai Price List Resmi",
+        "zonaSuhu": "Ruang Sejuk AC (15°C - 25°C)",
         "spesifikasi": "General — Gastric Lavage Machine. Harga mengikuti daftar harga (Price List) resmi perusahaan.",
         "poinJual": [
-          "Grup katalog: General"
+          "Grup katalog: General",
+          "Merek / prinsipal: Avner"
         ],
+        "tautanBrosur": "https://drive.google.com/file/d/1w2ATfJkJczNrtZn5Ajk4jpl9NGINB7fT/view?usp=drive_link",
         "badge": "Katalog REMEDI"
       },
       {
@@ -562,10 +810,14 @@
         "statusIzinEdar": "Verifikasi Register RA",
         "produsen": "Avner",
         "negaraAsal": "Prinsipal REMEDI",
+        "hargaTayang": "Sesuai Price List Resmi",
+        "zonaSuhu": "Ruang Sejuk AC (15°C - 25°C)",
         "spesifikasi": "Vet — Chemistry Analyzer Vet. Harga mengikuti daftar harga (Price List) resmi perusahaan.",
         "poinJual": [
-          "Grup katalog: Vet"
+          "Grup katalog: Vet",
+          "Merek / prinsipal: Avner"
         ],
+        "tautanBrosur": "https://drive.google.com/file/d/1w2ATfJkJczNrtZn5Ajk4jpl9NGINB7fT/view?usp=drive_link",
         "badge": "Katalog REMEDI"
       },
       {
@@ -580,10 +832,14 @@
         "statusIzinEdar": "Verifikasi Register RA",
         "produsen": "Avner",
         "negaraAsal": "Prinsipal REMEDI",
+        "hargaTayang": "Sesuai Price List Resmi",
+        "zonaSuhu": "Ruang Sejuk AC (15°C - 25°C)",
         "spesifikasi": "Vet — Hematology Analyzer Vet. Harga mengikuti daftar harga (Price List) resmi perusahaan.",
         "poinJual": [
-          "Grup katalog: Vet"
+          "Grup katalog: Vet",
+          "Merek / prinsipal: Avner"
         ],
+        "tautanBrosur": "https://drive.google.com/file/d/1w2ATfJkJczNrtZn5Ajk4jpl9NGINB7fT/view?usp=drive_link",
         "badge": "Katalog REMEDI"
       },
       {
@@ -598,10 +854,14 @@
         "statusIzinEdar": "Verifikasi Register RA",
         "produsen": "Avner",
         "negaraAsal": "Prinsipal REMEDI",
+        "hargaTayang": "Sesuai Price List Resmi",
+        "zonaSuhu": "Ruang Sejuk AC (15°C - 25°C)",
         "spesifikasi": "Vet — Hematology Analyzer Vet. Harga mengikuti daftar harga (Price List) resmi perusahaan.",
         "poinJual": [
-          "Grup katalog: Vet"
+          "Grup katalog: Vet",
+          "Merek / prinsipal: Avner"
         ],
+        "tautanBrosur": "https://drive.google.com/file/d/1w2ATfJkJczNrtZn5Ajk4jpl9NGINB7fT/view?usp=drive_link",
         "badge": "Katalog REMEDI"
       },
       {
@@ -616,10 +876,14 @@
         "statusIzinEdar": "Verifikasi Register RA",
         "produsen": "AUCMA",
         "negaraAsal": "Prinsipal REMEDI",
+        "hargaTayang": "Rp 208.424.700",
+        "zonaSuhu": "Unit Rantai Dingin Ultra-Low (−40°C s.d. −86°C)",
         "spesifikasi": "Vaccine Cooler & Syringe — Freezer. Harga tayang pada katalog daring REMEDI saat konten ini disalin: Rp 208.424.700.",
         "poinJual": [
-          "Grup katalog: Vaccine Cooler & Syringe"
+          "Grup katalog: Vaccine Cooler & Syringe",
+          "Merek / prinsipal: AUCMA"
         ],
+        "tautanBrosur": "https://drive.google.com/file/d/1w2ATfJkJczNrtZn5Ajk4jpl9NGINB7fT/view?usp=drive_link",
         "badge": "Katalog REMEDI"
       },
       {
@@ -634,10 +898,14 @@
         "statusIzinEdar": "Verifikasi Register RA",
         "produsen": "AUCMA",
         "negaraAsal": "Prinsipal REMEDI",
+        "hargaTayang": "Rp 20.146.500",
+        "zonaSuhu": "Unit Rantai Dingin Freezer",
         "spesifikasi": "Vaccine Cooler & Syringe — Freezer. Harga tayang pada katalog daring REMEDI saat konten ini disalin: Rp 20.146.500.",
         "poinJual": [
-          "Grup katalog: Vaccine Cooler & Syringe"
+          "Grup katalog: Vaccine Cooler & Syringe",
+          "Merek / prinsipal: AUCMA"
         ],
+        "tautanBrosur": "https://drive.google.com/file/d/1w2ATfJkJczNrtZn5Ajk4jpl9NGINB7fT/view?usp=drive_link",
         "badge": "Katalog REMEDI"
       },
       {
@@ -652,10 +920,14 @@
         "statusIzinEdar": "Verifikasi Register RA",
         "produsen": "AUCMA",
         "negaraAsal": "Prinsipal REMEDI",
+        "hargaTayang": "Rp 85.603.200",
+        "zonaSuhu": "Unit Rantai Dingin Vaksin (2°C - 8°C)",
         "spesifikasi": "Vaccine Cooler & Syringe — Refrigerator. Harga tayang pada katalog daring REMEDI saat konten ini disalin: Rp 85.603.200.",
         "poinJual": [
-          "Grup katalog: Vaccine Cooler & Syringe"
+          "Grup katalog: Vaccine Cooler & Syringe",
+          "Merek / prinsipal: AUCMA"
         ],
+        "tautanBrosur": "https://drive.google.com/file/d/1w2ATfJkJczNrtZn5Ajk4jpl9NGINB7fT/view?usp=drive_link",
         "badge": "Katalog REMEDI"
       }
     ]
@@ -1378,5 +1650,5 @@
     }
   ],
   "footerCatatan": "© 2026 PT Anugrah Mitra Selaras (REMEDI). Seluruh hak cipta dilindungi. Produsen, agen, dan distributor alat kesehatan sejak 1994 — distribusi dijalankan sesuai Cara Distribusi Alat Kesehatan yang Baik (CDAKB) Kementerian Kesehatan RI.",
-  "lastPublishedAt": 1793788088225
+  "lastPublishedAt": 1793800909625
 }

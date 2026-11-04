@@ -112,6 +112,8 @@ type BarangKatalog = {
   jalur: string;
   tipeModel?: string;
   harga?: string;
+  imageUrl?: string;
+  zonaSuhu?: string;
 };
 
 const BARANG_KATALOG: BarangKatalog[] = [
@@ -120,26 +122,32 @@ const BARANG_KATALOG: BarangKatalog[] = [
     merek: '3M',
     grup: 'Disposable',
     jalur: 'Disposable — Patient Care — Orthoptic Eye Patch',
-    harga: 'Rp 62.493'
+    harga: 'Rp 62.493',
+    zonaSuhu: 'Suhu Kamar (< 30°C)'
   },
   {
     nama: '3M Plaster Hypoallergenic',
     merek: '3M',
     grup: 'Disposable',
     jalur: 'Disposable — Patient Care — Plaster Hypoallergenic',
-    harga: 'Rp 248.640'
+    harga: 'Rp 248.640',
+    zonaSuhu: 'Suhu Kamar (< 30°C)'
   },
   {
     nama: 'Remedi Masker Medis (Face Mask Medical)',
     merek: 'Remedi',
     grup: 'Protective Equipment',
-    jalur: 'Protective Equipment — Face Mask (medical)'
+    jalur: 'Protective Equipment — Face Mask (medical)',
+    imageUrl: '/site/remedi-mask.jpg',
+    zonaSuhu: 'Suhu Kamar (< 30°C)'
   },
   {
     nama: 'Remedi Iris Scissor',
     merek: 'Remedi',
     grup: 'Instrument',
-    jalur: 'Instrument — @Itemize — Scissors'
+    jalur: 'Instrument — @Itemize — Scissors',
+    imageUrl: '/site/iris-scissor.jpg',
+    zonaSuhu: 'Ruang Kering Instrumen Bedah'
   },
   {
     nama: 'Avner AutoDisable Syringe',
@@ -147,49 +155,57 @@ const BARANG_KATALOG: BarangKatalog[] = [
     grup: 'Vaccine Cooler & Syringe',
     jalur: 'Vaccine Cooler & Syringe — AutoDisable Syringe',
     tipeModel: '0,5 mL',
-    harga: 'Rp 99.900'
+    harga: 'Rp 99.900',
+    zonaSuhu: 'Suhu Kamar (< 30°C)'
   },
   {
     nama: 'Avner Chemistry Analyzer',
     merek: 'Avner',
     grup: 'Laboratory',
     jalur: 'Laboratory — Chemistry Analyzer',
-    tipeModel: '810'
+    tipeModel: '810',
+    imageUrl: '/site/avner-810.jpg',
+    zonaSuhu: 'Ruang Sejuk AC (15°C - 25°C)'
   },
   {
     nama: 'Avner Hematology Analyzer',
     merek: 'Avner',
     grup: 'Laboratory',
     jalur: 'Laboratory — Hematology Analyzer',
-    tipeModel: '3000Plus'
+    tipeModel: '3000Plus',
+    zonaSuhu: 'Ruang Sejuk AC (15°C - 25°C)'
   },
   {
     nama: 'Avner Gastric Lavage Machine',
     merek: 'Avner',
     grup: 'General',
     jalur: 'General — Gastric Lavage Machine',
-    tipeModel: 'SC-II'
+    tipeModel: 'SC-II',
+    zonaSuhu: 'Ruang Sejuk AC (15°C - 25°C)'
   },
   {
     nama: 'Avner Chemistry Analyzer Vet',
     merek: 'Avner',
     grup: 'Vet',
     jalur: 'Vet — Chemistry Analyzer Vet',
-    tipeModel: '880Vet'
+    tipeModel: '880Vet',
+    zonaSuhu: 'Ruang Sejuk AC (15°C - 25°C)'
   },
   {
     nama: 'Avner Hematology Analyzer Vet',
     merek: 'Avner',
     grup: 'Vet',
     jalur: 'Vet — Hematology Analyzer Vet',
-    tipeModel: '2900Vet'
+    tipeModel: '2900Vet',
+    zonaSuhu: 'Ruang Sejuk AC (15°C - 25°C)'
   },
   {
     nama: 'Avner Hematology Analyzer Vet',
     merek: 'Avner',
     grup: 'Vet',
     jalur: 'Vet — Hematology Analyzer Vet',
-    tipeModel: '3000Vet'
+    tipeModel: '3000Vet',
+    zonaSuhu: 'Ruang Sejuk AC (15°C - 25°C)'
   },
   {
     nama: 'AUCMA Deep Freezer',
@@ -197,14 +213,16 @@ const BARANG_KATALOG: BarangKatalog[] = [
     grup: 'Vaccine Cooler & Syringe',
     jalur: 'Vaccine Cooler & Syringe — Freezer',
     tipeModel: '−40 °C s.d. −86 °C',
-    harga: 'Rp 208.424.700'
+    harga: 'Rp 208.424.700',
+    zonaSuhu: 'Unit Rantai Dingin Ultra-Low (−40°C s.d. −86°C)'
   },
   {
     nama: 'AUCMA Freezer',
     merek: 'AUCMA',
     grup: 'Vaccine Cooler & Syringe',
     jalur: 'Vaccine Cooler & Syringe — Freezer',
-    harga: 'Rp 20.146.500'
+    harga: 'Rp 20.146.500',
+    zonaSuhu: 'Unit Rantai Dingin Freezer'
   },
   {
     nama: 'AUCMA Refrigerator',
@@ -212,7 +230,8 @@ const BARANG_KATALOG: BarangKatalog[] = [
     grup: 'Vaccine Cooler & Syringe',
     jalur: 'Vaccine Cooler & Syringe — Refrigerator',
     tipeModel: '2 °C s.d. 8 °C',
-    harga: 'Rp 85.603.200'
+    harga: 'Rp 85.603.200',
+    zonaSuhu: 'Unit Rantai Dingin Vaksin (2°C - 8°C)'
   }
 ];
 
@@ -228,11 +247,15 @@ const bangunBarangKatalog = (): ProdukWebsite[] =>
     nomorIzinEdar: '-',
     statusIzinEdar: 'Verifikasi Register RA',
     produsen: b.merek,
-    negaraAsal: 'Prinsipal REMEDI',
+    negaraAsal: b.merek === 'Remedi' ? 'Indonesia' : 'Prinsipal REMEDI',
+    hargaTayang: b.harga ?? 'Sesuai Price List Resmi',
+    zonaSuhu: b.zonaSuhu,
+    imageUrl: b.imageUrl,
     spesifikasi: b.harga
       ? `${b.jalur}. Harga tayang pada katalog daring REMEDI saat konten ini disalin: ${b.harga}.`
       : `${b.jalur}. Harga mengikuti daftar harga (Price List) resmi perusahaan.`,
-    poinJual: [`Grup katalog: ${b.grup}`],
+    poinJual: [`Grup katalog: ${b.grup}`, `Merek / prinsipal: ${b.merek}`],
+    tautanBrosur: IDENTITAS_RUJUKAN.tautanKatalog,
     badge: 'Katalog REMEDI'
   }));
 

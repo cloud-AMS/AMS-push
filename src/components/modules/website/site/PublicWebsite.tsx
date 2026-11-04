@@ -9,14 +9,15 @@
  * index.html (HTTP 200) untuk path yang tidak ada.
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowLeft, ChevronDown, Globe, LogIn, Menu, Phone, X, Mail } from 'lucide-react';
-import { HalamanWebsite, KonfigurasiSitus } from '../../../../types';
-import { PETA_HALAMAN, TampilkanSeksi, TombolSitus, type PropsSeksi } from './SiteSections';
+import { ArrowLeft, ArrowRight, ChevronDown, ClipboardList, Globe, LogIn, Mail, Menu, Phone, X } from 'lucide-react';
+import { HalamanWebsite, KonfigurasiSitus, ProdukWebsite } from '../../../../types';
+import { PETA_HALAMAN, TampilkanSeksi, TombolSitus, type ItemRfqPublik, type PropsSeksi } from './SiteSections';
 import { hrefTautan } from '../../../../utils/website';
 
 interface Rute {
   halaman: HalamanWebsite;
   kategoriKey?: string;
+  cari?: string;
 }
 
 const DAFTAR_HALAMAN: HalamanWebsite[] = [
@@ -28,6 +29,18 @@ const DAFTAR_HALAMAN: HalamanWebsite[] = [
   'tentang',
   'kontak'
 ];
+
+const LABEL_HALAMAN: Record<HalamanWebsite, string> = {
+  beranda: 'Beranda',
+  produk: 'Katalog Produk',
+  solusi: 'Solusi',
+  layanan: 'Layanan',
+  'sumber-daya': 'Sumber Daya',
+  tentang: 'Tentang Kami',
+  kontak: 'Kontak & Penawaran'
+};
+
+const KUNCI_SESI_RFQ = 'ams_web_rfq_v1';
 
 /** Kelas dasar tombol pil header: CTA utama dan tombol Masuk harus terlihat sama ukurannya. */
 const gayaTombolHeader =
@@ -66,8 +79,26 @@ async function muatSnapshot(url: string): Promise<KonfigurasiSitus | null> {
 }
 
 function bacaQuery(): Rute {
-  const halaman = new URLSearchParams(window.location.search).get('halaman') as HalamanWebsite | null;
-  return { halaman: halaman && DAFTAR_HALAMAN.includes(halaman) ? halaman : 'beranda' };
+  const params = new URLSearchParams(window.location.search);
+  const halaman = params.get('halaman') as HalamanWebsite | null;
+  const kategori = params.get('kategori')?.trim() || undefined;
+  const cari = params.get('cari')?.trim() || undefined;
+  return {
+    halaman: halaman && DAFTAR_HALAMAN.includes(halaman) ? halaman : kategori || cari ? 'produk' : 'beranda',
+    kategoriKey: kategori,
+    cari
+  };
+}
+
+function bacaSesiRfq(): ItemRfqPublik[] {
+  try {
+    const mentah = sessionStorage.getItem(KUNCI_SESI_RFQ);
+    if (!mentah) return [];
+    const data = JSON.parse(mentah) as unknown;
+    return Array.isArray(data) ? (data as ItemRfqPublik[]) : [];
+  } catch {
+    return [];
+  }
 }
 
 export default function PublicWebsite({
@@ -88,18 +119,126 @@ export default function PublicWebsite({
   const [rute, setRute] = useState<Rute>(bacaQuery);
   const [menuTerbuka, setMenuTerbuka] = useState(false);
   const [megaAktif, setMegaAktif] = useState<string | null>(null);
+  const [daftarRfq, setDaftarRfq] = useState<ItemRfqPublik[]>(bacaSesiRfq);
   const atasRef = useRef<HTMLDivElement>(null);
 
-  const ke = useCallback((halaman: HalamanWebsite, kategoriKey?: string) => {
-    setRute({ halaman, kategoriKey });
-    setMenuTerbuka(false);
-    setMegaAktif(null);
-    if (!pratinjau) {
-      const url = halaman === 'beranda' ? landasan : `${landasan}?halaman=${encodeURIComponent(halaman)}`;
-      window.history.replaceState({}, '', url);
+  useEffect(() => {
+    try {
+      sessionStorage.setItem(KUNCI_SESI_RFQ, JSON.stringify(daftarRfq));
+    } catch {
+      // Abaikan jika penyimpanan sesi penuh/diblokir
     }
-    atasRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, [pratinjau, landasan]);
+  }, [daftarRfq]);
+
+  /** Selaraskan acuan harga & satuan item RFQ yang sudah dipilih bila modul operasional memperbarui skema harga. */
+  useEffect(() => {
+    setDaftarRfq((lama) => {
+      if (lama.length === 0) return lama;
+      const petaProduk = new Map(konfigurasi.produk.item.map((p) => [p.id, p]));
+      let berubah = false;
+      const baru = lama.map((item) => {
+        const terkini = petaProduk.get(item.produkId);
+        if (!terkini) return item;
+        const hargaBaru = terkini.hargaTayang;
+        const satuanBaru = terkini.satuan || item.satuan;
+        if (item.hargaTayang === hargaBaru && item.satuan === satuanBaru) return item;
+        berubah = true;
+        return { ...item, hargaTayang: hargaBaru, satuan: satuanBaru };
+      });
+      return berubah ? baru : lama;
+    });
+  }, [konfigurasi.produk.item]);
+
+  useEffect(() => {
+    if (pratinjau) return;
+    const padaPopState = () => setRute(bacaQuery());
+    window.addEventListener('popstate', padaPopState);
+    return () => window.removeEventListener('popstate', padaPopState);
+  }, [pratinjau]);
+
+  const tulisUrlRute = useCallback(
+    (halaman: HalamanWebsite, kategoriKey?: string) => {
+      if (pratinjau) return;
+      if (halaman === 'beranda' && !kategoriKey) {
+        window.history.replaceState({}, '', landasan);
+        return;
+      }
+      const params = new URLSearchParams();
+      params.set('halaman', halaman);
+      if (kategoriKey) params.set('kategori', kategoriKey);
+      window.history.replaceState({}, '', `${landasan}?${params.toString()}`);
+    },
+    [pratinjau, landasan]
+  );
+
+  const ke = useCallback(
+    (halaman: HalamanWebsite, kategoriKey?: string) => {
+      setRute({ halaman, kategoriKey });
+      setMenuTerbuka(false);
+      setMegaAktif(null);
+      tulisUrlRute(halaman, kategoriKey);
+      atasRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    },
+    [tulisUrlRute]
+  );
+
+  const aturKategoriKatalog = useCallback(
+    (kategoriKey?: string) => {
+      setRute((lama) => ({ ...lama, kategoriKey }));
+      tulisUrlRute('produk', kategoriKey);
+    },
+    [tulisUrlRute]
+  );
+
+  const tambahKeRfq = useCallback((produk: ProdukWebsite, jumlah = 1) => {
+    const tambahan = Math.max(1, jumlah);
+    setDaftarRfq((lama) => {
+      const ada = lama.find((i) => i.produkId === produk.id);
+      if (ada) {
+        return lama.map((i) =>
+          i.produkId === produk.id ? { ...i, jumlah: i.jumlah + tambahan } : i
+        );
+      }
+      return [
+        ...lama,
+        {
+          produkId: produk.id,
+          nama: produk.nama,
+          tipeModel: produk.tipeModel,
+          kategori: produk.kategori,
+          nomorIzinEdar: produk.nomorIzinEdar,
+          produsen: produk.produsen,
+          satuan: produk.satuan || 'Unit',
+          jumlah: tambahan,
+          hargaTayang: produk.hargaTayang
+        }
+      ];
+    });
+  }, []);
+
+  const ubahJumlahRfq = useCallback((produkId: string, jumlah: number) => {
+    if (jumlah <= 0) {
+      setDaftarRfq((lama) => lama.filter((i) => i.produkId !== produkId));
+      return;
+    }
+    setDaftarRfq((lama) => lama.map((i) => (i.produkId === produkId ? { ...i, jumlah } : i)));
+  }, []);
+
+  const hapusDariRfq = useCallback((produkId: string) => {
+    setDaftarRfq((lama) => lama.filter((i) => i.produkId !== produkId));
+  }, []);
+
+  const kosongkanRfq = useCallback(() => {
+    setDaftarRfq([]);
+  }, []);
+
+  const ajukanPenawaranLangsung = useCallback(
+    (produk: ProdukWebsite, jumlah = 1) => {
+      tambahKeRfq(produk, jumlah);
+      ke('kontak');
+    },
+    [tambahKeRfq, ke]
+  );
 
   useEffect(() => {
     document.title = konfigurasi.identitas.judulSitus || konfigurasi.identitas.nama;
@@ -129,9 +268,31 @@ export default function PublicWebsite({
     () => ({
       cfg: konfigurasi,
       ke,
-      batasProduk: rute.halaman === 'beranda' ? 6 : undefined
+      batasProduk: rute.halaman === 'beranda' ? 6 : undefined,
+      kategoriAktif: rute.kategoriKey,
+      kataKunciAwal: rute.cari,
+      onPilihKategori: aturKategoriKatalog,
+      daftarRfq,
+      onTambahRfq: tambahKeRfq,
+      onUbahJumlahRfq: ubahJumlahRfq,
+      onHapusRfq: hapusDariRfq,
+      onKosongkanRfq: kosongkanRfq,
+      onAjukanPenawaranLangsung: ajukanPenawaranLangsung
     }),
-    [konfigurasi, ke, rute.halaman]
+    [
+      konfigurasi,
+      ke,
+      rute.halaman,
+      rute.kategoriKey,
+      rute.cari,
+      aturKategoriKatalog,
+      daftarRfq,
+      tambahKeRfq,
+      ubahJumlahRfq,
+      hapusDariRfq,
+      kosongkanRfq,
+      ajukanPenawaranLangsung
+    ]
   );
 
   const menu = konfigurasi.menu.filter((m) => m.isActive);
@@ -172,34 +333,51 @@ export default function PublicWebsite({
                     <button
                       type="button"
                       onClick={() => setMegaAktif(megaAktif === item.id ? null : item.id)}
-                      className="flex items-center gap-1 px-3 py-2 text-sm font-semibold text-slate-700 hover:text-teal-700 cursor-pointer"
+                      className={`flex items-center gap-1 px-3 py-2 text-sm font-semibold transition-colors cursor-pointer ${
+                        rute.halaman === 'produk' ? 'text-teal-700' : 'text-slate-700 hover:text-teal-700'
+                      }`}
                     >
                       {item.label}
                       <ChevronDown className={`w-3.5 h-3.5 transition-transform ${megaAktif === item.id ? 'rotate-180' : ''}`} />
                     </button>
                     {megaAktif === item.id && (
                       <div className="absolute left-0 top-full pt-2 z-50">
-                        <div className="w-[560px] bg-white border border-slate-200 rounded-2xl shadow-lg p-5 grid grid-cols-2 gap-5">
-                          {item.kolom.map((kolom) => (
-                            <div key={kolom.id}>
-                              <p className="text-xs font-bold uppercase tracking-wider text-slate-400">{kolom.judul}</p>
-                              <ul className="mt-2 space-y-1">
-                                {kolom.tautan
-                                  .filter((t) => t.isActive)
-                                  .map((t) => (
-                                    <li key={t.id}>
-                                      <button
-                                        type="button"
-                                        onClick={() => ke(t.halaman || 'produk', t.kategoriKey)}
-                                        className="text-left text-sm text-slate-600 hover:text-teal-700 cursor-pointer"
-                                      >
-                                        {t.label}
-                                      </button>
-                                    </li>
-                                  ))}
-                              </ul>
-                            </div>
-                          ))}
+                        <div className="w-[580px] bg-white border border-slate-200 rounded-2xl shadow-lg p-5">
+                          <div className="grid grid-cols-2 gap-5">
+                            {item.kolom.map((kolom) => (
+                              <div key={kolom.id}>
+                                <p className="text-xs font-bold uppercase tracking-wider text-slate-400">{kolom.judul}</p>
+                                <ul className="mt-2 space-y-1">
+                                  {kolom.tautan
+                                    .filter((t) => t.isActive)
+                                    .map((t) => (
+                                      <li key={t.id}>
+                                        <button
+                                          type="button"
+                                          onClick={() => ke(t.halaman || 'produk', t.kategoriKey)}
+                                          className="text-left text-sm text-slate-600 hover:text-teal-700 cursor-pointer py-0.5"
+                                        >
+                                          {t.label}
+                                        </button>
+                                      </li>
+                                    ))}
+                                </ul>
+                              </div>
+                            ))}
+                          </div>
+                          <div className="mt-4 pt-3.5 border-t border-slate-100 flex items-center justify-between">
+                            <span className="text-xs text-slate-500">
+                              Cari berdasarkan merek prinsipal, nomor izin edar, dan stok gudang
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => ke('produk')}
+                              className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-700 hover:text-teal-800 whitespace-nowrap cursor-pointer"
+                            >
+                              Buka Seluruh Katalog
+                              <ArrowRight className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
                         </div>
                       </div>
                     )}
@@ -209,7 +387,9 @@ export default function PublicWebsite({
                     key={item.id}
                     type="button"
                     onClick={() => ke(item.halaman || 'beranda')}
-                    className="px-3 py-2 text-sm font-semibold text-slate-700 hover:text-teal-700 cursor-pointer"
+                    className={`px-3 py-2 text-sm font-semibold transition-colors cursor-pointer ${
+                      rute.halaman === item.halaman ? 'text-teal-700' : 'text-slate-700 hover:text-teal-700'
+                    }`}
                   >
                     {item.label}
                   </button>
@@ -221,10 +401,22 @@ export default function PublicWebsite({
               {konfigurasi.header.portalTeks && konfigurasi.header.portalUrl && (
                 <a
                   href={konfigurasi.header.portalUrl}
-                  className="text-xs font-semibold text-slate-600 hover:text-slate-900 px-2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs font-semibold text-slate-600 hover:text-slate-900 px-2 whitespace-nowrap"
                 >
                   {konfigurasi.header.portalTeks}
                 </a>
+              )}
+              {daftarRfq.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => ke('kontak')}
+                  className={`${gayaTombolHeader} bg-teal-50 text-teal-800 border border-teal-200 hover:bg-teal-100 tabular-nums`}
+                >
+                  <ClipboardList className="w-3.5 h-3.5" />
+                  RFQ ({daftarRfq.length})
+                </button>
               )}
               <HeaderAksi teks={konfigurasi.header.utamaTeks} cfg={konfigurasi} ke={ke} varian="isi" />
               {padaMasuk && (
@@ -295,7 +487,7 @@ export default function PublicWebsite({
       <main>
         {rute.halaman !== 'beranda' && (
           <div className="bg-white border-b border-slate-200">
-            <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 py-3 flex items-center gap-3">
+            <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 py-3 flex flex-wrap items-center gap-2.5">
               <button
                 type="button"
                 onClick={() => ke('beranda')}
@@ -305,11 +497,23 @@ export default function PublicWebsite({
                 {labelBeranda}
               </button>
               <span className="text-xs text-slate-400">/</span>
-              <span className="text-xs font-bold text-slate-800 uppercase tracking-wider">{rute.halaman}</span>
+              <button
+                type="button"
+                onClick={() => ke(rute.halaman)}
+                className="text-xs font-bold text-slate-800 uppercase tracking-wider hover:text-teal-700 cursor-pointer"
+              >
+                {LABEL_HALAMAN[rute.halaman] ?? rute.halaman}
+              </button>
               {rute.kategoriKey && (
-                <span className="ml-auto text-xs font-semibold text-teal-700 bg-teal-50 border border-teal-200 rounded-full px-2.5 py-0.5">
-                  {rute.kategoriKey}
-                </span>
+                <button
+                  type="button"
+                  onClick={() => aturKategoriKatalog(undefined)}
+                  title="Hapus filter grup katalog"
+                  className="ml-auto inline-flex items-center gap-1.5 text-xs font-semibold text-teal-800 bg-teal-50 border border-teal-200 hover:bg-teal-100 rounded-full px-2.5 py-0.5 cursor-pointer"
+                >
+                  <span>Grup: {rute.kategoriKey}</span>
+                  <X className="w-3 h-3" />
+                </button>
               )}
             </div>
           </div>

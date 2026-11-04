@@ -123,7 +123,7 @@ export default function DasborAuditTab({ dariAcuan, refreshTrigger, onPilihTab, 
     const terbaru = db.getKonfigurasiGudang();
     setKonfigurasi(terbaru);
     setModalPengaturan(false);
-    setUmpanBalik('Konfigurasi ambang regulasi & endpoint gerbang pemerintah diperbarui dan tercatat pada jejak audit.');
+    setUmpanBalik('Konfigurasi ambang regulasi & endpoint Kemenkes RI / LKPP diperbarui dan tercatat pada jejak audit.');
     onPerubahanData();
   };
 

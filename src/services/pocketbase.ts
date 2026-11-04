@@ -93,6 +93,7 @@ import {
 import {
   WEBSITE_MEDIA_KEY,
   SumberKontenWebsite,
+  SumberOperasionalWebsite,
   bangunKontenDefault,
   diffKonfigurasi,
   padukanKonten,
@@ -189,14 +190,81 @@ const NAMA_LAMA: [string, string][] = [
   ['pjt@ams-medika.co.id', 'pjt@anugrahmitraselaras.co.id']
 ];
 
+/** Koleksi basis data operasional yang memengaruhi status stok, kepatuhan edar, atau harga produk di situs publik. */
+export const KOLEKSI_OPERASIONAL_SITUS = [
+  'stok_gudang',
+  'gudang_pengaturan',
+  'sales_unit_serial',
+  'sales_skema_harga',
+  'sales_kontrak',
+  'sales_rebate',
+  'izin_edar',
+  'penarikan_produk',
+  'sales_pengetahuan_produk'
+] as const;
+
+export type KunciKoleksiOperasionalSitus = (typeof KOLEKSI_OPERASIONAL_SITUS)[number];
+
+const KANAL_REALTIME_AMS = 'ams_alkes_realtime_v1';
+
 class AMSDatabaseManager {
   private listeners: Map<string, Set<() => void>> = new Map();
   private isOnlinePocketBase: boolean = false;
+  private pbRealtimeTerpasang: boolean = false;
+  private kanalSiaran: BroadcastChannel | null = null;
   private connectionStatusText: string = 'Penyimpanan Lokal Aktif (Offline-First)';
 
   constructor() {
     this.ratakanNamaPerusahaan();
+    this.pasangPendengarLintasTab();
     this.checkPBConnection();
+  }
+
+  /** Pantau perubahan koleksi dari tab/jendela/iframe lain agar situs publik & modul operasional selalu sinkron. */
+  private pasangPendengarLintasTab() {
+    if (typeof window === 'undefined' || typeof window.addEventListener !== 'function') return;
+
+    window.addEventListener('storage', (e: StorageEvent) => {
+      if (e.key === null) {
+        this.notifyLocal('all');
+        Array.from(this.listeners.keys()).forEach((kunci) => {
+          if (kunci !== 'all') this.notifyLocal(kunci);
+        });
+        return;
+      }
+      if (e.key.startsWith(STORAGE_PREFIX)) {
+        const kunciKoleksi = e.key.slice(STORAGE_PREFIX.length);
+        this.notifyLocal(kunciKoleksi);
+      }
+    });
+
+    if (typeof BroadcastChannel !== 'undefined') {
+      try {
+        this.kanalSiaran = new BroadcastChannel(KANAL_REALTIME_AMS);
+        this.kanalSiaran.onmessage = (pesan: MessageEvent<{ type?: string; collectionKey?: string }>) => {
+          const data = pesan.data;
+          if (data?.type === 'ams-db-update' && typeof data.collectionKey === 'string') {
+            this.notifyLocal(data.collectionKey);
+          }
+        };
+      } catch {
+        this.kanalSiaran = null;
+      }
+    }
+  }
+
+  private pasangRealtimePocketBase() {
+    if (this.pbRealtimeTerpasang || !this.isOnlinePocketBase) return;
+    this.pbRealtimeTerpasang = true;
+    for (const koleksi of [...KOLEKSI_OPERASIONAL_SITUS, 'website_published']) {
+      pb.collection(koleksi)
+        .subscribe('*', () => {
+          this.notifyLocal(koleksi);
+        })
+        .catch(() => {
+          /* koleksi belum diprovisi pada PocketBase atau koneksi SSE terputus: fallback ke penyimpanan lokal */
+        });
+    }
   }
 
   /** Migrasi sekali jalan: konten lama di localStorage memakai nama entitas terbaru. */
@@ -222,6 +290,7 @@ class AMSDatabaseManager {
       if (health && health.code === 200) {
         this.isOnlinePocketBase = true;
         this.connectionStatusText = 'PocketBase 0.28.1 Terhubung (Real-time)';
+        this.pasangRealtimePocketBase();
       } else {
         this.isOnlinePocketBase = false;
         this.connectionStatusText = 'Penyimpanan Lokal Aktif (Offline-First)';
@@ -230,7 +299,7 @@ class AMSDatabaseManager {
       this.isOnlinePocketBase = false;
       this.connectionStatusText = 'Penyimpanan Lokal Aktif (Offline-First)';
     }
-    this.notify('connection_status');
+    this.notifyLocal('connection_status');
   }
 
   public getConnectionStatus() {
@@ -251,16 +320,45 @@ class AMSDatabaseManager {
     };
   }
 
-  private notify(collectionKey: string) {
-    const list = this.listeners.get(collectionKey);
-    if (list) {
-      list.forEach(cb => {
+  /** Daftarkan satu pendengar ke beberapa koleksi sekaligus; mengembalikan fungsi pelepas tunggal. */
+  public subscribeKoleksi(
+    daftarKunci: readonly string[],
+    callback: (kunciKoleksi: string) => void
+  ): () => void {
+    const pelepas = daftarKunci.map((kunci) =>
+      this.subscribe(kunci, () => callback(kunci))
+    );
+    return () => {
+      pelepas.forEach((lepas) => lepas());
+    };
+  }
+
+  private notifyLocal(collectionKey: string) {
+    const panggil = (kunci: string) => {
+      const list = this.listeners.get(kunci);
+      if (!list) return;
+      list.forEach((cb) => {
         try {
           cb();
         } catch (e) {
           console.error('Error in listener callback', e);
         }
       });
+    };
+    panggil(collectionKey);
+    if (collectionKey !== 'all') {
+      panggil('all');
+    }
+  }
+
+  private notify(collectionKey: string) {
+    this.notifyLocal(collectionKey);
+    if (this.kanalSiaran) {
+      try {
+        this.kanalSiaran.postMessage({ type: 'ams-db-update', collectionKey });
+      } catch {
+        /* abaikan bila kanal sudah ditutup */
+      }
     }
   }
 
@@ -1974,7 +2072,7 @@ class AMSDatabaseManager {
     this.setJson('gudang_pengaturan', { ...lama, ...patch });
     this.auditGudang(
       'Konfigurasi Gudang',
-      'Perubahan ambang, prefix dokumen, dan endpoint gerbang pemerintah',
+      'Perubahan ambang, prefix dokumen, dan endpoint Kemenkes RI / LKPP',
       'Konfigurasi Gudang',
       this.bentangPerubahan(lama as unknown as Record<string, unknown>, patch as Record<string, unknown>)
     );
@@ -2062,6 +2160,20 @@ class AMSDatabaseManager {
       skemaHarga: this.getSkemaHarga(),
       rebate: this.getProgramRebate(),
       garansi: this.getGaransiInstalasi()
+    };
+  }
+
+  /** Kumpulan data operasional terkini untuk penyelarasan real-time status stok & harga di situs publik. */
+  public getSumberOperasionalWebsite(): SumberOperasionalWebsite {
+    return {
+      izinEdar: this.getIzinEdar(),
+      stok: this.getStokGudang(),
+      unitSerial: this.getUnitSerial(),
+      penarikan: this.getPenarikanProduk(),
+      skemaHarga: this.getSkemaHarga(),
+      kontrakHarga: this.getKontrakHarga(),
+      pengetahuanProduk: this.getPengetahuanProduk(),
+      rebate: this.getProgramRebate()
     };
   }
 

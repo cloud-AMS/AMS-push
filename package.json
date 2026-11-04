@@ -12,7 +12,9 @@
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit",
     "cek:benih": "tsx scripts/cek-benih-gudang.ts",
-    "cek:fefo": "tsx scripts/cek-jalur-fefo.ts"
+    "cek:fefo": "tsx scripts/cek-jalur-fefo.ts",
+    "cek:gudang": "tsx scripts/cek-m6-gudang.ts",
+    "cek:semua": "npm run cek:benih && npm run cek:fefo && npm run cek:gudang"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

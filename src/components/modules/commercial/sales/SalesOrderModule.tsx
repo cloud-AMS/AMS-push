@@ -358,7 +358,7 @@ export default function SalesOrderModule() {
             </div>
             <ul className="space-y-1.5">
               {prakualifikasi.pemeriksaan.map((p) => (
-                <li key={p.aturan} className="text-[11px] leading-relaxed">
+                <li key={p.aturan} className="text-xs leading-relaxed">
                   <Badge tone={p.status === 'Lolos' ? 'emerald' : 'rose'}>{p.aturan}</Badge>
                   <span className="ml-2 text-slate-700">{p.keterangan}</span>
                 </li>
@@ -366,7 +366,7 @@ export default function SalesOrderModule() {
             </ul>
           </div>
         ) : (
-          <p className="text-[11px] text-slate-500">
+          <p className="text-xs text-slate-500">
             Pilih fasyankes, produk, dan jumlah lalu jalankan uji untuk melihat daftar periksa kepatuhan sebelum pesanan dibuat.
           </p>
         )}
@@ -400,7 +400,7 @@ export default function SalesOrderModule() {
 
           {ujiHasil && skemaTerpilih && (
             <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 mb-4">
-              <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-[11px]">
+              <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
                 {[
                   ['Subtotal (harga dasar × unit)', formatRupiah(ujiHasil.subtotal)],
                   ['Ambang diskon terpakai', ujiHasil.ambangTerpakai ? `${ujiHasil.ambangTerpakai} unit` : 'Belum mencapai ambang'],
@@ -410,7 +410,7 @@ export default function SalesOrderModule() {
                   ['Harga per unit efektif', formatRupiah(Math.round(ujiHasil.hargaPerUnitEfektif))]
                 ].map(([label, nilai]) => (
                   <div key={label}>
-                    <dt className="text-[10px] font-semibold text-slate-500 uppercase tracking-wide">{label}</dt>
+                    <dt className="text-2xs font-semibold text-slate-500 uppercase tracking-wide">{label}</dt>
                     <dd className="text-slate-800 font-bold mt-0.5">{nilai}</dd>
                   </div>
                 ))}
@@ -434,13 +434,13 @@ export default function SalesOrderModule() {
                   <tr key={s.id} className="hover:bg-slate-50">
                     <td className="py-2.5 px-3">
                       <div className="font-bold text-slate-900">{s.namaSkema}</div>
-                      <div className="text-[10px] text-slate-500">{s.namaAlkes}</div>
+                      <div className="text-2xs text-slate-500">{s.namaAlkes}</div>
                     </td>
                     <td className="py-2.5 px-3">
                       <Badge tone={s.level === 'Harga Eceran' ? 'slate' : s.level === 'Harga Institusi' ? 'emerald' : 'blue'}>{s.level}</Badge>
                     </td>
                     <td className="py-2.5 px-3 text-right font-mono font-semibold">{formatRupiah(s.hargaDasar)}</td>
-                    <td className="py-2.5 px-3 text-[10px] text-slate-600">
+                    <td className="py-2.5 px-3 text-2xs text-slate-600">
                       {s.potonganKuantitas.map((t) => `≥${t.ambangMinUnit}: ${t.diskonPersen}%`).join(' • ')}
                       {s.bonusUnit > 0 && ` • bonus ${s.bonusUnit}`}
                     </td>
@@ -478,11 +478,11 @@ export default function SalesOrderModule() {
                     <tr key={c.id} className="hover:bg-slate-50">
                       <td className="py-2.5 px-3">
                         <div className="font-bold text-slate-900">{c.namaInstalasi}</div>
-                        <div className="text-[10px] text-slate-500">{c.kodePelanggan} • TOP {c.termsOfPaymentHari} hari</div>
+                        <div className="text-2xs text-slate-500">{c.kodePelanggan} • TOP {c.termsOfPaymentHari} hari</div>
                       </td>
                       <td className="py-2.5 px-3 text-right font-mono">{formatRupiah(c.piutangBerjalan)}</td>
                       <td className="py-2.5 px-3 text-right font-mono">{formatRupiah(c.batasKredit)}</td>
-                      <td className="py-2.5 px-3 text-[10px] text-slate-600">
+                      <td className="py-2.5 px-3 text-2xs text-slate-600">
                         {formatTanggal(c.tanggalJatuhTempoPiutang)}
                         <div className={sisaTempo < 0 ? 'text-rose-700 font-bold' : ''}>
                           {sisaTempo < 0 ? `lewat ${Math.abs(sisaTempo)} hari` : `sisa ${sisaTempo} hari`}
@@ -493,7 +493,7 @@ export default function SalesOrderModule() {
                           {hasil.status === 'Diblokir' && <Lock className="w-3 h-3" />}
                           {hasil.status}
                         </Badge>
-                        <div className="text-[10px] text-slate-500 mt-1">paparan {hasil.rasioPersen.toFixed(0)}%</div>
+                        <div className="text-2xs text-slate-500 mt-1">paparan {hasil.rasioPersen.toFixed(0)}%</div>
                       </td>
                       <td className="py-2.5 px-3 text-right">
                         <button
@@ -506,7 +506,7 @@ export default function SalesOrderModule() {
                               statusPelanggan: c.statusPelanggan
                             });
                           }}
-                          className="px-2.5 py-1.5 border border-slate-300 rounded-lg text-[10px] font-semibold text-slate-700 hover:bg-slate-200 cursor-pointer"
+                          className="px-2.5 py-1.5 border border-slate-300 rounded-lg text-2xs font-semibold text-slate-700 hover:bg-slate-200 cursor-pointer"
                         >
                           Ubah Pagu
                         </button>
@@ -541,7 +541,7 @@ export default function SalesOrderModule() {
               className="w-full pl-9 pr-3 py-2 border border-slate-300 rounded-lg text-xs"
             />
           </div>
-          <div className="flex items-center gap-1 text-[11px] flex-wrap">
+          <div className="flex items-center gap-1 text-xs flex-wrap">
             {(['Semua', ...ALUR_STATUS, 'Dibatalkan'] as const).map((status) => (
               <button key={status} type="button" className={chipFilter(filterStatus === status)} onClick={() => setFilterStatus(status)}>
                 {status}
@@ -572,21 +572,21 @@ export default function SalesOrderModule() {
                 >
                   <td className="py-3 px-4 font-mono font-bold text-emerald-800">
                     <div>{item.nomorPesanan}</div>
-                    <div className="text-[10px] text-slate-500 font-normal">{item.tanggalPesanan}</div>
+                    <div className="text-2xs text-slate-500 font-normal">{item.tanggalPesanan}</div>
                   </td>
                   <td className="py-3 px-4 font-semibold text-slate-900">{item.fasyankes}</td>
                   <td className="py-3 px-4">
-                    <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-800">
+                    <span className="px-2 py-0.5 rounded text-2xs font-semibold bg-slate-100 text-slate-800">
                       {item.jalurPenjualan}
                     </span>
                   </td>
                   <td className="py-3 px-4 text-slate-700">
                     <div className="font-medium">{item.namaAlkes} ({item.jumlah} {item.satuan})</div>
-                    <div className="font-mono text-[10px] text-slate-500">Bets: {item.nomorBets}</div>
+                    <div className="font-mono text-2xs text-slate-500">Bets: {item.nomorBets}</div>
                   </td>
                   <td className="py-3 px-4 font-bold text-slate-900">Rp {item.totalHarga.toLocaleString('id-ID')}</td>
                   <td className="py-3 px-4">
-                    <span className="text-[10px] font-semibold text-emerald-700 flex items-center gap-1">
+                    <span className="text-2xs font-semibold text-emerald-700 flex items-center gap-1">
                       <BadgeCheck className="w-3.5 h-3.5" />
                       {item.statusVerifikasiEtikaIklan}
                     </span>
@@ -607,7 +607,7 @@ export default function SalesOrderModule() {
           </table>
         </div>
 
-        <div className="mt-3 text-[11px] text-slate-500">
+        <div className="mt-3 text-xs text-slate-500">
           Total Transaksi: <strong>{pesanan.length}</strong> pesanan terdaftar
         </div>
       </Panel>
@@ -652,15 +652,15 @@ export default function SalesOrderModule() {
                   ['Nomor Faktur', detail.nomorFaktur ?? 'Belum terbit']
                 ].map(([label, nilai]) => (
                   <div key={label}>
-                    <dt className="text-[10px] font-semibold text-slate-500 uppercase tracking-wide">{label}</dt>
+                    <dt className="text-2xs font-semibold text-slate-500 uppercase tracking-wide">{label}</dt>
                     <dd className="text-slate-800 font-semibold mt-0.5">{nilai}</dd>
                   </div>
                 ))}
               </dl>
 
               <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
-                <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wide mb-2">Kemajuan status pengiriman</div>
-                <div className="flex flex-wrap items-center gap-2 text-[10px]">
+                <div className="text-2xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Kemajuan status pengiriman</div>
+                <div className="flex flex-wrap items-center gap-2 text-2xs">
                   {ALUR_STATUS.map((status, indeks) => {
                     const posisi = ALUR_STATUS.indexOf(detail.statusKirim);
                     const tercapai = posisi >= indeks && detail.statusKirim !== 'Dibatalkan';
@@ -717,7 +717,7 @@ export default function SalesOrderModule() {
                   </>
                 )}
                 {penolakanKirim?.id === detail.id && (
-                  <p className="w-full rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 leading-relaxed text-[11px] text-amber-900">
+                  <p className="w-full rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 leading-relaxed text-xs text-amber-900">
                     Gerbang gudang menahan pengiriman: {penolakanKirim.sebab}
                   </p>
                 )}
@@ -729,13 +729,13 @@ export default function SalesOrderModule() {
             <div className="space-y-3">
               {detail.hasilValidasiRegulasi ? (
                 <>
-                  <p className="text-[11px] text-slate-500">
+                  <p className="text-xs text-slate-500">
                     Tervalidasi pada {formatTanggal(detail.hasilValidasiRegulasi.tanggalValidasi)} oleh {detail.hasilValidasiRegulasi.pengguna} —
                     hasil keseluruhan <strong>{detail.hasilValidasiRegulasi.status}</strong>.
                   </p>
                   <ul className="space-y-1.5">
                     {detail.hasilValidasiRegulasi.pemeriksaan.map((p) => (
-                      <li key={p.aturan} className="text-[11px] leading-relaxed">
+                      <li key={p.aturan} className="text-xs leading-relaxed">
                         <Badge tone={p.status === 'Lolos' ? 'emerald' : 'rose'}>{p.aturan}</Badge>
                         <span className="ml-2 text-slate-700">{p.keterangan}</span>
                       </li>
@@ -750,7 +750,7 @@ export default function SalesOrderModule() {
                 </p>
               )}
               {detail.nomorIzinEdar && (
-                <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-[11px] text-slate-700 leading-relaxed">
+                <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700 leading-relaxed">
                   Tautan regulasi: NIE <span className="font-mono font-bold">{detail.nomorIzinEdar}</span> — sah hanya bila
                   masih tercantum aktif pada register Regulatory Affairs (PJT).
                 </div>
@@ -768,16 +768,16 @@ export default function SalesOrderModule() {
                   <ol className="space-y-3">
                     {log.map((entri) => (
                       <li key={entri.id} className="rounded-xl border border-slate-200 p-3">
-                        <div className="flex items-center justify-between gap-2 text-[10px] font-mono text-slate-500">
+                        <div className="flex items-center justify-between gap-2 text-2xs font-mono text-slate-500">
                           <span>{entri.waktu}</span>
                           <Badge tone={entri.statusIntegritas === 'Tervalidasi Digital' ? 'emerald' : 'amber'}>{entri.statusIntegritas}</Badge>
                         </div>
                         <div className="text-xs font-bold text-slate-900 mt-1">{entri.aktivitas}</div>
-                        <div className="text-[11px] text-slate-600">
+                        <div className="text-xs text-slate-600">
                           {entri.modul} • {entri.pengguna} ({entri.peran})
                         </div>
                         {entri.perubahan && entri.perubahan.length > 0 && (
-                          <table className="w-full text-[10px] mt-2">
+                          <table className="w-full text-2xs mt-2">
                             <thead>
                               <tr className="text-slate-500 border-b border-slate-200">
                                 <th className="py-1 text-left font-semibold">Kolom</th>
@@ -867,7 +867,7 @@ export default function SalesOrderModule() {
                   <option key={p.id} value={p.namaAlkes}>{p.namaAlkes}</option>
                 ))}
               </select>
-              <p className="text-[10px] text-slate-500 mt-1">
+              <p className="text-2xs text-slate-500 mt-1">
                 NIE terdaftar: <span className="font-mono font-semibold text-slate-700">{produkTerpilih?.nomorIzinEdar ?? '-'}</span> •
                 berlaku sampai {formatTanggal(produkTerpilih?.tanggalKedaluwarsaNie ?? '-')}
               </p>
@@ -883,7 +883,7 @@ export default function SalesOrderModule() {
                   value={form.nomorBets}
                   onChange={(e) => setForm({ ...form, nomorBets: e.target.value })}
                 />
-                <p className="text-[10px] text-slate-500 mt-1">
+                <p className="text-2xs text-slate-500 mt-1">
                   {usulanFefo.usulan.length > 0
                     ? `Usulan sistem: ${usulanFefo.usulan.map((u) => `${u.nomorBets} (${u.diambil} unit, ED ${u.tanggalKedaluwarsa})`).join(' + ')}`
                     : 'Tidak ada bets aktif yang mencukupi untuk produk ini.'}
@@ -936,7 +936,7 @@ export default function SalesOrderModule() {
                   value={form.totalHarga || hargaTerakui.unit * form.jumlah}
                   onChange={(e) => setForm({ ...form, totalHarga: Number(e.target.value) })}
                 />
-                <p className="text-[10px] text-slate-500 mt-1">
+                <p className="text-2xs text-slate-500 mt-1">
                   Diisi otomatis dari {hargaTerakui.sumber} sebesar {formatRupiah(hargaTerakui.unit)}/unit.
                 </p>
               </div>
@@ -944,7 +944,7 @@ export default function SalesOrderModule() {
 
             {tolakanValidasi && (
               <div className="rounded-xl border border-rose-200 bg-rose-50 p-3">
-                <div className="flex items-center gap-1.5 text-[11px] font-bold text-rose-900 mb-1.5">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-rose-900 mb-1.5">
                   <AlertTriangle className="w-3.5 h-3.5" />
                   Pesanan ditolak validator — perbaiki hal berikut sebelum simpan
                 </div>
@@ -952,7 +952,7 @@ export default function SalesOrderModule() {
                   {tolakanValidasi.pemeriksaan
                     .filter((p) => p.status === 'Ditolak')
                     .map((p) => (
-                      <li key={p.aturan} className="text-[11px] text-rose-900 leading-relaxed">
+                      <li key={p.aturan} className="text-xs text-rose-900 leading-relaxed">
                         <strong>{p.aturan}:</strong> {p.keterangan}
                       </li>
                     ))}

@@ -16,16 +16,20 @@ import {
   ItemWebsite,
   KampanyeAlkes,
   KonfigurasiSitus,
+  KontrakHarga,
   PelangganB2B,
   PemasokAlkes,
+  PenarikanProduk,
   PengetahuanProdukAlkes,
+  ProdukWebsite,
   ProgramRebate,
   SeksiDaftar,
   SkemaHargaAlkes,
   SertifikatPerusahaan,
   StokGudang,
   TeritorialPenjualan,
-  TautanWebsite
+  TautanWebsite,
+  UnitSerialAlkes
 } from '../types';
 import {
   GRUP_KATALOG,
@@ -33,6 +37,7 @@ import {
   KONTEN_RUJUKAN,
   PARAGRAF_TENTANG
 } from '../data/websiteRujukan';
+import { stokBebas } from './gudang';
 
 /** Identitas resmi perusahaan — kontak sesuai situs resmi remediams.com. */
 export const IDENTITAS_PERUSAHAAN = {
@@ -49,7 +54,7 @@ export const WEBSITE_MEDIA_KEY = 'ams_alkes_website_media_v1';
  * perangkat dengan versi lebih lama dibangun ulang dari konten bawaan terbaru — suntingan
  * terkunci dan item buatan tangan tetap dipertahankan.
  */
-export const VERSI_KONTEN_WEBSITE = 2;
+export const VERSI_KONTEN_WEBSITE = 3;
 
 /** Kunci kategori izin edar untuk tautan filter katalog produk. */
 export const KUNCI_KATEGORI: Record<IzinEdarAlkes['kategori'], string> = {
@@ -60,12 +65,40 @@ export const KUNCI_KATEGORI: Record<IzinEdarAlkes['kategori'], string> = {
   'Diagnostik In Vitro': 'diagnostik-in-vitro'
 };
 
+/** Pemetaan kategori regulasi Kemenkes RI ke 8 grup katalog situs REMEDI. */
+export const PETA_GRUP_DARI_REGULASI: Record<IzinEdarAlkes['kategori'], string> = {
+  'Elektromedik Radiasi': 'X-Ray System',
+  'Elektromedik Non Radiasi': 'General',
+  'Non Elektromedik Steril': 'Disposable',
+  'Non Elektromedik Non Steril': 'General',
+  'Diagnostik In Vitro': 'Laboratory'
+};
+
 export function slugifyWebsite(nilai: string): string {
   return String(nilai || '')
     .toLowerCase()
     .trim()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
+}
+
+/** Cocokkan filter kategori baik berupa nama grup katalog REMEDI, kategori regulasi Kemenkes, maupun slug URL. */
+export function cocokKategoriProduk(
+  produk: Pick<ProdukWebsite, 'kategori' | 'kategoriRegulasi'>,
+  filterKategori?: string
+): boolean {
+  if (!filterKategori || filterKategori === 'Semua') return true;
+  const target = filterKategori.trim().toLowerCase();
+  const targetSlug = slugifyWebsite(filterKategori);
+  const kandidat = [
+    produk.kategori,
+    produk.kategoriRegulasi,
+    produk.kategoriRegulasi
+      ? KUNCI_KATEGORI[produk.kategoriRegulasi as IzinEdarAlkes['kategori']]
+      : undefined
+  ].filter((v): v is string => Boolean(v));
+
+  return kandidat.some((nilai) => nilai.trim().toLowerCase() === target || slugifyWebsite(nilai) === targetSlug);
 }
 
 /** Data mentah yang dibaca pembangun konten. Diterima sebagai argumen agar util ini
@@ -84,40 +117,91 @@ export interface SumberKontenWebsite {
   garansi: GaransiInstalasi[];
 }
 
+/** Koleksi operasional yang dipantau real-time oleh situs publik untuk status stok & harga produk. */
+export interface SumberOperasionalWebsite {
+  izinEdar: IzinEdarAlkes[];
+  stok: StokGudang[];
+  unitSerial: UnitSerialAlkes[];
+  penarikan: PenarikanProduk[];
+  skemaHarga: SkemaHargaAlkes[];
+  kontrakHarga: KontrakHarga[];
+  pengetahuanProduk: PengetahuanProdukAlkes[];
+  rebate: ProgramRebate[];
+}
+
 /* -------------------------------------------------------------------------- */
 /*  Bagian dinamis — semuanya turunan koleksi aplikasi                         */
 /* -------------------------------------------------------------------------- */
 
-/** Kartu produk: register izin edar digabung brosur digital dan sisa stok FEFO. */
+const formatRupiahSingkat = (angka: number) =>
+  `Rp ${Math.round(angka).toLocaleString('id-ID')}`;
+
+/** Kartu produk: register izin edar digabung brosur digital, harga skema aktif, dan sisa stok bebas FEFO. */
 export function bangunProduk(
-  sumber: Pick<SumberKontenWebsite, 'izinEdar' | 'pengetahuanProduk' | 'stok'>
-) {
+  sumber: Pick<SumberKontenWebsite, 'izinEdar' | 'pengetahuanProduk' | 'stok'> & {
+    skemaHarga?: SkemaHargaAlkes[];
+  }
+): ProdukWebsite[] {
   return sumber.izinEdar.map((ie) => {
     const brosur = sumber.pengetahuanProduk.find((p) => p.nomorIzinEdar === ie.nomorIzinEdar);
-    const unitStok = sumber.stok
-      .filter((s) => s.nomorIzinEdar === ie.nomorIzinEdar && s.statusFEFO !== 'Kedaluwarsa')
-      .reduce((total, s) => total + s.jumlahStok, 0);
+    const daftarStokProduk = sumber.stok.filter((s) => s.nomorIzinEdar === ie.nomorIzinEdar);
+    const unitStok = daftarStokProduk
+      .filter((s) => s.statusFEFO !== 'Kedaluwarsa')
+      .reduce((total, s) => total + stokBebas(s), 0);
+    const stokUtama = daftarStokProduk[0];
+    const skemaAktif = (sumber.skemaHarga ?? [])
+      .filter(
+        (sk) =>
+          sk.status === 'Aktif' &&
+          (sk.namaAlkes === ie.namaAlkes ||
+            sk.namaAlkes.startsWith(`${ie.namaAlkes} `) ||
+            (brosur && sk.namaAlkes === brosur.namaAlkes))
+      )
+      .sort((a, b) => a.hargaDasar - b.hargaDasar)[0];
+
+    const izinAktif = ie.status === 'Aktif';
     return {
       id: `produk-${ie.id}`,
       sumberId: ie.id,
       isActive: true,
       nama: ie.namaAlkes,
       tipeModel: ie.tipeModel,
-      kategori: ie.kategori,
+      kategori: PETA_GRUP_DARI_REGULASI[ie.kategori] ?? ie.kategori,
+      kategoriRegulasi: ie.kategori,
       kelasRisiko: ie.kelasRisiko,
       nomorIzinEdar: ie.nomorIzinEdar,
       statusIzinEdar: ie.status,
       produsen: ie.produsen,
       negaraAsal: ie.negaraAsal,
+      hargaTayang: skemaAktif
+        ? `${formatRupiahSingkat(skemaAktif.hargaDasar)} (${skemaAktif.level})`
+        : 'Sesuai Kontrak / e-Katalog LKPP',
+      zonaSuhu: stokUtama?.zonaSuhu,
       spesifikasi: brosur?.spesifikasiRingkas ?? ie.keterangan,
-      poinJual: brosur?.poinJual ?? [],
+      poinJual:
+        brosur?.poinJual && brosur.poinJual.length > 0
+          ? brosur.poinJual
+          : [`Kategori regulasi: ${ie.kategori}`, ie.keterangan],
       tautanBrosur: brosur?.tautanBrosur,
       tautanVideo: brosur?.tautanVideoDemo,
-      stokTersedia: unitStok > 0 ? unitStok : undefined,
-      satuan: sumber.stok.find((s) => s.nomorIzinEdar === ie.nomorIzinEdar)?.satuan,
-      badge: ie.status === 'Aktif' ? 'Izin Edar Aktif' : `Izin Edar ${ie.status}`
+      tanyaJawabTeknis: brosur?.pertanyaanTeknisUmum,
+      stokTersedia: izinAktif && unitStok > 0 ? unitStok : undefined,
+      satuan: stokUtama?.satuan ?? 'Unit',
+      badge: izinAktif ? 'Izin Edar Aktif' : `Izin Edar ${ie.status}`
     };
   });
+}
+
+/** Gabungkan produk ber-NIE pada register aplikasi dengan lini katalog resmi REMEDI tanpa duplikasi. */
+export function gabungkanKatalogProduk(
+  sumber: Pick<SumberKontenWebsite, 'izinEdar' | 'pengetahuanProduk' | 'stok'> & {
+    skemaHarga?: SkemaHargaAlkes[];
+  }
+): ProdukWebsite[] {
+  const dariRegister = bangunProduk(sumber);
+  const namaTerpakai = new Set(dariRegister.map((p) => p.nama.trim().toLowerCase()));
+  const dariRujukan = KONTEN_RUJUKAN.produk.filter((p) => !namaTerpakai.has(p.nama.trim().toLowerCase()));
+  return [...dariRegister, ...dariRujukan];
 }
 
 /** Strip kepercayaan: nomor sertifikat perusahaan beserta masa berlakunya. */
@@ -424,13 +508,21 @@ function bangunMenu(_sumber: Pick<SumberKontenWebsite, 'izinEdar'>): Konfigurasi
         {
           id: 'menu-produk-kategori',
           judul: 'Berdasarkan Grup Katalog',
-          tautan: GRUP_KATALOG.map((g) => ({
-            id: `menu-kategori-${slugifyWebsite(g.label)}`,
-            isActive: true,
-            label: g.label,
-            halaman: 'produk' as const,
-            kategoriKey: g.label
-          }))
+          tautan: [
+            {
+              id: 'menu-kategori-semua',
+              isActive: true,
+              label: 'Semua Katalog Produk',
+              halaman: 'produk' as const
+            },
+            ...GRUP_KATALOG.map((g) => ({
+              id: `menu-kategori-${slugifyWebsite(g.label)}`,
+              isActive: true,
+              label: g.label,
+              halaman: 'produk' as const,
+              kategoriKey: g.label
+            }))
+          ]
         },
         {
           id: 'menu-produk-layanan',
@@ -456,7 +548,7 @@ function bangunMenu(_sumber: Pick<SumberKontenWebsite, 'izinEdar'>): Konfigurasi
 
 export function bangunKontenDefault(sumber: SumberKontenWebsite): KonfigurasiSitus {
   const sekarang = Date.now();
-  const produk = KONTEN_RUJUKAN.produk;
+  const produk = gabungkanKatalogProduk(sumber);
   const solusi = KONTEN_RUJUKAN.solusi;
   const identitasRujukan = IDENTITAS_RUJUKAN;
 
@@ -565,9 +657,9 @@ export function bangunKontenDefault(sumber: SumberKontenWebsite): KonfigurasiSit
       isActive: true,
       kepala: {
         eyebrow: 'KATALOG PRODUK',
-        judul: 'Lini Produk yang Dipasarkan REMEDI',
+        judul: 'Katalog Alat Kesehatan & Bahan Medis Habis Pakai',
         subjudul:
-          'Nomor izin edar dan kelas risiko setiap unit tercatat pada register Regulatory Affairs & Penanggung Jawab Teknis internal, sehingga tidak ditayangkan di halaman ini. Harga yang tercantum adalah harga tayang katalog daring saat konten disalin.',
+          'Telusuri unit elektromedik, instrumen bedah, diagnostik laboratorium, rantai dingin vaksin, serta bahan medis habis pakai berdasarkan grup katalog, merek prinsipal, status izin edar Kemenkes RI, dan ketersediaan stok gudang CDAKB.',
         teksTautan: 'Semua Produk',
         tautan: { tipe: 'halaman', nilai: 'produk' }
       },
@@ -803,7 +895,7 @@ export function sinkronkanKonten(draf: KonfigurasiSitus, sumber: SumberKontenWeb
     kepercayaan: pasSeksi(draf.kepercayaan, KONTEN_RUJUKAN.kepercayaan),
     solusi: pasSeksi(draf.solusi, KONTEN_RUJUKAN.solusi),
     statistik: pasSeksi(draf.statistik, KONTEN_RUJUKAN.statistik),
-    produk: pasSeksi(draf.produk, KONTEN_RUJUKAN.produk),
+    produk: pasSeksi(draf.produk, gabungkanKatalogProduk(sumber)),
     merek: pasSeksi(draf.merek, KONTEN_RUJUKAN.merek),
     institusi: pasSeksi(draf.institusi, KONTEN_RUJUKAN.institusi),
     kegiatan: pasSeksi(draf.kegiatan, KONTEN_RUJUKAN.kegiatan.length ? KONTEN_RUJUKAN.kegiatan : bangunKegiatan(sumber)),
@@ -811,6 +903,184 @@ export function sinkronkanKonten(draf: KonfigurasiSitus, sumber: SumberKontenWeb
     faq: pasSeksi(draf.faq, KONTEN_RUJUKAN.faq),
     kantor: pasSeksi(draf.kantor, KONTEN_RUJUKAN.kantor),
     lastModifiedAt: Date.now()
+  };
+}
+
+function adalahNomorNieValid(nomor?: string): boolean {
+  return Boolean(nomor && nomor.trim() !== '' && nomor.trim() !== '-');
+}
+
+function cocokNamaProdukOperasional(kandidat: string, namaProduk: string, namaBrosur?: string): boolean {
+  const k = kandidat.trim().toLowerCase();
+  const n = namaProduk.trim().toLowerCase();
+  const b = namaBrosur?.trim().toLowerCase();
+  if (!k || !n) return false;
+  return k === n || k.startsWith(`${n} `) || n.startsWith(`${k} `) || Boolean(b && (k === b || k.startsWith(`${b} `)));
+}
+
+/**
+ * Selaraskan snapshot situs publik secara real-time dengan perubahan status stok gudang (FEFO,
+ * karantina, rusak, kunci ED, kuota dipesan, recall aktif) serta skema/kontrak harga dari modul
+ * operasional, sambil menghormati bendera tampil/sembunyi (`isActive`) dan kunci manual (`dikunci`) CMS.
+ */
+export function selaraskanKontenOperasional(
+  cfg: KonfigurasiSitus,
+  sumber: SumberOperasionalWebsite
+): KonfigurasiSitus {
+  const petaNie = new Map(
+    sumber.izinEdar.map((ie) => [ie.nomorIzinEdar.trim().toUpperCase(), ie])
+  );
+  const petaSumberNie = new Map(sumber.izinEdar.map((ie) => [ie.id, ie]));
+  const petaPengetahuan = new Map(
+    sumber.pengetahuanProduk.map((pk) => [pk.nomorIzinEdar.trim().toUpperCase(), pk])
+  );
+
+  const betsRecallAktif = new Set(
+    sumber.penarikan
+      .filter((r) => r.status !== 'Ditutup')
+      .map((r) => r.nomorBetsTerdampak.trim().toUpperCase())
+  );
+  const serialTerkunci = new Set(
+    sumber.unitSerial
+      .filter((u) => u.statusUnit === 'Ditarik (Recall)' || u.tahapSiklusHidup === 'Decommissioning')
+      .map((u) => u.nomorSerial.trim().toUpperCase())
+  );
+
+  const skemaAktif = sumber.skemaHarga.filter((sk) => sk.status === 'Aktif');
+  const kontrakAktif = sumber.kontrakHarga.filter((kh) => kh.statusKontrak === 'Aktif');
+
+  const cariHargaHidup = (namaProduk: string, namaBrosur?: string): string | undefined => {
+    const skemaCocok = skemaAktif
+      .filter((sk) => cocokNamaProdukOperasional(sk.namaAlkes, namaProduk, namaBrosur))
+      .sort((a, b) => a.hargaDasar - b.hargaDasar)[0];
+    if (skemaCocok) {
+      return `${formatRupiahSingkat(skemaCocok.hargaDasar)} (${skemaCocok.level})`;
+    }
+
+    const daftarKontrak: number[] = [];
+    for (const kh of kontrakAktif) {
+      for (const baris of kh.daftarHargaTerkunci) {
+        if (cocokNamaProdukOperasional(baris.namaAlkes, namaProduk, namaBrosur)) {
+          daftarKontrak.push(baris.hargaTerkunci);
+        }
+      }
+    }
+    if (daftarKontrak.length > 0) {
+      const termurah = Math.min(...daftarKontrak);
+      return `${formatRupiahSingkat(termurah)} (Kontrak Harga Aktif)`;
+    }
+    return undefined;
+  };
+
+  const perbaruiItemProduk = (item: ProdukWebsite): ProdukWebsite => {
+    const ieDariId = item.sumberId ? petaSumberNie.get(item.sumberId) : undefined;
+    const kunciNie = (ieDariId?.nomorIzinEdar ?? item.nomorIzinEdar ?? '').trim().toUpperCase();
+    const punyaNie = adalahNomorNieValid(kunciNie);
+    const ie = ieDariId ?? (punyaNie ? petaNie.get(kunciNie) : undefined);
+    const brosur = punyaNie ? petaPengetahuan.get(kunciNie) : undefined;
+    const berasalDariRegister = Boolean(ie || punyaNie);
+
+    const barisStok = sumber.stok.filter((s) => {
+      if (punyaNie && s.nomorIzinEdar.trim().toUpperCase() === kunciNie) return true;
+      return cocokNamaProdukOperasional(s.namaAlkes, item.nama, brosur?.namaAlkes);
+    });
+
+    const totalBebas = barisStok
+      .filter((s) => {
+        if (s.statusFEFO === 'Kedaluwarsa') return false;
+        if (betsRecallAktif.has(s.nomorBets.trim().toUpperCase())) return false;
+        if (s.nomorSerial && serialTerkunci.has(s.nomorSerial.trim().toUpperCase())) return false;
+        return true;
+      })
+      .reduce((acc, s) => acc + stokBebas(s), 0);
+
+    const statusIzin = ie?.status ?? item.statusIzinEdar;
+    const izinLayakEdar = !berasalDariRegister || statusIzin === 'Aktif';
+    const stokTersediaBaru =
+      barisStok.length > 0
+        ? izinLayakEdar && totalBebas > 0
+          ? totalBebas
+          : undefined
+        : izinLayakEdar
+          ? item.stokTersedia
+          : undefined;
+
+    const hargaOperasional = cariHargaHidup(ie?.namaAlkes ?? item.nama, brosur?.namaAlkes);
+    const cocokHargaRujukan = item.spesifikasi.match(/Rp\s*[\d.,]+/i)?.[0];
+
+    // Bila item dikunci manual pada CMS, pertahankan teks & harga manual, tetapi tetap patuhi gerbang stok/NIE CDAKB.
+    if (item.dikunci) {
+      return {
+        ...item,
+        statusIzinEdar: statusIzin,
+        stokTersedia: stokTersediaBaru,
+        zonaSuhu: item.zonaSuhu ?? barisStok[0]?.zonaSuhu,
+        satuan: item.satuan ?? barisStok[0]?.satuan
+      };
+    }
+
+    const hargaTayangBaru = hargaOperasional
+      ? hargaOperasional
+      : berasalDariRegister
+        ? 'Sesuai Kontrak / e-Katalog LKPP'
+        : item.hargaTayang || cocokHargaRujukan || 'Sesuai Daftar Harga Resmi';
+
+    return {
+      ...item,
+      nama: ie?.namaAlkes ?? item.nama,
+      tipeModel: ie?.tipeModel ?? item.tipeModel,
+      kelasRisiko: ie?.kelasRisiko ?? item.kelasRisiko,
+      nomorIzinEdar: ie?.nomorIzinEdar ?? item.nomorIzinEdar,
+      statusIzinEdar: statusIzin,
+      produsen: ie?.produsen ?? item.produsen,
+      negaraAsal: ie?.negaraAsal ?? item.negaraAsal,
+      zonaSuhu: barisStok[0]?.zonaSuhu ?? item.zonaSuhu,
+      satuan: barisStok[0]?.satuan ?? item.satuan ?? 'Unit',
+      stokTersedia: stokTersediaBaru,
+      hargaTayang: hargaTayangBaru,
+      spesifikasi: brosur?.spesifikasiRingkas ?? item.spesifikasi,
+      poinJual: brosur?.poinJual && brosur.poinJual.length > 0 ? brosur.poinJual : item.poinJual,
+      tautanBrosur:
+        brosur?.tautanBrosur ||
+        item.tautanBrosur ||
+        (!berasalDariRegister ? IDENTITAS_RUJUKAN.tautanKatalog : undefined),
+      tanyaJawabTeknis: brosur?.pertanyaanTeknisUmum ?? item.tanyaJawabTeknis,
+      badge: ie ? (ie.status === 'Aktif' ? 'Izin Edar Aktif' : `Izin Edar ${ie.status}`) : item.badge
+    };
+  };
+
+  const produkTerselaraskan = cfg.produk.item.map(perbaruiItemProduk);
+
+  // Sertakan produk baru yang baru didaftarkan pada modul Regulatory Affairs (berstatus Aktif) bila belum ada di snapshot.
+  const idSumberTerdaftar = new Set(
+    cfg.produk.item.map((p) => p.sumberId).filter((v): v is string => Boolean(v))
+  );
+  const nieTerdaftar = new Set(
+    cfg.produk.item
+      .map((p) => p.nomorIzinEdar?.trim().toUpperCase())
+      .filter((v): v is string => adalahNomorNieValid(v))
+  );
+  const tambahanBaru = bangunProduk({
+    izinEdar: sumber.izinEdar.filter(
+      (ie) =>
+        ie.status === 'Aktif' &&
+        !idSumberTerdaftar.has(ie.id) &&
+        !nieTerdaftar.has(ie.nomorIzinEdar.trim().toUpperCase())
+    ),
+    pengetahuanProduk: sumber.pengetahuanProduk,
+    stok: sumber.stok,
+    skemaHarga: sumber.skemaHarga
+  }).map(perbaruiItemProduk);
+
+  const promoHidup = bangunPromo({ skemaHarga: sumber.skemaHarga, rebate: sumber.rebate });
+
+  return {
+    ...cfg,
+    produk: {
+      ...cfg.produk,
+      item: [...produkTerselaraskan, ...tambahanBaru]
+    },
+    promo: promoHidup.length > 0 ? pasSeksi(cfg.promo, promoHidup) : cfg.promo
   };
 }
 
