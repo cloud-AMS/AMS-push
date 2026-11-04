@@ -1,0 +1,6 @@
+{
+  "name": "AMS Integrated System - PT Anugrah Mitra Selaras",
+  "description": "Sistem Informasi Manajemen Terintegrasi Perusahaan Alat Kesehatan Indonesia berbasis standar CDAKB, CPAKB, SDAK, dan ISO 13485 Kemenkes RI.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

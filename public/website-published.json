@@ -1,0 +1,1382 @@
+{
+  "isPublished": true,
+  "lastModifiedAt": 1793788088222,
+  "lastModifiedBy": "apt. Dewi Kartika - PJT Alkes",
+  "identitas": {
+    "nama": "PT Anugrah Mitra Selaras",
+    "tagline": "REMEDI — Every Life Matters",
+    "logoUrl": "/site/logo-remedi-new-bw.png",
+    "judulSitus": "PT Anugrah Mitra Selaras (REMEDI) — Produsen, Agen & Distributor Alat Kesehatan",
+    "metaDeskripsi": "PT Anugrah Mitra Selaras (REMEDI) berdiri sejak 1994: produsen, agen, dan distributor peralatan kesehatan, instrument set, serta barang habis pakai. Bersertifikat ISO 9001:2015, ISO 13485:2016, dan CDAKB Kementerian Kesehatan RI 2024-2029."
+  },
+  "header": {
+    "utamaTeks": "Request for Quotation",
+    "utamaTautan": {
+      "tipe": "halaman",
+      "nilai": "kontak"
+    },
+    "cadanganTeks": "Hubungi Kami",
+    "cadanganTautan": {
+      "tipe": "telepon",
+      "nilai": "(021) 640-6029"
+    },
+    "portalTeks": "Toko Online",
+    "portalUrl": "https://www.remediams.com/store/"
+  },
+  "menu": [
+    {
+      "id": "menu-produk",
+      "isActive": true,
+      "label": "Produk",
+      "tipe": "mega",
+      "kolom": [
+        {
+          "id": "menu-produk-kategori",
+          "judul": "Berdasarkan Grup Katalog",
+          "tautan": [
+            {
+              "id": "menu-kategori-disposable",
+              "isActive": true,
+              "label": "Disposable",
+              "halaman": "produk",
+              "kategoriKey": "Disposable"
+            },
+            {
+              "id": "menu-kategori-general",
+              "isActive": true,
+              "label": "General",
+              "halaman": "produk",
+              "kategoriKey": "General"
+            },
+            {
+              "id": "menu-kategori-instrument",
+              "isActive": true,
+              "label": "Instrument",
+              "halaman": "produk",
+              "kategoriKey": "Instrument"
+            },
+            {
+              "id": "menu-kategori-laboratory",
+              "isActive": true,
+              "label": "Laboratory",
+              "halaman": "produk",
+              "kategoriKey": "Laboratory"
+            },
+            {
+              "id": "menu-kategori-protective-equipment",
+              "isActive": true,
+              "label": "Protective Equipment",
+              "halaman": "produk",
+              "kategoriKey": "Protective Equipment"
+            },
+            {
+              "id": "menu-kategori-vaccine-cooler-syringe",
+              "isActive": true,
+              "label": "Vaccine Cooler & Syringe",
+              "halaman": "produk",
+              "kategoriKey": "Vaccine Cooler & Syringe"
+            },
+            {
+              "id": "menu-kategori-vet",
+              "isActive": true,
+              "label": "Vet",
+              "halaman": "produk",
+              "kategoriKey": "Vet"
+            },
+            {
+              "id": "menu-kategori-x-ray-system",
+              "isActive": true,
+              "label": "X-Ray System",
+              "halaman": "produk",
+              "kategoriKey": "X-Ray System"
+            }
+          ]
+        },
+        {
+          "id": "menu-produk-layanan",
+          "judul": "Sumber Daya & Formulir",
+          "tautan": [
+            {
+              "id": "menu-tautan-brosur",
+              "isActive": true,
+              "label": "Katalog & Daftar Harga",
+              "halaman": "sumber-daya"
+            },
+            {
+              "id": "menu-tautan-kalibrasi",
+              "isActive": true,
+              "label": "Purchase Order & Kartu Garansi",
+              "halaman": "sumber-daya"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "menu-solusi",
+      "isActive": true,
+      "label": "Solusi",
+      "tipe": "link",
+      "halaman": "solusi"
+    },
+    {
+      "id": "menu-layanan",
+      "isActive": true,
+      "label": "Layanan",
+      "tipe": "link",
+      "halaman": "layanan"
+    },
+    {
+      "id": "menu-sumber",
+      "isActive": true,
+      "label": "Sumber Daya",
+      "tipe": "link",
+      "halaman": "sumber-daya"
+    },
+    {
+      "id": "menu-tentang",
+      "isActive": true,
+      "label": "Tentang Kami",
+      "tipe": "link",
+      "halaman": "tentang"
+    },
+    {
+      "id": "menu-kontak",
+      "isActive": true,
+      "label": "Kontak",
+      "tipe": "link",
+      "halaman": "kontak"
+    }
+  ],
+  "hero": {
+    "isActive": true,
+    "badge": "Sejak 1994 • Produsen, Agen & Distributor Alat Kesehatan • ISO 9001:2015 • ISO 13485:2016",
+    "judul": "Every Life Matters",
+    "subjudul": "Kami adalah produsen, agen, dan distributor produk peralatan kesehatan, instrument set, dan barang habis pakai untuk kebutuhan fasilitas pelayanan kesehatan di seluruh Indonesia — bermerek dagang Remedi dengan dukungan 15 merek prinsipal.",
+    "gambarUrl": "/site/banner-hero-remedi.jpg",
+    "teksCtaUtama": "Request for Quotation",
+    "tautanCtaUtama": {
+      "tipe": "halaman",
+      "nilai": "kontak"
+    },
+    "teksCtaCadangan": "Lihat Katalog Produk",
+    "tautanCtaCadangan": {
+      "tipe": "halaman",
+      "nilai": "produk"
+    }
+  },
+  "slide": {
+    "isActive": false,
+    "kepala": {
+      "eyebrow": "UNGGULAN",
+      "judul": "Sorotan Produk & Kegiatan",
+      "subjudul": "Banner berganti otomatis di bagian paling atas beranda."
+    },
+    "item": [
+      {
+        "id": "slide-rujuk-produk-1",
+        "sumberId": "rujuk-produk-1",
+        "isActive": true,
+        "eyebrow": "Disposable",
+        "judul": "3M Orthoptic Eye Patch",
+        "subjudul": "Disposable — Patient Care — Orthoptic Eye Patch. Harga tayang pada katalog daring REMEDI saat konten ini disalin: Rp 62.493.",
+        "teksCta": "Lihat Detail",
+        "tautan": {
+          "tipe": "halaman",
+          "nilai": "produk"
+        }
+      },
+      {
+        "id": "slide-rujuk-produk-2",
+        "sumberId": "rujuk-produk-2",
+        "isActive": true,
+        "eyebrow": "Disposable",
+        "judul": "3M Plaster Hypoallergenic",
+        "subjudul": "Disposable — Patient Care — Plaster Hypoallergenic. Harga tayang pada katalog daring REMEDI saat konten ini disalin: Rp 248.640.",
+        "teksCta": "Lihat Detail",
+        "tautan": {
+          "tipe": "halaman",
+          "nilai": "produk"
+        }
+      },
+      {
+        "id": "slide-rujuk-produk-3",
+        "sumberId": "rujuk-produk-3",
+        "isActive": true,
+        "eyebrow": "Protective Equipment",
+        "judul": "Remedi Masker Medis (Face Mask Medical)",
+        "subjudul": "Protective Equipment — Face Mask (medical). Harga mengikuti daftar harga (Price List) resmi perusahaan.",
+        "teksCta": "Lihat Detail",
+        "tautan": {
+          "tipe": "halaman",
+          "nilai": "produk"
+        }
+      }
+    ]
+  },
+  "kepercayaan": {
+    "isActive": true,
+    "kepala": {
+      "judul": "Legalitas & Standar Mutu",
+      "subjudul": ""
+    },
+    "item": [
+      {
+        "id": "rujuk-lencana-iso-9001",
+        "sumberId": "rujuk-lencana-iso-9001",
+        "isActive": true,
+        "teks": "ISO 9001:2015",
+        "keterangan": "Standar internasional sistem manajemen mutu sebagai supplier alat kesehatan"
+      },
+      {
+        "id": "rujuk-lencana-iso-13485",
+        "sumberId": "rujuk-lencana-iso-13485",
+        "isActive": true,
+        "teks": "ISO 13485:2016",
+        "keterangan": "Standar internasional sistem manajemen mutu khusus perangkat medis"
+      },
+      {
+        "id": "rujuk-lencana-cdakb",
+        "sumberId": "rujuk-lencana-cdakb",
+        "isActive": true,
+        "teks": "CDAKB Kemenkes RI",
+        "keterangan": "Cara Distribusi Alat Kesehatan yang Baik (Good Medical Device Distribution Practices), 2024–2029"
+      },
+      {
+        "id": "rujuk-lencana-cakupan",
+        "sumberId": "rujuk-lencana-cakupan",
+        "isActive": true,
+        "teks": "Aceh hingga Papua",
+        "keterangan": "Melayani rumah sakit pemerintah maupun swasta di seluruh Indonesia"
+      }
+    ]
+  },
+  "solusi": {
+    "isActive": true,
+    "kepala": {
+      "eyebrow": "KATALOG",
+      "judul": "Delapan Grup Katalog dari Disposable hingga X-Ray System",
+      "subjudul": "Setiap grup dipecah kembali menjadi lini produk sesuai struktur katalog pada situs resmi perusahaan.",
+      "teksTautan": "Semua Solusi",
+      "tautan": {
+        "tipe": "halaman",
+        "nilai": "solusi"
+      }
+    },
+    "item": [
+      {
+        "id": "rujuk-solusi-1",
+        "sumberId": "rujuk-solusi-1",
+        "isActive": true,
+        "judul": "Disposable",
+        "deskripsi": "Barang habis pakai: oxygen therapy (nebulizer mask, oxygen mask, nasal cannula), patient care (film dressing, gauze bandage, ID bracelet, orthoptic eye patch, plaster, tourniquet, umbilical cord clamp), respiratory, surgical wear, syringe–suture–needle, transfusion, dan urology.",
+        "kategoriKey": "Disposable"
+      },
+      {
+        "id": "rujuk-solusi-2",
+        "sumberId": "rujuk-solusi-2",
+        "isActive": true,
+        "judul": "General",
+        "deskripsi": "Peralatan umum rumah sakit: blood pressure monitor, gastric lavage machine, infrared thermometer, infusion pump, nebulizer, oxygen concentrator, patient monitor, suction unit, syringe pump, dan thermal ablation system.",
+        "kategoriKey": "General"
+      },
+      {
+        "id": "rujuk-solusi-3",
+        "sumberId": "rujuk-solusi-3",
+        "isActive": true,
+        "judul": "Instrument",
+        "deskripsi": "Instrumen dan set bedah per spesialisasi: itemize (forceps, holder, scalpel, scissors, speculum), ENT, general instrument, neurology, obgyn, ophthalmology, orthopaedic, thorax & cardiovascular, dan urology instrument.",
+        "kategoriKey": "Instrument"
+      },
+      {
+        "id": "rujuk-solusi-4",
+        "sumberId": "rujuk-solusi-4",
+        "isActive": true,
+        "judul": "Laboratory",
+        "deskripsi": "Diagnostik laboratorium: blood glucose meter, blood lancet, chemistry analyzer, hematology analyzer, hemoglobin meter, micropipette, pharmacy refrigerator, dan urine analyzer.",
+        "kategoriKey": "Laboratory"
+      },
+      {
+        "id": "rujuk-solusi-5",
+        "sumberId": "rujuk-solusi-5",
+        "isActive": true,
+        "judul": "Protective Equipment",
+        "deskripsi": "Alat pelindung diri: boots, examination glove, face mask (general, medical, respirator), face shield, google glass, hazmat coverall, shoe cover, dan surgical glove.",
+        "kategoriKey": "Protective Equipment"
+      },
+      {
+        "id": "rujuk-solusi-6",
+        "sumberId": "rujuk-solusi-6",
+        "isActive": true,
+        "judul": "Vaccine Cooler & Syringe",
+        "deskripsi": "Rantai dingin vaksin dan spuit: auto-disable syringe, combi, freezer, refrigerator, dan transport box.",
+        "kategoriKey": "Vaccine Cooler & Syringe"
+      },
+      {
+        "id": "rujuk-solusi-7",
+        "sumberId": "rujuk-solusi-7",
+        "isActive": true,
+        "judul": "Vet",
+        "deskripsi": "Lini kedokteran hewan: chemistry analyzer vet, hematology analyzer vet, patient monitor vet, ultrasound vet, dan urine analyzer vet.",
+        "kategoriKey": "Vet"
+      },
+      {
+        "id": "rujuk-solusi-8",
+        "sumberId": "rujuk-solusi-8",
+        "isActive": true,
+        "judul": "X-Ray System",
+        "deskripsi": "Sistem sinar-x dengan pilihan instalasi mobile dan stationary.",
+        "kategoriKey": "X-Ray System"
+      }
+    ]
+  },
+  "konsultasi": {
+    "isActive": true,
+    "kepala": {
+      "judul": "Ajukan Penawaran untuk Kebutuhan Alat Kesehatan Anda",
+      "subjudul": "Mohon mengisi formulir, dan tuliskan pada kolom pesan jenis produk yang ingin Anda tanyakan."
+    },
+    "catatan": "Katalog, daftar harga, formulir purchase order, dan kartu garansi tersedia pada halaman Resources situs resmi REMEDI.",
+    "teksCta": "Request for Quotation",
+    "tautan": {
+      "tipe": "halaman",
+      "nilai": "kontak"
+    }
+  },
+  "statistik": {
+    "isActive": true,
+    "kepala": {
+      "eyebrow": "CAPAIAN",
+      "judul": "Tiga Dekade Melayani Fasilitas Kesehatan Indonesia",
+      "subjudul": "Angka berikut dikutip dari profil resmi perusahaan pada remediams.com."
+    },
+    "item": [
+      {
+        "id": "rujuk-stat-berdiri",
+        "sumberId": "rujuk-stat-berdiri",
+        "isActive": true,
+        "nilai": "1994",
+        "label": "Tahun Berdiri",
+        "keterangan": "PT Anugrah Mitra Selaras beroperasi sejak 1994 dengan merek dagang Remedi"
+      },
+      {
+        "id": "rujuk-stat-pelanggan",
+        "sumberId": "rujuk-stat-pelanggan",
+        "isActive": true,
+        "nilai": "400+",
+        "label": "Pelanggan",
+        "keterangan": "Individu, pusat kesehatan masyarakat, dan rumah sakit — berkembang bertahap sejak 2016"
+      },
+      {
+        "id": "rujuk-stat-merek",
+        "sumberId": "rujuk-stat-merek",
+        "isActive": true,
+        "nilai": "15",
+        "label": "Merek & Prinsipal",
+        "keterangan": "Ditampilkan pada halaman Brand situs resmi perusahaan"
+      },
+      {
+        "id": "rujuk-stat-grup",
+        "sumberId": "rujuk-stat-grup",
+        "isActive": true,
+        "nilai": "8",
+        "label": "Grup Katalog",
+        "keterangan": "Disposable, General, Instrument, Laboratory, Protective Equipment, Vaccine Cooler & Syringe, Vet, X-Ray System"
+      },
+      {
+        "id": "rujuk-stat-pabrik",
+        "sumberId": "rujuk-stat-pabrik",
+        "isActive": true,
+        "nilai": "3",
+        "label": "Lokasi Produksi",
+        "keterangan": "Brebes (Jawa Tengah), Sumedang (Jawa Barat), dan Zhangjiagang, Jiangsu (Tiongkok)"
+      }
+    ]
+  },
+  "produk": {
+    "isActive": true,
+    "kepala": {
+      "eyebrow": "KATALOG PRODUK",
+      "judul": "Lini Produk yang Dipasarkan REMEDI",
+      "subjudul": "Nomor izin edar dan kelas risiko setiap unit tercatat pada register Regulatory Affairs & Penanggung Jawab Teknis internal, sehingga tidak ditayangkan di halaman ini. Harga yang tercantum adalah harga tayang katalog daring saat konten disalin.",
+      "teksTautan": "Semua Produk",
+      "tautan": {
+        "tipe": "halaman",
+        "nilai": "produk"
+      }
+    },
+    "item": [
+      {
+        "id": "rujuk-produk-1",
+        "sumberId": "rujuk-produk-1",
+        "isActive": true,
+        "nama": "3M Orthoptic Eye Patch",
+        "tipeModel": "Tipe sesuai katalog merek",
+        "kategori": "Disposable",
+        "kelasRisiko": "-",
+        "nomorIzinEdar": "-",
+        "statusIzinEdar": "Verifikasi Register RA",
+        "produsen": "3M",
+        "negaraAsal": "Prinsipal REMEDI",
+        "spesifikasi": "Disposable — Patient Care — Orthoptic Eye Patch. Harga tayang pada katalog daring REMEDI saat konten ini disalin: Rp 62.493.",
+        "poinJual": [
+          "Grup katalog: Disposable"
+        ],
+        "badge": "Katalog REMEDI"
+      },
+      {
+        "id": "rujuk-produk-2",
+        "sumberId": "rujuk-produk-2",
+        "isActive": true,
+        "nama": "3M Plaster Hypoallergenic",
+        "tipeModel": "Tipe sesuai katalog merek",
+        "kategori": "Disposable",
+        "kelasRisiko": "-",
+        "nomorIzinEdar": "-",
+        "statusIzinEdar": "Verifikasi Register RA",
+        "produsen": "3M",
+        "negaraAsal": "Prinsipal REMEDI",
+        "spesifikasi": "Disposable — Patient Care — Plaster Hypoallergenic. Harga tayang pada katalog daring REMEDI saat konten ini disalin: Rp 248.640.",
+        "poinJual": [
+          "Grup katalog: Disposable"
+        ],
+        "badge": "Katalog REMEDI"
+      },
+      {
+        "id": "rujuk-produk-3",
+        "sumberId": "rujuk-produk-3",
+        "isActive": true,
+        "nama": "Remedi Masker Medis (Face Mask Medical)",
+        "tipeModel": "Tipe sesuai katalog merek",
+        "kategori": "Protective Equipment",
+        "kelasRisiko": "-",
+        "nomorIzinEdar": "-",
+        "statusIzinEdar": "Verifikasi Register RA",
+        "produsen": "Remedi",
+        "negaraAsal": "Prinsipal REMEDI",
+        "spesifikasi": "Protective Equipment — Face Mask (medical). Harga mengikuti daftar harga (Price List) resmi perusahaan.",
+        "poinJual": [
+          "Grup katalog: Protective Equipment"
+        ],
+        "badge": "Katalog REMEDI"
+      },
+      {
+        "id": "rujuk-produk-4",
+        "sumberId": "rujuk-produk-4",
+        "isActive": true,
+        "nama": "Remedi Iris Scissor",
+        "tipeModel": "Tipe sesuai katalog merek",
+        "kategori": "Instrument",
+        "kelasRisiko": "-",
+        "nomorIzinEdar": "-",
+        "statusIzinEdar": "Verifikasi Register RA",
+        "produsen": "Remedi",
+        "negaraAsal": "Prinsipal REMEDI",
+        "spesifikasi": "Instrument — @Itemize — Scissors. Harga mengikuti daftar harga (Price List) resmi perusahaan.",
+        "poinJual": [
+          "Grup katalog: Instrument"
+        ],
+        "badge": "Katalog REMEDI"
+      },
+      {
+        "id": "rujuk-produk-5",
+        "sumberId": "rujuk-produk-5",
+        "isActive": true,
+        "nama": "Avner AutoDisable Syringe",
+        "tipeModel": "0,5 mL",
+        "kategori": "Vaccine Cooler & Syringe",
+        "kelasRisiko": "-",
+        "nomorIzinEdar": "-",
+        "statusIzinEdar": "Verifikasi Register RA",
+        "produsen": "Avner",
+        "negaraAsal": "Prinsipal REMEDI",
+        "spesifikasi": "Vaccine Cooler & Syringe — AutoDisable Syringe. Harga tayang pada katalog daring REMEDI saat konten ini disalin: Rp 99.900.",
+        "poinJual": [
+          "Grup katalog: Vaccine Cooler & Syringe"
+        ],
+        "badge": "Katalog REMEDI"
+      },
+      {
+        "id": "rujuk-produk-6",
+        "sumberId": "rujuk-produk-6",
+        "isActive": true,
+        "nama": "Avner Chemistry Analyzer",
+        "tipeModel": "810",
+        "kategori": "Laboratory",
+        "kelasRisiko": "-",
+        "nomorIzinEdar": "-",
+        "statusIzinEdar": "Verifikasi Register RA",
+        "produsen": "Avner",
+        "negaraAsal": "Prinsipal REMEDI",
+        "spesifikasi": "Laboratory — Chemistry Analyzer. Harga mengikuti daftar harga (Price List) resmi perusahaan.",
+        "poinJual": [
+          "Grup katalog: Laboratory"
+        ],
+        "badge": "Katalog REMEDI"
+      },
+      {
+        "id": "rujuk-produk-7",
+        "sumberId": "rujuk-produk-7",
+        "isActive": true,
+        "nama": "Avner Hematology Analyzer",
+        "tipeModel": "3000Plus",
+        "kategori": "Laboratory",
+        "kelasRisiko": "-",
+        "nomorIzinEdar": "-",
+        "statusIzinEdar": "Verifikasi Register RA",
+        "produsen": "Avner",
+        "negaraAsal": "Prinsipal REMEDI",
+        "spesifikasi": "Laboratory — Hematology Analyzer. Harga mengikuti daftar harga (Price List) resmi perusahaan.",
+        "poinJual": [
+          "Grup katalog: Laboratory"
+        ],
+        "badge": "Katalog REMEDI"
+      },
+      {
+        "id": "rujuk-produk-8",
+        "sumberId": "rujuk-produk-8",
+        "isActive": true,
+        "nama": "Avner Gastric Lavage Machine",
+        "tipeModel": "SC-II",
+        "kategori": "General",
+        "kelasRisiko": "-",
+        "nomorIzinEdar": "-",
+        "statusIzinEdar": "Verifikasi Register RA",
+        "produsen": "Avner",
+        "negaraAsal": "Prinsipal REMEDI",
+        "spesifikasi": "General — Gastric Lavage Machine. Harga mengikuti daftar harga (Price List) resmi perusahaan.",
+        "poinJual": [
+          "Grup katalog: General"
+        ],
+        "badge": "Katalog REMEDI"
+      },
+      {
+        "id": "rujuk-produk-9",
+        "sumberId": "rujuk-produk-9",
+        "isActive": true,
+        "nama": "Avner Chemistry Analyzer Vet",
+        "tipeModel": "880Vet",
+        "kategori": "Vet",
+        "kelasRisiko": "-",
+        "nomorIzinEdar": "-",
+        "statusIzinEdar": "Verifikasi Register RA",
+        "produsen": "Avner",
+        "negaraAsal": "Prinsipal REMEDI",
+        "spesifikasi": "Vet — Chemistry Analyzer Vet. Harga mengikuti daftar harga (Price List) resmi perusahaan.",
+        "poinJual": [
+          "Grup katalog: Vet"
+        ],
+        "badge": "Katalog REMEDI"
+      },
+      {
+        "id": "rujuk-produk-10",
+        "sumberId": "rujuk-produk-10",
+        "isActive": true,
+        "nama": "Avner Hematology Analyzer Vet",
+        "tipeModel": "2900Vet",
+        "kategori": "Vet",
+        "kelasRisiko": "-",
+        "nomorIzinEdar": "-",
+        "statusIzinEdar": "Verifikasi Register RA",
+        "produsen": "Avner",
+        "negaraAsal": "Prinsipal REMEDI",
+        "spesifikasi": "Vet — Hematology Analyzer Vet. Harga mengikuti daftar harga (Price List) resmi perusahaan.",
+        "poinJual": [
+          "Grup katalog: Vet"
+        ],
+        "badge": "Katalog REMEDI"
+      },
+      {
+        "id": "rujuk-produk-11",
+        "sumberId": "rujuk-produk-11",
+        "isActive": true,
+        "nama": "Avner Hematology Analyzer Vet",
+        "tipeModel": "3000Vet",
+        "kategori": "Vet",
+        "kelasRisiko": "-",
+        "nomorIzinEdar": "-",
+        "statusIzinEdar": "Verifikasi Register RA",
+        "produsen": "Avner",
+        "negaraAsal": "Prinsipal REMEDI",
+        "spesifikasi": "Vet — Hematology Analyzer Vet. Harga mengikuti daftar harga (Price List) resmi perusahaan.",
+        "poinJual": [
+          "Grup katalog: Vet"
+        ],
+        "badge": "Katalog REMEDI"
+      },
+      {
+        "id": "rujuk-produk-12",
+        "sumberId": "rujuk-produk-12",
+        "isActive": true,
+        "nama": "AUCMA Deep Freezer",
+        "tipeModel": "−40 °C s.d. −86 °C",
+        "kategori": "Vaccine Cooler & Syringe",
+        "kelasRisiko": "-",
+        "nomorIzinEdar": "-",
+        "statusIzinEdar": "Verifikasi Register RA",
+        "produsen": "AUCMA",
+        "negaraAsal": "Prinsipal REMEDI",
+        "spesifikasi": "Vaccine Cooler & Syringe — Freezer. Harga tayang pada katalog daring REMEDI saat konten ini disalin: Rp 208.424.700.",
+        "poinJual": [
+          "Grup katalog: Vaccine Cooler & Syringe"
+        ],
+        "badge": "Katalog REMEDI"
+      },
+      {
+        "id": "rujuk-produk-13",
+        "sumberId": "rujuk-produk-13",
+        "isActive": true,
+        "nama": "AUCMA Freezer",
+        "tipeModel": "Tipe sesuai katalog merek",
+        "kategori": "Vaccine Cooler & Syringe",
+        "kelasRisiko": "-",
+        "nomorIzinEdar": "-",
+        "statusIzinEdar": "Verifikasi Register RA",
+        "produsen": "AUCMA",
+        "negaraAsal": "Prinsipal REMEDI",
+        "spesifikasi": "Vaccine Cooler & Syringe — Freezer. Harga tayang pada katalog daring REMEDI saat konten ini disalin: Rp 20.146.500.",
+        "poinJual": [
+          "Grup katalog: Vaccine Cooler & Syringe"
+        ],
+        "badge": "Katalog REMEDI"
+      },
+      {
+        "id": "rujuk-produk-14",
+        "sumberId": "rujuk-produk-14",
+        "isActive": true,
+        "nama": "AUCMA Refrigerator",
+        "tipeModel": "2 °C s.d. 8 °C",
+        "kategori": "Vaccine Cooler & Syringe",
+        "kelasRisiko": "-",
+        "nomorIzinEdar": "-",
+        "statusIzinEdar": "Verifikasi Register RA",
+        "produsen": "AUCMA",
+        "negaraAsal": "Prinsipal REMEDI",
+        "spesifikasi": "Vaccine Cooler & Syringe — Refrigerator. Harga tayang pada katalog daring REMEDI saat konten ini disalin: Rp 85.603.200.",
+        "poinJual": [
+          "Grup katalog: Vaccine Cooler & Syringe"
+        ],
+        "badge": "Katalog REMEDI"
+      }
+    ]
+  },
+  "merek": {
+    "isActive": true,
+    "kepala": {
+      "eyebrow": "BRAND",
+      "judul": "15 Merek & Prinsipal yang Disalurkan REMEDI",
+      "subjudul": "Daftar merek berikut diambil langsung dari halaman Brand pada situs resmi perusahaan.",
+      "teksTautan": "Semua Brand",
+      "tautan": {
+        "tipe": "url",
+        "nilai": "https://www.remediams.com/brand/"
+      }
+    },
+    "item": [
+      {
+        "id": "rujuk-merek-1",
+        "sumberId": "rujuk-merek-1",
+        "isActive": true,
+        "nama": "3M",
+        "kategori": "Merek & Prinsipal",
+        "negara": "Prinsipal REMEDI",
+        "keterangan": "Disalurkan melalui delapan grup katalog REMEDI",
+        "imageUrl": "/brand/3m.jpg"
+      },
+      {
+        "id": "rujuk-merek-2",
+        "sumberId": "rujuk-merek-2",
+        "isActive": true,
+        "nama": "Avner",
+        "kategori": "Merek & Prinsipal",
+        "negara": "Prinsipal REMEDI",
+        "keterangan": "Disalurkan melalui delapan grup katalog REMEDI",
+        "imageUrl": "/brand/avner.jpg"
+      },
+      {
+        "id": "rujuk-merek-3",
+        "sumberId": "rujuk-merek-3",
+        "isActive": true,
+        "nama": "Bioland",
+        "kategori": "Merek & Prinsipal",
+        "negara": "Prinsipal REMEDI",
+        "keterangan": "Disalurkan melalui delapan grup katalog REMEDI",
+        "imageUrl": "/brand/bioland.jpg"
+      },
+      {
+        "id": "rujuk-merek-4",
+        "sumberId": "rujuk-merek-4",
+        "isActive": true,
+        "nama": "Creative",
+        "kategori": "Merek & Prinsipal",
+        "negara": "Prinsipal REMEDI",
+        "keterangan": "Disalurkan melalui delapan grup katalog REMEDI",
+        "imageUrl": "/brand/creative.jpg"
+      },
+      {
+        "id": "rujuk-merek-5",
+        "sumberId": "rujuk-merek-5",
+        "isActive": true,
+        "nama": "Dongmun",
+        "kategori": "Merek & Prinsipal",
+        "negara": "Prinsipal REMEDI",
+        "keterangan": "Disalurkan melalui delapan grup katalog REMEDI",
+        "imageUrl": "/brand/dongmun.jpg"
+      },
+      {
+        "id": "rujuk-merek-6",
+        "sumberId": "rujuk-merek-6",
+        "isActive": true,
+        "nama": "Hospital Homecare",
+        "kategori": "Merek & Prinsipal",
+        "negara": "Prinsipal REMEDI",
+        "keterangan": "Disalurkan melalui delapan grup katalog REMEDI",
+        "imageUrl": "/brand/h-h.jpg"
+      },
+      {
+        "id": "rujuk-merek-7",
+        "sumberId": "rujuk-merek-7",
+        "isActive": true,
+        "nama": "Hohlkorpel",
+        "kategori": "Merek & Prinsipal",
+        "negara": "Prinsipal REMEDI",
+        "keterangan": "Disalurkan melalui delapan grup katalog REMEDI",
+        "imageUrl": "/brand/hohlkorpel.jpg"
+      },
+      {
+        "id": "rujuk-merek-8",
+        "sumberId": "rujuk-merek-8",
+        "isActive": true,
+        "nama": "HTL",
+        "kategori": "Merek & Prinsipal",
+        "negara": "Prinsipal REMEDI",
+        "keterangan": "Disalurkan melalui delapan grup katalog REMEDI",
+        "imageUrl": "/brand/htl.jpg"
+      },
+      {
+        "id": "rujuk-merek-9",
+        "sumberId": "rujuk-merek-9",
+        "isActive": true,
+        "nama": "Jevamask",
+        "kategori": "Merek & Prinsipal",
+        "negara": "Prinsipal REMEDI",
+        "keterangan": "Disalurkan melalui delapan grup katalog REMEDI",
+        "imageUrl": "/brand/jevamask.jpg"
+      },
+      {
+        "id": "rujuk-merek-10",
+        "sumberId": "rujuk-merek-10",
+        "isActive": true,
+        "nama": "Mofolomed",
+        "kategori": "Merek & Prinsipal",
+        "negara": "Prinsipal REMEDI",
+        "keterangan": "Disalurkan melalui delapan grup katalog REMEDI",
+        "imageUrl": "/brand/mofolomed.jpg"
+      },
+      {
+        "id": "rujuk-merek-11",
+        "sumberId": "rujuk-merek-11",
+        "isActive": true,
+        "nama": "Remedi",
+        "kategori": "Merek Dagang Sendiri",
+        "negara": "Indonesia",
+        "keterangan": "Diproduksi pada fasilitas perusahaan di Brebes (Jawa Tengah) dan Sumedang (Jawa Barat)",
+        "imageUrl": "/brand/remedi-brand.jpg"
+      },
+      {
+        "id": "rujuk-merek-12",
+        "sumberId": "rujuk-merek-12",
+        "isActive": true,
+        "nama": "Romed",
+        "kategori": "Merek & Prinsipal",
+        "negara": "Prinsipal REMEDI",
+        "keterangan": "Disalurkan melalui delapan grup katalog REMEDI",
+        "imageUrl": "/brand/romed.jpg"
+      },
+      {
+        "id": "rujuk-merek-13",
+        "sumberId": "rujuk-merek-13",
+        "isActive": true,
+        "nama": "Safe Mask",
+        "kategori": "Merek & Prinsipal",
+        "negara": "Prinsipal REMEDI",
+        "keterangan": "Disalurkan melalui delapan grup katalog REMEDI",
+        "imageUrl": "/brand/safemask.jpg"
+      },
+      {
+        "id": "rujuk-merek-14",
+        "sumberId": "rujuk-merek-14",
+        "isActive": true,
+        "nama": "Sino",
+        "kategori": "Merek & Prinsipal",
+        "negara": "Prinsipal REMEDI",
+        "keterangan": "Disalurkan melalui delapan grup katalog REMEDI",
+        "imageUrl": "/brand/sino.jpg"
+      },
+      {
+        "id": "rujuk-merek-15",
+        "sumberId": "rujuk-merek-15",
+        "isActive": true,
+        "nama": "Vasflow",
+        "kategori": "Merek & Prinsipal",
+        "negara": "Prinsipal REMEDI",
+        "keterangan": "Disalurkan melalui delapan grup katalog REMEDI",
+        "imageUrl": "/brand/vasflow.jpg"
+      }
+    ]
+  },
+  "perjalanan": {
+    "isActive": true,
+    "kepala": {
+      "eyebrow": "ALUR LAYANAN",
+      "judul": "Dari Permintaan Penawaran hingga Dokumen Purna Jual",
+      "subjudul": "Empat tahap pelayanan distribusi yang dijalankan REMEDI bersama pelanggannya."
+    },
+    "item": [
+      {
+        "id": "rujuk-langkah-1",
+        "sumberId": "rujuk-langkah-1",
+        "isActive": true,
+        "tahap": "Tahap 1",
+        "judul": "Request for Quotation",
+        "deskripsi": "Ajukan penawaran melalui formulir pada situs resmi, telepon (021) 640-6029, atau WhatsApp 081212282864. Tuliskan jenis produk yang ingin ditanyakan pada kolom pesan."
+      },
+      {
+        "id": "rujuk-langkah-2",
+        "sumberId": "rujuk-langkah-2",
+        "isActive": true,
+        "tahap": "Tahap 2",
+        "judul": "Pemilihan Grup Katalog & Merek",
+        "deskripsi": "Delapan grup katalog dan 15 merek menjadi rujukan penyusunan kebutuhan. Katalog dan daftar harga lengkap tersedia pada halaman Resources situs resmi."
+      },
+      {
+        "id": "rujuk-langkah-3",
+        "sumberId": "rujuk-langkah-3",
+        "isActive": true,
+        "tahap": "Tahap 3",
+        "judul": "Verifikasi Legalitas & Kepatuhan Distribusi",
+        "deskripsi": "Nomor izin edar dan kelas risiko tiap produk diverifikasi pada register Regulatory Affairs & Penanggung Jawab Teknis; distribusi berjalan sesuai CDAKB Kemenkes RI."
+      },
+      {
+        "id": "rujuk-langkah-4",
+        "sumberId": "rujuk-langkah-4",
+        "isActive": true,
+        "tahap": "Tahap 4",
+        "judul": "Purchase Order, Pengiriman & Kartu Garansi",
+        "deskripsi": "Pesanan difinalkan melalui formulir Purchase Order, dikirim dari jaringan distribusi REMEDI, dan dilengkapi kartu garansi melalui formulir resmi perusahaan."
+      }
+    ]
+  },
+  "institusi": {
+    "isActive": true,
+    "kepala": {
+      "eyebrow": "PELANGGAN",
+      "judul": "Lebih dari 400 Pelanggan, dari Aceh hingga Papua",
+      "subjudul": "Segmen pelanggan dan contoh institusi dikutip dari halaman About AMS dan Customers."
+    },
+    "item": [
+      {
+        "id": "rujuk-institusi-rs",
+        "sumberId": "rujuk-institusi-rs",
+        "isActive": true,
+        "nama": "Rumah Sakit Pemerintah & Swasta",
+        "deskripsi": "Rumah sakit rujukan dan swasta besar di Indonesia, dilayani dengan standar mutu ISO 9001:2015 dan ISO 13485:2016 serta distribusi yang comply CDAKB.",
+        "contoh": "RSCM Jakarta • RSUD Dr. Soetomo Surabaya • RSUP Dr. Kariadi Semarang • RS Fatmawati • RS Hermina • RS Siloam • RS Eka Hospital"
+      },
+      {
+        "id": "rujuk-institusi-puskesmas",
+        "sumberId": "rujuk-institusi-puskesmas",
+        "isActive": true,
+        "nama": "Pusat Kesehatan Masyarakat",
+        "deskripsi": "Puskesmas dan fasilitas kesehatan tingkat pertama memperoleh barang habis pakai dari delapan grup katalog yang didistribusikan ke seluruh Indonesia."
+      },
+      {
+        "id": "rujuk-institusi-individu",
+        "sumberId": "rujuk-institusi-individu",
+        "isActive": true,
+        "nama": "Individu & Praktik Pelayanan Kesehatan",
+        "deskripsi": "Segmen pelanggan individu dan praktik pelayanan kesehatan yang berkembang bertahap bersama basis pelanggan institusi sejak 2016."
+      }
+    ]
+  },
+  "kegiatan": {
+    "isActive": false,
+    "kepala": {
+      "eyebrow": "KEGIATAN",
+      "judul": "Simposium, Workshop & Pameran Alkes",
+      "subjudul": "Berita dan kegiatan perusahaan ditayangkan pada seksi Berita & Sumber Daya; seksi ini dapat diaktifkan kembali saat agenda kampanye dirilis ke publik.",
+      "teksTautan": "Semua Kegiatan",
+      "tautan": {
+        "tipe": "halaman",
+        "nilai": "sumber-daya"
+      }
+    },
+    "item": []
+  },
+  "promo": {
+    "isActive": false,
+    "kepala": {
+      "eyebrow": "PENAWARAN",
+      "judul": "Promo & Skema Harga Pilihan",
+      "subjudul": "Situs resmi REMEDI menayangkan permintaan penawaran (Request for Quotation) dan daftar harga, bukan promo berkala.",
+      "teksTautan": "Semua Penawaran",
+      "tautan": {
+        "tipe": "halaman",
+        "nilai": "produk"
+      }
+    },
+    "item": []
+  },
+  "artikel": {
+    "isActive": true,
+    "kepala": {
+      "eyebrow": "BERITA & SUMBER DAYA",
+      "judul": "Kabar Perusahaan dan Berkas Sumber Daya Resmi",
+      "subjudul": "Berita diambil dari halaman Events/Berita; katalog, daftar harga, purchase order, kartu garansi, dan sertifikat diambil dari halaman Resources pada situs resmi perusahaan."
+    },
+    "item": [
+      {
+        "id": "rujuk-artikel-berita-1",
+        "sumberId": "rujuk-artikel-berita-1",
+        "isActive": true,
+        "judul": "Bertrand Antolin Tetap Setia",
+        "ringkasan": "Bertrand Antolin selalu mempercayakan perlindungan saluran pernapasannya kepada Remedi sebagai pionir masker medis di Indonesia.",
+        "kategori": "Berita",
+        "tanggal": "21 Apr 2021",
+        "tautan": {
+          "tipe": "url",
+          "nilai": "https://www.remediams.com/berita/bertrand-antolin-tetap-setia/"
+        }
+      },
+      {
+        "id": "rujuk-artikel-berita-2",
+        "sumberId": "rujuk-artikel-berita-2",
+        "isActive": true,
+        "judul": "Remedi Mendukung Pemerintah, Organisasi, dan Masyarakat Memutus Mata Rantai Penyebaran COVID-19",
+        "ringkasan": "Relawan Borobudur Anies–Sandi menyerahkan bantuan alat kesehatan kepada Gubernur DKI Jakarta Anies Baswedan.",
+        "kategori": "Berita",
+        "tanggal": "6 Apr 2020",
+        "tautan": {
+          "tipe": "url",
+          "nilai": "https://www.remediams.com/berita/remedi-mendukung-pemerintah-organisasi-dan-masyarakat-memutus-mata-rantai-penyebaran-covid-19/"
+        }
+      },
+      {
+        "id": "rujuk-artikel-katalog",
+        "sumberId": "rujuk-artikel-katalog",
+        "isActive": true,
+        "judul": "Katalog Produk REMEDI",
+        "ringkasan": "Katalog delapan grup katalog dan 15 merek prinsipal dalam satu berkas unduhan.",
+        "kategori": "Sumber Daya",
+        "tanggal": "Diperbarui berkala",
+        "tautan": {
+          "tipe": "url",
+          "nilai": "https://drive.google.com/file/d/1w2ATfJkJczNrtZn5Ajk4jpl9NGINB7fT/view?usp=drive_link"
+        }
+      },
+      {
+        "id": "rujuk-artikel-harga",
+        "sumberId": "rujuk-artikel-harga",
+        "isActive": true,
+        "judul": "Daftar Harga (Price List)",
+        "ringkasan": "Lembar daftar harga resmi yang dipakai tim penjualan untuk penyusunan penawaran.",
+        "kategori": "Sumber Daya",
+        "tanggal": "Diperbarui berkala",
+        "tautan": {
+          "tipe": "url",
+          "nilai": "https://docs.google.com/spreadsheets/d/1cuo6d39fjD2-_b5plNgpyzInaSog3hpV/edit?usp=sharing&ouid=101573847339096922841&rtpof=true&sd=true"
+        }
+      },
+      {
+        "id": "rujuk-artikel-po",
+        "sumberId": "rujuk-artikel-po",
+        "isActive": true,
+        "judul": "Formulir Purchase Order",
+        "ringkasan": "Formulir pemesanan yang diisi pelanggan setelah penawaran disetujui.",
+        "kategori": "Formulir",
+        "tanggal": "Tersedia",
+        "tautan": {
+          "tipe": "url",
+          "nilai": "https://forms.gle/ZqUEPZ7PFrcri7QR9"
+        }
+      },
+      {
+        "id": "rujuk-artikel-garansi",
+        "sumberId": "rujuk-artikel-garansi",
+        "isActive": true,
+        "judul": "Kartu Garansi",
+        "ringkasan": "Formulir penerbitan kartu garansi produk yang dibeli melalui REMEDI.",
+        "kategori": "Formulir",
+        "tanggal": "Tersedia",
+        "tautan": {
+          "tipe": "url",
+          "nilai": "https://forms.gle/bGkbkdD3aJySbv266"
+        }
+      },
+      {
+        "id": "rujuk-artikel-sertifikat",
+        "sumberId": "rujuk-artikel-sertifikat",
+        "isActive": true,
+        "judul": "Sertifikat CDAKB — Good Medical Device Distribution Practices",
+        "ringkasan": "Sertifikat resmi Kementerian Kesehatan RI sebagai distributor yang menerapkan Cara Distribusi Alat Kesehatan yang Baik, masa berlaku 2024–2029.",
+        "kategori": "Sertifikat",
+        "tanggal": "2024–2029",
+        "imageUrl": "/site/cdakb-ams-2024-2029.jpg",
+        "tautan": {
+          "tipe": "url",
+          "nilai": "https://www.remediams.com/resources/certifications/"
+        }
+      }
+    ]
+  },
+  "galeri": {
+    "isActive": true,
+    "kepala": {
+      "eyebrow": "DOKUMENTASI",
+      "judul": "Galeri Produk & Legalitas",
+      "subjudul": "Dokumentasi visual yang tersedia pada halaman depan dan Resources situs resmi REMEDI."
+    },
+    "item": [
+      {
+        "id": "rujuk-galeri-1",
+        "sumberId": "rujuk-galeri-1",
+        "isActive": true,
+        "judul": "Fasilitas & Produk Peralatan Kesehatan",
+        "keterangan": "Foto utama halaman depan situs resmi REMEDI",
+        "imageUrl": "/site/medical-2a.jpg"
+      },
+      {
+        "id": "rujuk-galeri-2",
+        "sumberId": "rujuk-galeri-2",
+        "isActive": true,
+        "judul": "Masker Medis Merek Remedi",
+        "keterangan": "Lini Protective Equipment — Face Mask (medical)",
+        "imageUrl": "/site/remedi-mask.jpg"
+      },
+      {
+        "id": "rujuk-galeri-3",
+        "sumberId": "rujuk-galeri-3",
+        "isActive": true,
+        "judul": "Avner Chemistry Analyzer 810",
+        "keterangan": "Lini Laboratory — Chemistry Analyzer",
+        "imageUrl": "/site/avner-810.jpg"
+      },
+      {
+        "id": "rujuk-galeri-4",
+        "sumberId": "rujuk-galeri-4",
+        "isActive": true,
+        "judul": "Iris Scissor",
+        "keterangan": "Lini Instrument — @Itemize — Scissors",
+        "imageUrl": "/site/iris-scissor.jpg"
+      },
+      {
+        "id": "rujuk-galeri-5",
+        "sumberId": "rujuk-galeri-5",
+        "isActive": true,
+        "judul": "Produk Merek Sino",
+        "keterangan": "Sino SN-1500H ditampilkan pada halaman depan situs resmi",
+        "imageUrl": "/site/sino-sn-1500h.jpg"
+      },
+      {
+        "id": "rujuk-galeri-6",
+        "sumberId": "rujuk-galeri-6",
+        "isActive": true,
+        "judul": "Produk Merek Dongmun",
+        "keterangan": "Ditampilkan pada halaman depan situs resmi",
+        "imageUrl": "/site/dongmun.jpg"
+      },
+      {
+        "id": "rujuk-galeri-7",
+        "sumberId": "rujuk-galeri-7",
+        "isActive": true,
+        "judul": "Sertifikat CDAKB Kemenkes RI",
+        "keterangan": "Good Medical Device Distribution Practices, masa berlaku 2024–2029",
+        "imageUrl": "/site/cdakb-ams-2024-2029.jpg"
+      }
+    ]
+  },
+  "testimoni": {
+    "isActive": false,
+    "kepala": {
+      "eyebrow": "TESTIMONI",
+      "judul": "Kata Pelanggan Kami",
+      "subjudul": "Ulasan dimuat setelah pelanggan memberikan izin tayang."
+    },
+    "item": []
+  },
+  "faq": {
+    "isActive": true,
+    "kepala": {
+      "eyebrow": "PERTANYAAN UMUM",
+      "judul": "Hal yang Paling Sering Ditanyakan",
+      "subjudul": "Seluruh jawaban dirujuk pada profil, katalog, dan halaman Resources resmi perusahaan."
+    },
+    "item": [
+      {
+        "id": "rujuk-faq-profil",
+        "sumberId": "rujuk-faq-profil",
+        "isActive": true,
+        "pertanyaan": "Siapa PT Anugrah Mitra Selaras dan merek apa yang dipakainya?",
+        "jawaban": "PT Anugrah Mitra Selaras, dikenal dengan merek dagang REMEDI, berdiri sejak 1994 dan bergerak di bidang pengadaan serta distribusi alat kesehatan medis dan barang habis pakai medis maupun nonmedis ke seluruh Indonesia. Perusahaan bertindak sebagai produsen, agen, dan distributor."
+      },
+      {
+        "id": "rujuk-faq-katalog",
+        "sumberId": "rujuk-faq-katalog",
+        "isActive": true,
+        "pertanyaan": "Kelompok produk apa saja yang tersedia?",
+        "jawaban": "Katalog disusun dalam delapan grup: Disposable, General, Instrument, Laboratory, Protective Equipment, Vaccine Cooler & Syringe, Vet, dan X-Ray System. Masing-masing grup dipecah lagi menjadi lini produk, misalnya Surgical Wear pada grup Disposable atau Chemistry Analyzer Vet pada grup Vet."
+      },
+      {
+        "id": "rujuk-faq-produksi",
+        "sumberId": "rujuk-faq-produksi",
+        "isActive": true,
+        "pertanyaan": "Apakah REMEDI memproduksi sendiri produknya?",
+        "jawaban": "Ya. Produk bermerek Remedi diproduksi pada fasilitas di Brebes (Jawa Tengah) dan Sumedang (Jawa Barat); perusahaan juga menjadi pemegang saham pada pabrik di Zhangjiagang, Jiangsu, Tiongkok. Sekitar 10% barang habis pakai yang didistribusikan telah diproduksi di dalam negeri."
+      },
+      {
+        "id": "rujuk-faq-pelanggan",
+        "sumberId": "rujuk-faq-pelanggan",
+        "isActive": true,
+        "pertanyaan": "Siapa pelanggan yang telah dilayani?",
+        "jawaban": "Lebih dari 400 pelanggan yang terdiri atas individu, pusat kesehatan masyarakat, dan rumah sakit dari Aceh hingga Papua. Antara lain RSCM Jakarta, RSUD Dr. Soetomo Surabaya, RSUP Dr. Kariadi Semarang, RS Fatmawati Jakarta, RS H. Adam Malik Medan, RS Wahidin Sudirohusodo Makassar, RS Hermina, RS Siloam, dan RS Eka Hospital."
+      },
+      {
+        "id": "rujuk-faq-harga",
+        "sumberId": "rujuk-faq-harga",
+        "isActive": true,
+        "pertanyaan": "Bagaimana memperoleh harga dan melakukan pemesanan?",
+        "jawaban": "Kirim Request for Quotation melalui formulir kontak atau WhatsApp resmi, lalu unduh katalog dan daftar harga (Price List) pada halaman Resources. Setelah penawaran disepakati, pesanan masuk melalui formulir Purchase Order; klaim dan dokumen purna jual memakai formulir Kartu Garansi, Form Keluhan, dan Form Pengembalian Barang."
+      },
+      {
+        "id": "rujuk-faq-legalitas",
+        "sumberId": "rujuk-faq-legalitas",
+        "isActive": true,
+        "pertanyaan": "Standar dan sertifikat apa yang dipegang perusahaan?",
+        "jawaban": "Perusahaan memenuhi standardisasi internasional ISO 9001:2015 dan ISO 13485:2016 sebagai supplier alat kesehatan, serta memiliki sertifikat resmi Kementerian Kesehatan RI sebagai distributor yang menerapkan Cara Distribusi Alat Kesehatan yang Baik (Good Medical Device Distribution Practices) dengan masa berlaku 2024–2029."
+      }
+    ]
+  },
+  "tentang": {
+    "isActive": true,
+    "kepala": {
+      "eyebrow": "TENTANG KAMI",
+      "judul": "Profil, Visi, Misi, dan Basis Pelanggan REMEDI",
+      "subjudul": "Disalin dari halaman About AMS dan Company Profile pada situs resmi perusahaan."
+    },
+    "paragraf": [
+      "PT Anugrah Mitra Selaras — dikenal dengan merek dagang REMEDI — berdiri sejak 1994 dan bergerak di bidang pengadaan serta distribusi alat kesehatan medis dan barang habis pakai medis maupun nonmedis ke seluruh Indonesia. Perusahaan memproduksi dan memasok peralatan kesehatan, instrument set, dan consumables dengan mereknya sendiri, Remedi, sekaligus bertindak sebagai agen dan distributor.",
+      "Fasilitas produksi berada di Brebes (Jawa Tengah) dan Sumedang (Jawa Barat), ditambah keterlibatan saham pada sebuah pabrik di Zhangjiagang, Jiangsu, Tiongkok. Melalui fasilitas tersebut, sekitar 10% barang habis pakai yang didistribusikan telah diproduksi di dalam negeri.",
+      "Visi: menjadi penyedia solusi utama dan acuan (benchmark) untuk kebutuhan pelayanan kesehatan di Indonesia maupun dunia.",
+      "Misi: (1) memberikan kepuasan pelanggan melalui informasi yang komprehensif, produk berkualitas, sumber daya profesional, dan layanan terbaik; (2) mematuhi seluruh standar, persyaratan, dan regulasi serta menjadi mitra strategis pemerintah; (3) membina hubungan dan kolaborasi yang baik dengan perkumpulan tenaga medis maupun komunitas kesehatan; (4) memberi kontribusi positif bagi masyarakat dan lingkungan untuk meningkatkan kualitas hidup; (5) memperluas jangkauan pasar agar menjadi produk Indonesia yang terkemuka di dunia.",
+      "Komitmen perusahaan adalah memaksimalkan manfaat bagi konsumen dengan berfokus pada produk bermutu dan berstandar aman, efisiensi, layanan unggul, dan penerimaan global — seluruhnya pada harga yang wajar.",
+      "Pelanggan terdiri atas individu, pusat kesehatan masyarakat, dan rumah sakit, bertumbuh menjadi lebih dari 400 pelanggan sejak 2016. Produk perusahaan dipakai rumah sakit pemerintah maupun swasta dari Aceh hingga Papua, antara lain RSCM Jakarta, RSUD Dr. Soetomo Surabaya, RSUP Dr. Kariadi Semarang, RS Fatmawati Jakarta, RS H. Adam Malik Medan, RS Wahidin Sudirohusodo Makassar, RS Hermina, RS Siloam, dan RS Eka Hospital."
+    ],
+    "imageUrl": "/site/company-profile-ams-thumb.jpg",
+    "capaian": [
+      {
+        "nilai": "1994",
+        "label": "Tahun Berdiri"
+      },
+      {
+        "nilai": "400+",
+        "label": "Pelanggan"
+      },
+      {
+        "nilai": "15",
+        "label": "Merek & Prinsipal"
+      },
+      {
+        "nilai": "8",
+        "label": "Grup Katalog"
+      }
+    ]
+  },
+  "kantor": {
+    "isActive": true,
+    "kepala": {
+      "eyebrow": "JARINGAN",
+      "judul": "Kantor Pusat & Fasilitas Produksi",
+      "subjudul": "Kantor pemasaran di Sunter Agung, Jakarta Utara, dengan fasilitas produksi di Brebes, Sumedang, dan Zhangjiagang."
+    },
+    "item": [
+      {
+        "id": "rujuk-kantor-pusat",
+        "sumberId": "rujuk-kantor-pusat",
+        "isActive": true,
+        "nama": "Kantor Pusat — Sunter Agung",
+        "alamat": "Jl. Agung Niaga IV Blok G-4 No. 54, Sunter Agung, Jakarta Utara 14350",
+        "telepon": "(021) 640-6029",
+        "email": "sales@remediams.com",
+        "penanggungJawab": "Tim Penjualan — Request for Quotation"
+      },
+      {
+        "id": "rujuk-kantor-brebes",
+        "sumberId": "rujuk-kantor-brebes",
+        "isActive": true,
+        "nama": "Fasilitas Produksi Brebes",
+        "alamat": "Brebes, Jawa Tengah",
+        "penanggungJawab": "Produksi barang habis pakai merek Remedi"
+      },
+      {
+        "id": "rujuk-kantor-sumedang",
+        "sumberId": "rujuk-kantor-sumedang",
+        "isActive": true,
+        "nama": "Fasilitas Produksi Sumedang",
+        "alamat": "Sumedang, Jawa Barat",
+        "penanggungJawab": "Produksi alat kesehatan merek Remedi"
+      },
+      {
+        "id": "rujuk-kantor-china",
+        "sumberId": "rujuk-kantor-china",
+        "isActive": true,
+        "nama": "Pabrik Partisipasi Zhangjiagang",
+        "alamat": "Zhangjiagang, Jiangsu, Tiongkok",
+        "penanggungJawab": "Kepemilikan saham PT Anugrah Mitra Selaras"
+      }
+    ]
+  },
+  "kontak": {
+    "telepon": "(021) 640-6029",
+    "email": "sales@remediams.com",
+    "whatsapp": "6281212282864",
+    "pesanPembukaWA": "Halo Remedi AMS",
+    "jamOperasional": "",
+    "alamatKantor": "Jl. Agung Niaga IV Blok G-4 No. 54, Sunter Agung, Jakarta Utara 14350",
+    "tautanPeta": "https://www.google.co.id/maps/?q=54+agung+niaga+iv%2c+sunter+agung%2c+jakarta+utara"
+  },
+  "sosial": {
+    "isActive": true,
+    "kepala": {
+      "judul": "Ikuti Kami",
+      "subjudul": ""
+    },
+    "item": [
+      {
+        "id": "rujuk-sosial-twitter",
+        "sumberId": "rujuk-sosial-twitter",
+        "isActive": true,
+        "label": "Twitter",
+        "url": "https://twitter.com/remediams"
+      },
+      {
+        "id": "rujuk-sosial-instagram",
+        "sumberId": "rujuk-sosial-instagram",
+        "isActive": true,
+        "label": "Instagram",
+        "url": "https://www.instagram.com/remediams"
+      }
+    ]
+  },
+  "footerKolom": [
+    {
+      "id": "footer-navigasi",
+      "judul": "Navigasi",
+      "tautan": [
+        {
+          "id": "footer-beranda",
+          "isActive": true,
+          "label": "Beranda",
+          "halaman": "beranda"
+        },
+        {
+          "id": "footer-produk",
+          "isActive": true,
+          "label": "Produk",
+          "halaman": "produk"
+        },
+        {
+          "id": "footer-solusi",
+          "isActive": true,
+          "label": "Solusi",
+          "halaman": "solusi"
+        },
+        {
+          "id": "footer-layanan",
+          "isActive": true,
+          "label": "Layanan",
+          "halaman": "layanan"
+        },
+        {
+          "id": "footer-kontak",
+          "isActive": true,
+          "label": "Kontak",
+          "halaman": "kontak"
+        }
+      ]
+    },
+    {
+      "id": "footer-kepatuhan",
+      "judul": "Kepatuhan",
+      "tautan": [
+        {
+          "id": "footer-kepatuhan-rujuk-lencana-iso-9001",
+          "isActive": true,
+          "label": "ISO 9001:2015",
+          "halaman": "tentang"
+        },
+        {
+          "id": "footer-kepatuhan-rujuk-lencana-iso-13485",
+          "isActive": true,
+          "label": "ISO 13485:2016",
+          "halaman": "tentang"
+        },
+        {
+          "id": "footer-kepatuhan-rujuk-lencana-cdakb",
+          "isActive": true,
+          "label": "CDAKB Kemenkes RI",
+          "halaman": "tentang"
+        },
+        {
+          "id": "footer-kepatuhan-rujuk-lencana-cakupan",
+          "isActive": true,
+          "label": "Aceh hingga Papua",
+          "halaman": "tentang"
+        }
+      ]
+    },
+    {
+      "id": "footer-sumber",
+      "judul": "Sumber Daya",
+      "tautan": [
+        {
+          "id": "footer-katalog",
+          "isActive": true,
+          "label": "Katalog Produk",
+          "halaman": "sumber-daya"
+        },
+        {
+          "id": "footer-harga",
+          "isActive": true,
+          "label": "Daftar Harga (Price List)",
+          "halaman": "sumber-daya"
+        },
+        {
+          "id": "footer-po",
+          "isActive": true,
+          "label": "Purchase Order & Kartu Garansi",
+          "halaman": "sumber-daya"
+        },
+        {
+          "id": "footer-artikel",
+          "isActive": true,
+          "label": "Berita & Artikel",
+          "halaman": "sumber-daya"
+        },
+        {
+          "id": "footer-faq",
+          "isActive": true,
+          "label": "Pertanyaan Umum",
+          "halaman": "sumber-daya"
+        },
+        {
+          "id": "footer-tentang",
+          "isActive": true,
+          "label": "Tentang Kami",
+          "halaman": "tentang"
+        }
+      ]
+    }
+  ],
+  "footerCatatan": "© 2026 PT Anugrah Mitra Selaras (REMEDI). Seluruh hak cipta dilindungi. Produsen, agen, dan distributor alat kesehatan sejak 1994 — distribusi dijalankan sesuai Cara Distribusi Alat Kesehatan yang Baik (CDAKB) Kementerian Kesehatan RI.",
+  "lastPublishedAt": 1793788088225
+}
