@@ -59,7 +59,7 @@ const DAFTAR_TAB: {
   { id: 'optimasi', nomor: 9, label: 'Optimasi Stok (Min-Max & ROP)', ikon: TrendingUp },
   { id: 'scanner', nomor: 10, label: 'Scanner & RFID', ikon: Radio },
   { id: 'recall', nomor: 11, label: 'Karantina & Penarikan (Recall)', ikon: ShieldAlert },
-  { id: 'pemerintah', nomor: 12, label: 'Gerbang Pemerintah', ikon: Globe }
+  { id: 'pemerintah', nomor: 12, label: 'Kemenkes RI', ikon: Globe }
 ];
 
 export default function WarehouseModule({
@@ -111,7 +111,7 @@ export default function WarehouseModule({
             Menjamin tata kelola penyimpanan alkes berizin, penegakan alokasi FEFO sadar-kunci (First Expired First Out), integritas rantai dingin (cold chain 2–8°C), ketertelusuran bets &amp; nomor serial alat berat, hingga sinkronisasi e-Katalog LKPP dan HL7 FHIR SATUSEHAT.
           </p>
           <p className="text-xs text-slate-500 mt-2 max-w-3xl leading-relaxed">
-            Cetak biru divisi operasional: 12 kelompok kerja (Dasbor Audit CDB, Struktur Multi-Gudang &amp; Bin, Stok &amp; FEFO Dual-Track + Ketertelusuran, Rantai Dingin, Pengendalian Hama, Penerimaan Inbound, Pengiriman Outbound, Opname Blind Count &amp; Hash Log, Optimasi Min-Max/ROP, Scanner &amp; RFID, Karantina &amp; Recall, serta Gerbang Pemerintah).
+            Cetak biru divisi operasional: 12 kelompok kerja (Dasbor Audit CDB, Struktur Multi-Gudang &amp; Bin, Stok &amp; FEFO Dual-Track + Ketertelusuran, Rantai Dingin, Pengendalian Hama, Penerimaan Inbound, Pengiriman Outbound, Opname Blind Count &amp; Hash Log, Optimasi Min-Max/ROP, Scanner &amp; RFID, Karantina &amp; Recall, serta Kemenkes RI).
           </p>
         </div>
 

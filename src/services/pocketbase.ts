@@ -1901,7 +1901,7 @@ class AMSDatabaseManager {
     const payload = bangunPayloadLkpp({ konfigurasi: this.getKonfigurasiGudang(), ...params });
     const antrean: SinkronisasiLkpp = { id: this.idBerikut(this.getSinkronisasiLkpp(), 'LKP-'), ...entriAntreanLkpp(payload) };
     this.saveSinkronisasiLkpp([antrean, ...this.getSinkronisasiLkpp()]);
-    this.auditGudang('Gerbang Pemerintah', `Antrean webhook LKPP ${params.pemicu} untuk ${params.kodeSKU}`, antrean.id, [{ kolom: 'payload', nilaiLama: '-', nilaiBaru: payload.keterangan }]);
+    this.auditGudang('Kemenkes RI', `Antrean webhook LKPP ${params.pemicu} untuk ${params.kodeSKU}`, antrean.id, [{ kolom: 'payload', nilaiLama: '-', nilaiBaru: payload.keterangan }]);
     return { antrean, payload };
   }
   public ubahStatusSinkronisasiLkpp(id: string, status: SinkronisasiLkpp['status'], pesanRespons: string) {
@@ -1911,7 +1911,7 @@ class AMSDatabaseManager {
     const baru: SinkronisasiLkpp =
       status === 'Gagal' || status === 'Ditolak' ? tandaiGagalLkpp(lama, pesanRespons) : { ...lama, status, pesanRespons, waktu: this.labelWaktu() };
     this.saveSinkronisasiLkpp(current.map((l) => (l.id === id ? baru : l)));
-    this.auditGudang('Gerbang Pemerintah', `Status sinkronisasi LKPP menjadi ${status} (percobaan ${baru.percobaan})`, id, [
+    this.auditGudang('Kemenkes RI', `Status sinkronisasi LKPP menjadi ${status} (percobaan ${baru.percobaan})`, id, [
       { kolom: 'status', nilaiLama: lama.status, nilaiBaru: status },
       { kolom: 'pesanRespons', nilaiLama: lama.pesanRespons, nilaiBaru: pesanRespons }
     ]);
@@ -1945,7 +1945,7 @@ class AMSDatabaseManager {
     const kiriman: KirimanSatuSehat = { ...draf, status: validasi.statusUsulan };
     this.saveKirimanSatuSehat([kiriman, ...daftar]);
     this.auditGudang(
-      'Gerbang Pemerintah',
+      'Kemenkes RI',
       validasi.layakKirim
         ? `Payload ${kiriman.tipeSumberDaya} ${kiriman.nomorRujukan} masuk antrean SATUSEHAT`
         : `Payload ${kiriman.tipeSumberDaya} ${kiriman.nomorRujukan} ditahan: ${validasi.sebab.join('; ')}`,
@@ -1959,7 +1959,7 @@ class AMSDatabaseManager {
     const lama = current.find((k) => k.id === id);
     if (!lama) return;
     this.saveKirimanSatuSehat(current.map((k) => (k.id === id ? { ...k, status, catatan: catatan || k.catatan } : k)));
-    this.auditGudang('Gerbang Pemerintah', `Tanggapan SATUSEHAT atas ${lama.tipeSumberDaya} ${lama.nomorRujukan}: ${status}`, id, [
+    this.auditGudang('Kemenkes RI', `Tanggapan SATUSEHAT atas ${lama.tipeSumberDaya} ${lama.nomorRujukan}: ${status}`, id, [
       { kolom: 'status', nilaiLama: lama.status, nilaiBaru: status },
       { kolom: 'catatan', nilaiLama: lama.catatan, nilaiBaru: catatan || lama.catatan }
     ]);

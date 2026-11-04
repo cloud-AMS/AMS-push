@@ -1241,7 +1241,7 @@ export function nilaiKesiapanAuditCdb(input: {
   catat(
     'LKPP',
     12,
-    'Gerbang Pemerintah',
+    'Kemenkes RI',
     'Stok e-Katalog sinkron dengan kartu stok',
     lkppGagal.length ? 'Bahaya' : 'Lolos',
     lkppGagal.length
@@ -1255,13 +1255,13 @@ export function nilaiKesiapanAuditCdb(input: {
   catat(
     'SATUSEHAT',
     12,
-    'Gerbang Pemerintah',
+    'Kemenkes RI',
     'Kiriman HL7 FHIR diterima Kemenkes',
     fhirTolak.length ? 'Perlu Tindakan' : 'Lolos',
     fhirTolak.length
       ? `${fhirTolak.length} kiriman ditolak OperationOutcome (${fhirTolak[0].catatan || fhirTolak[0].nomorRujukan}); ${fhirBelum.length} menunggu kirim`
       : `${fhirBelum.length} kiriman masih antre tanpa penolakan`,
-    'Perbaiki master data fasyankes lalu kirim ulang dari tab Gerbang Pemerintah'
+    'Perbaiki master data fasyankes lalu kirim ulang dari tab Kemenkes RI'
   );
 
   const excursi = input.logSuhu?.length ? deteksiExcursiRantaiDingin(input.logSuhu, input.konfigurasi) : null;
